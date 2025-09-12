@@ -35,7 +35,7 @@ export const ComponentItem: React.FC<ComponentItemProps> = ({
 	isCanvas,
 	onClick
 }) => {
-	const { connectors, query } = useEditor()
+	const { connectors } = useEditor()
 
 	const toElement = (): React.ReactElement | null => {
 		if (!component) return null
