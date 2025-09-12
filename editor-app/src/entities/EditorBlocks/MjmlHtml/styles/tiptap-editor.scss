@@ -1,0 +1,91 @@
+.tiptap-editor-wrapper {
+	.tiptap-toolbar {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem;
+		border-bottom: 1px solid #e2e8f0;
+		padding-bottom: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.tiptap-content {
+		min-height: 300px;
+		border: 1px solid #e2e8f0;
+		border-radius: 0.25rem;
+		overflow: hidden;
+
+		.ProseMirror {
+			padding: 1rem;
+			min-height: 300px;
+			outline: none;
+
+			p {
+				margin-bottom: 0.75rem;
+			}
+
+			h1,
+			h2,
+			h3 {
+				margin-top: 1rem;
+				margin-bottom: 0.5rem;
+				font-weight: 600;
+			}
+
+			h1 {
+				font-size: 1.5rem;
+			}
+
+			h2 {
+				font-size: 1.25rem;
+			}
+
+			h3 {
+				font-size: 1.125rem;
+			}
+
+			ul,
+			ol {
+				padding-left: 1.5rem;
+				margin-bottom: 0.75rem;
+			}
+
+			ul {
+				list-style-type: disc;
+			}
+
+			ol {
+				list-style-type: decimal;
+			}
+
+			a {
+				color: #3b82f6;
+				text-decoration: underline;
+			}
+
+			img {
+				max-width: 100%;
+				height: auto;
+			}
+
+			blockquote {
+				border-left: 3px solid #e2e8f0;
+				padding-left: 1rem;
+				margin-left: 0;
+				color: #64748b;
+			}
+
+			pre {
+				background-color: #f1f5f9;
+				padding: 0.75rem;
+				border-radius: 0.25rem;
+				overflow-x: auto;
+			}
+
+			code {
+				background-color: #f1f5f9;
+				padding: 0.125rem 0.25rem;
+				border-radius: 0.25rem;
+			}
+		}
+	}
+}

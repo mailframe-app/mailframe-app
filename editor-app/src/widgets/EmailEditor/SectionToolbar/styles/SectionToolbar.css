@@ -1,0 +1,34 @@
+.section-hover-overlay {
+	/* pointer-events set inline */
+}
+
+.section-selected-overlay {
+	/* pointer-events set inline */
+}
+
+.hover-ear {
+	pointer-events: auto;
+	cursor: pointer;
+	/* background-color: rgba(255, 0, 0, 0.1); */ /* For debugging */
+}
+
+.section-toolbar-drag {
+	transform: translateY(-50%);
+	background-color: var(--accent);
+	opacity: 0.8;
+	border-radius: 4px;
+	padding: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.section-toolbar-actions {
+	background-color: var(--accent);
+	opacity: 0.8;
+	border-radius: 4px;
+	padding: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

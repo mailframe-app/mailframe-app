@@ -1,0 +1,64 @@
+/* Стили для тостов */
+.custom-toast {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	position: relative;
+}
+
+.custom-toast-title {
+	font-weight: 500;
+	font-size: 16px;
+	margin-bottom: 4px;
+}
+
+.custom-toast-description {
+	font-size: 14px;
+}
+
+.custom-toast-close-button {
+	position: absolute !important;
+	top: 8px !important;
+	right: 8px !important;
+	opacity: 0.7 !important;
+	color: white !important;
+}
+
+.custom-toast-close-button:hover {
+	opacity: 1 !important;
+}
+
+/* Стили для разных типов тостов */
+.custom-toast-success {
+	background-color: #24c38e !important; /* зеленый */
+}
+
+.custom-toast-error {
+	background-color: #fe4343 !important; /* красный */
+}
+
+.custom-toast-info {
+	background-color: #0078d2 !important; /* синий */
+}
+
+.custom-toast-warning {
+	background-color: #f59e0b !important; /* оранжевый */
+}
+
+.custom-toast-content-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	min-width: 400px;
+	gap: 16px;
+}
+
+.custom-toast-text-content {
+	flex-grow: 1;
+	min-width: 0;
+}
+
+.custom-toast-custom-dismiss {
+	color: white !important;
+	--button-color: white;
+	--button-color-hover: white;
+}

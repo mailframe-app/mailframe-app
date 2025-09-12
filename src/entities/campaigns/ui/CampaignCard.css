@@ -1,0 +1,35 @@
+.campaign-card {
+	border-radius: 8px;
+	margin-bottom: 16px;
+}
+
+.campaign-card__info {
+	position: relative;
+	align-items: flex-start;
+	margin-right: 71px;
+	width: 250px; /* Or some other fixed width */
+	min-width: 250px;
+	max-width: 250px;
+}
+
+.campaign-card__title {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin: 0 0 2px 0;
+	width: 100%;
+}
+
+.campaign-card__stat {
+	margin-right: 56px;
+	align-items: center;
+	gap: 8px;
+}
+.campaign-card__stat:last-of-type {
+	margin-right: 30px;
+}
+
+.campaign-card__right-side {
+	align-items: center;
+	gap: 16px;
+}

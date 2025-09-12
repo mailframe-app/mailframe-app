@@ -1,0 +1,283 @@
+@import 'tailwindcss';
+@import './_variables.scss';
+@import './_keyframe-animations.scss';
+
+:root {
+	--primary: #33363c;
+	--secondary: #687182;
+	--stroke: #b8cad5;
+	--accent: #0078d2;
+	--default: #a6b1b8;
+	--background: #f2f4f4;
+	--green: #4caf50;
+	--red: #ff0000;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+	height: 6px !important;
+	width: 6px !important;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+	background: var(--color-bg-default) !important;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--color-scroll-thumb-hover) !important;
+	border-radius: 16px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--color-scroll-thumb-hover) !important;
+}
+
+/* Custom styles for email editor */
+.email-editor {
+	@apply flex h-screen flex-col bg-gray-50;
+}
+
+.editor-header {
+	@apply flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3;
+}
+
+.editor-content {
+	@apply flex flex-1 overflow-hidden;
+}
+
+.editor-sidebar {
+	@apply w-64 overflow-y-auto border-r border-gray-200 bg-white;
+}
+
+.editor-canvas {
+	@apply flex-1 overflow-auto bg-gray-100 p-4;
+}
+
+.editor-properties {
+	@apply h-full overflow-y-auto border-l border-gray-200 bg-white;
+}
+
+.component-item {
+	@apply m-2 cursor-pointer rounded-lg border border-gray-200 bg-white p-3 transition-shadow hover:shadow-md;
+}
+
+.canvas-placeholder {
+	@apply min-h-96 rounded-lg border-2 border-dashed border-gray-300 bg-white p-8 text-center text-gray-500;
+}
+
+/* Стили для выделения компонента */
+.component-selected {
+	@apply relative;
+}
+.component-selected::after {
+	content: ' ';
+	@apply pointer-events-none absolute top-0 left-0 block h-full w-full border border-dashed border-[var(--accent)];
+}
+
+.editor-drop-indicator {
+	position: relative;
+	background-color: transparent !important;
+	height: 8px;
+	z-index: 100;
+}
+
+.editor-drop-indicator::before {
+	content: 'Переместить сюда';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-size: 12px;
+	font-weight: 500;
+	white-space: nowrap;
+	/* Стили для "таблетки" */
+	background-color: var(--accent);
+	padding: 4px 12px;
+	border-radius: 16px;
+	z-index: 1;
+}
+
+.editor-drop-indicator::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	transform: translateY(-50%);
+	background-color: var(--accent);
+	z-index: 0;
+}
+
+/* Стили для выделения блока */
+.component-selected.mjml-block-selected::after {
+	border-color: var(--green);
+	border-width: 1.5px;
+	border-style: solid;
+	border-radius: 4px;
+}
+
+.mjml-block-toolbar {
+	background-color: var(--green);
+	transform: translateY(-50%);
+}
+
+.mjml-block-toolbar button:hover {
+	background-color: #15803d;
+}
+
+.Text.ListItem.TabsTab_checked:not(.Text.ListItem.TabsTab_disabled) {
+	color: var(--color-typo-link) !important;
+	font-weight: 500 !important;
+}
+
+.MixFocus {
+	--mix-focus-color-one: transparent;
+	--mix-focus-color-two: transparent;
+}
+
+.TabsFitModeDropdownWrapper {
+	justify-content: center;
+}
+
+/* Background for Input */
+
+.consta-gray-placeholder .TextField-InputContainer {
+	background-color: #ecf1f4 !important;
+	opacity: 1;
+}
+
+.stepper-input-center input {
+	text-align: center;
+	width: 56px;
+}
+
+.TextField-Input {
+	min-width: 56px;
+}
+
+/* Custom styles for TipTap editor */
+
+.tiptap-custom-editor h1 {
+	font-size: 2em;
+	font-weight: bold;
+	margin: 0.5em 0;
+}
+.tiptap-custom-editor h2 {
+	font-size: 1.5em;
+	font-weight: bold;
+	margin: 0.5em 0;
+}
+.tiptap-custom-editor h3 {
+	font-size: 1.17em;
+	font-weight: bold;
+	margin: 0.5em 0;
+}
+.tiptap-custom-editor h4 {
+	font-size: 1em;
+	font-weight: bold;
+	margin: 0.5em 0;
+}
+.tiptap-custom-editor p {
+	font-size: 1em;
+	margin: 0.5em 0;
+}
+
+.tiptap-custom-editor ul {
+	list-style-type: disc; /* можно менять на square/circle/и т.д. */
+}
+.tiptap-custom-editor ol {
+	list-style-type: decimal;
+}
+
+.tiptap-custom-editor ul,
+.tiptap-custom-editor ol {
+	padding-left: 1.5em;
+	margin-left: 0;
+}
+
+.tiptap-custom-editor li {
+	margin-left: 0;
+}
+
+.tiptap-custom-editor table {
+	border-collapse: collapse;
+	width: 100%;
+	table-layout: auto;
+}
+
+.tiptap-custom-editor th,
+.tiptap-custom-editor td {
+	border: 1px solid #d4d4d4;
+	padding: 6px 8px;
+	background: #fff;
+}
+
+.tiptap-custom-editor th {
+	background: #f5f7fa;
+	font-weight: 600;
+}
+
+.tiptap-custom-editor th,
+.tiptap-canvas th {
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* Custom styles for TipTap buttons */
+.tiptap-button {
+	background-color: var(--color-control-bg-ghost);
+	border-radius: var(--control-radius);
+	cursor: pointer;
+	--tt-button-default-icon-color: var(--color-control-typo-ghost);
+}
+
+.tiptap-button:hover:not([data-active-state='on']):not([disabled]) {
+	background-color: var(--color-control-bg-ghost-hover);
+	--tt-button-default-icon-color: rgb(0 57 92 / 80%);
+	--tt-button-hover-icon-color: rgb(0 57 92 / 80%);
+}
+
+.tiptap-button[data-active-state='on']:not([disabled]) {
+	background-color: var(--color-control-bg-primary);
+	--tt-button-active-icon-color: white;
+	--tt-button-active-icon-color-emphasized: white;
+	--tt-button-active-icon-color-subdued: white;
+	--tt-button-active-icon-sub-color-emphasized: white;
+	--tt-button-active-icon-sub-color-subdued: white;
+}
+
+.tiptap-button[data-active-state='on']:not([disabled]):hover {
+	background-color: var(--color-control-bg-primary-hover);
+	--tt-button-hover-icon-color: white;
+}
+
+.tiptap-button[data-style='ghost'] {
+	--tt-button-default-icon-color: var(--color-control-typo-ghost);
+}
+
+.tiptap-dropdown-menu-content {
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	padding: 6px 0;
+	min-width: 200px;
+	z-index: 1001;
+}
+
+.tiptap-dropdown-menu-item {
+	font-size: 15px;
+	color: #1b2437;
+	padding: 8px 16px;
+	cursor: pointer;
+	transition: background 0.15s;
+	user-select: none;
+
+	&:hover,
+	&[data-highlighted] {
+		background: #f5f7fa;
+		color: #1e6ad6;
+	}
+}

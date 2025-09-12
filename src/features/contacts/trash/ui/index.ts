@@ -1,0 +1,1 @@
+export { TrashContactsTable } from './TrashContactsTable'

@@ -1,0 +1,7 @@
+.animating {
+	transition: width 0.3s ease-in-out !important;
+}
+
+.animating * {
+	transition: width 0.3s ease-in-out !important;
+}

@@ -1,0 +1,8 @@
+export { AlignCenterIcon } from './align-center-icon'
+export { AlignLeftIcon } from './align-left-icon'
+export { AlignRightIcon } from './align-right-icon'
+export { BoldIcon } from './bold-icon'
+export { ImagePlusIcon } from './image-plus-icon'
+export { ItalicIcon } from './italic-icon'
+export { LinkIcon } from './link-icon'
+export { UnderlineIcon } from './underline-icon'

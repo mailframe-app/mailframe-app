@@ -1,0 +1,26 @@
+# Исключаем зависимости
+node_modules
+editor-app/node_modules
+
+# Исключаем результаты сборки
+dist
+editor-app/dist
+
+# Исключаем git
+.git
+
+# Исключаем локальные переменные
+.env
+.env.*
+
+# Исключаем логи и временные файлы
+*.log
+npm-debug.log*
+
+# Исключаем файлы IDE
+.vscode
+.idea 
+
+landing-app
+.cursor
+memory-bank
