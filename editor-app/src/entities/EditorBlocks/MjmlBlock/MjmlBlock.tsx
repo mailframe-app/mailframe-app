@@ -14,21 +14,6 @@ const toPx = (v?: string | number): number => {
 	return m ? Math.max(0, Math.round(parseFloat(m[1]))) : 0
 }
 
-// добавление паддингов для меню/выпирающих областей
-const addPx = (value?: string | number, addPxVal: number = 10): string => {
-	if (value == null || value === '') return `${addPxVal}px`
-	if (typeof value === 'number') return `${Math.max(0, Math.round(value + addPxVal))}px`
-	const s = String(value).trim()
-	const pxMatch = /^(-?\d+(?:\.\d+)?)px$/i.exec(s)
-	if (pxMatch) {
-		const base = parseFloat(pxMatch[1])
-		return `${Math.max(0, Math.round(base + addPxVal))}px`
-	}
-	return `calc(${s} + ${addPxVal}px)`
-}
-
-const PROTRUSION_DEFAULT = 32
-
 export const MjmlBlock = ({
 	children,
 	style = {},
@@ -46,9 +31,6 @@ export const MjmlBlock = ({
 	bgSize = 'cover',
 	bgRepeat = 'no-repeat',
 	bgPosition = 'center',
-	// новые пропсы:
-	protrude = true,
-	protrudePx: protrudePxProp = PROTRUSION_DEFAULT,
 	...rest
 }: MjmlBlockProps) => {
 	const {
@@ -63,7 +45,6 @@ export const MjmlBlock = ({
 	const [blockWidth, setBlockWidth] = useState<number>(0)
 
 	const widthPct = clamp(widthPercent ?? 100, 0, 100)
-	const protrudePx = Math.max(0, Math.round(Number(protrudePxProp) || 0))
 
 	const isEmpty = !children || (Array.isArray(children) && children.length === 0)
 
@@ -73,9 +54,7 @@ export const MjmlBlock = ({
 			? { marginLeft: 'auto', marginRight: 'auto' }
 			: align === 'right'
 				? { marginLeft: 'auto', marginRight: '0px' }
-				: protrude
-					? { marginLeft: `-${protrudePx}px`, marginRight: 'auto' }
-					: { marginLeft: '0px', marginRight: 'auto' }
+				: { marginLeft: '0px', marginRight: 'auto' }
 
 	const ptNum = toPx(paddingTop ?? (style.paddingTop as string | number | undefined))
 	const pbNum = toPx(paddingBottom ?? (style.paddingBottom as string | number | undefined))
@@ -137,14 +116,6 @@ export const MjmlBlock = ({
 		}
 	}, [])
 
-	// базовые значения паддингов слева/справа из пропсов или style
-	const basePL = paddingLeft ?? (style.paddingLeft as string | number | undefined)
-	const basePR = paddingRight ?? (style.paddingRight as string | number | undefined)
-
-	// если protrude включён — прибавляем «выпирающие» прозрачные области; иначе оставляем как есть
-	const resolvedPaddingLeft = protrude ? addPx(basePL, protrudePx) : (basePL ?? '0px')
-	const resolvedPaddingRight = protrude ? addPx(basePR, protrudePx) : (basePR ?? '0px')
-
 	const outerStyle: React.CSSProperties = {
 		...style,
 		background: 'transparent',
@@ -153,12 +124,9 @@ export const MjmlBlock = ({
 		minHeight: `${minHeightPx}px`,
 		...alignMargins,
 		paddingTop: '0px',
-		paddingRight: resolvedPaddingRight,
+		paddingRight: paddingRight ?? (style.paddingRight as string | number | undefined),
 		paddingBottom: '0px',
-		paddingLeft: resolvedPaddingLeft,
-		// content-box нужен только для «выпирания» за канвас
-		boxSizing: protrude ? 'content-box' : 'border-box',
-		borderRadius: borderRadius ?? (style.borderRadius as string) ?? '0px'
+		paddingLeft: paddingLeft ?? (style.paddingLeft as string | number | undefined)
 	}
 
 	const innerStyle: React.CSSProperties = {
@@ -267,8 +235,6 @@ MjmlBlock.craft = {
 		bgSize: 'cover',
 		bgRepeat: 'no-repeat',
 		bgPosition: 'center',
-		protrude: true,
-		protrudePx: 32,
 		style: {}
 	},
 	name: 'Блок',

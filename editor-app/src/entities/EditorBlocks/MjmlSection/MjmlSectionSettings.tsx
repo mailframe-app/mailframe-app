@@ -29,8 +29,6 @@ import {
 // Пропсы дочернего блока
 interface MjmlBlockProps {
 	widthPercent?: number
-	protrude?: boolean
-	protrudePx?: number
 }
 
 interface ContainerNodeProps {
@@ -123,17 +121,6 @@ export const MjmlSectionSettings: React.FC<SectionSettingsProps> = ({ startFileS
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [childNodes])
 
-	React.useEffect(() => {
-		childNodes.forEach(cid => {
-			actions.setProp(String(cid), (p: MjmlBlockProps) => {
-				if (p.protrude !== false || p.protrudePx !== 0) {
-					p.protrude = false
-					p.protrudePx = 0
-				}
-			})
-		})
-	}, [childNodes, actions])
-
 	/** Текущая ширина колонки в px (из % относительно доступной ширины) */
 	const getChildWidthPx = (childId: string): number => {
 		const av = getAvailableWidth()
@@ -184,9 +171,7 @@ export const MjmlSectionSettings: React.FC<SectionSettingsProps> = ({ startFileS
 	/** Добавить колонку */
 	const handleAddColumn = () => {
 		if (!canAdd) return
-		const newNode = query.createNode(
-			<Element is={MjmlBlock} canvas protrude={false} protrudePx={0} />
-		)
+		const newNode = query.createNode(<Element is={MjmlBlock} canvas />)
 		actions.add(newNode, id)
 		const afterIds = [...childNodes.map(String), newNode.id as string]
 		redistributeEven(afterIds)

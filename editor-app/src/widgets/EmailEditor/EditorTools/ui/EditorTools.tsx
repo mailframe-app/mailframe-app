@@ -18,7 +18,7 @@ export const EditorTools: React.FC<EditorToolsProps> = ({ onPreviewClick }) => {
 		<Card
 			verticalSpace='xs'
 			horizontalSpace='xs'
-			className='absolute bottom-[59px] left-[59px] flex items-center justify-between gap-2 !rounded-lg'
+			className='absolute bottom-[59px] left-[59px] z-10 flex items-center justify-between gap-2 !rounded-lg'
 			style={{
 				backgroundColor: 'var(--color-bg-default)'
 			}}

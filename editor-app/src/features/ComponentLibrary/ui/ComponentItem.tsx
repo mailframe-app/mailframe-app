@@ -7,7 +7,6 @@ import type { ComponentItemProps } from '../model/types'
 
 import { Container, MjmlBlock, MjmlColumn, MjmlSection, MjmlWrapper } from '@/entities/EditorBlocks'
 
-/** Layout-компоненты, которые не оборачиваем в MjmlBlock */
 const LAYOUT_WHITELIST: ReadonlySet<React.ElementType> = new Set([
 	MjmlWrapper,
 	MjmlSection,
@@ -15,16 +14,6 @@ const LAYOUT_WHITELIST: ReadonlySet<React.ElementType> = new Set([
 	Container,
 	MjmlBlock
 ])
-
-type MaybeCraftMeta = {
-	craft?: { meta?: { isLayout?: boolean } }
-}
-
-const isLayoutType = (t: React.ElementType | string): boolean => {
-	if (typeof t === 'string') return false
-	const metaIsLayout = (t as MaybeCraftMeta).craft?.meta?.isLayout === true
-	return metaIsLayout || LAYOUT_WHITELIST.has(t)
-}
 
 const resolveType = (el: React.ReactElement): React.ElementType | string => {
 	const props = el.props as Record<string, unknown> | undefined
@@ -48,14 +37,14 @@ const normalizeToPlainElement = (el: React.ReactElement): React.ReactElement => 
 	return el
 }
 
-const firstSelectedId = (sel: unknown): NodeId | null => {
+const firstValidNodeId = (sel: unknown): NodeId | null => {
 	if (!sel) return null
-	if (typeof sel === 'string') return sel as NodeId
-	if (Array.isArray(sel)) return (sel[0] ?? null) as NodeId | null
+	if (typeof sel === 'string') return sel
 	if (sel instanceof Set) {
-		const arr = Array.from(sel as Set<NodeId>)
-		return arr[0] ?? null
+		const first = sel.values().next().value
+		return first || null
 	}
+	if (Array.isArray(sel)) return sel.length > 0 ? sel[0] : null
 	return null
 }
 
@@ -64,27 +53,31 @@ export const ComponentItem: React.FC<ComponentItemProps> = ({
 	title,
 	component,
 	componentProps = {},
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	isCanvas: _isCanvas,
+	isCanvas,
 	onClick
 }) => {
 	const { connectors } = useEditor()
 
-	const { selectedInsideBlock } = useEditor((state, query) => {
-		const selectedId = firstSelectedId(state.events.selected as unknown)
-		if (!selectedId) return { selectedInsideBlock: false }
+	const { dropTargetType } = useEditor((state, query) => {
+		const hoveredNodeId = firstValidNodeId(state.events.hovered)
+		let targetType: 'ROOT' | 'SECTION' | 'BLOCK' | null = null
 
-		const selectedNode = query.node(selectedId).get()
-		const selectedType = selectedNode?.data.type
-		if (selectedType === MjmlBlock) return { selectedInsideBlock: true }
-
-		try {
-			const ancestors = query.node(selectedId).ancestors()
-			const hasBlockAncestor = ancestors.some(a => query.node(a).get()?.data.type === MjmlBlock)
-			return { selectedInsideBlock: hasBlockAncestor }
-		} catch {
-			return { selectedInsideBlock: false }
+		if (hoveredNodeId) {
+			try {
+				if (hoveredNodeId === 'ROOT') {
+					targetType = 'ROOT'
+				} else {
+					const hoveredNode = query.node(hoveredNodeId).get()
+					const type = hoveredNode?.data.type
+					if (type === Container) targetType = 'ROOT'
+					if (type === MjmlSection) targetType = 'SECTION'
+					if (type === MjmlBlock) targetType = 'BLOCK'
+				}
+			} catch (e) {
+				/* ignore */
+			}
 		}
+		return { dropTargetType: targetType }
 	})
 
 	const toElement = (): React.ReactElement | null => {
@@ -95,36 +88,45 @@ export const ComponentItem: React.FC<ComponentItemProps> = ({
 	}
 
 	const buildFinalElement = (rawEl: React.ReactElement): React.ReactElement => {
-		const resolvedType = resolveType(rawEl)
-		const isLayout = isLayoutType(resolvedType)
+		const resolvedType = resolveType(rawEl) as React.ElementType
 		const plain = normalizeToPlainElement(rawEl)
+		const isLayout = LAYOUT_WHITELIST.has(resolvedType)
 
-		if (isLayout) {
-			return typeof resolvedType !== 'string' ? (
-				<Element is={resolvedType} {...(plain.props as Record<string, unknown>)} canvas />
-			) : (
-				plain
-			)
+		// Case 1: Dragging content (Text, Image...)
+		if (!isLayout) {
+			if (dropTargetType === 'BLOCK') {
+				return plain
+			} else {
+				const block = (
+					<Element is={MjmlBlock} canvas>
+						{' '}
+						{plain}{' '}
+					</Element>
+				)
+				if (dropTargetType === 'ROOT') {
+					return (
+						<Element is={MjmlSection} canvas>
+							{' '}
+							{block}{' '}
+						</Element>
+					)
+				}
+				return block
+			}
 		}
-
-		if (selectedInsideBlock) {
-			return plain
+		// Case 2: Dragging layout (Block, Section)
+		else {
+			const layoutElement = <Element is={resolvedType} {...(plain.props as {})} canvas={isCanvas} />
+			if (resolvedType === MjmlBlock && dropTargetType === 'ROOT') {
+				return (
+					<Element is={MjmlSection} canvas>
+						{' '}
+						{layoutElement}{' '}
+					</Element>
+				)
+			}
+			return layoutElement
 		}
-
-		return (
-			<Element
-				is={MjmlBlock}
-				canvas
-				align='left'
-				widthPercent={100}
-				paddingTop='0px'
-				paddingRight='0px'
-				paddingBottom='0px'
-				paddingLeft='0px'
-			>
-				{plain}
-			</Element>
-		)
 	}
 
 	const DRAG_ICON_PX = 16

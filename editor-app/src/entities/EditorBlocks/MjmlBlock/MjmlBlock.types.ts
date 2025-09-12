@@ -19,9 +19,4 @@ export interface MjmlBlockProps {
 	bgSize?: string
 	bgRepeat?: string
 	bgPosition?: string
-
-	/** Включить «выпирающие» прозрачные боковые поля (по умолчанию true) */
-	protrude?: boolean
-	/** Размер этих полей, px (по умолчанию 32) */
-	protrudePx?: number
 }

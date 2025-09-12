@@ -5,8 +5,6 @@ import { MjmlBlock } from '../MjmlBlock'
 import type { MjmlSectionProps } from './MjmlSection.types'
 import { MjmlSectionSettings } from './MjmlSectionSettings'
 
-const PROTRUSION = 32
-
 export const MjmlSection = ({
 	children,
 	gap = 20,
@@ -30,46 +28,29 @@ export const MjmlSection = ({
 	const effectiveGap = Number(gap)
 
 	return (
-		// ВНЕШНЯЯ ОБЁРТКА — расширяет секцию за края канваса за счёт content-box padding
 		<div
 			ref={ref => {
 				if (ref) connect(ref)
 			}}
 			style={{
-				margin: '10px 0',
+				display: 'flex',
+				alignItems: 'flex-start',
+				gap: `${effectiveGap}px`,
 				minHeight: 0,
-				paddingTop: '0px',
-				paddingRight: `${PROTRUSION}px`,
-				paddingBottom: '0px',
-				paddingLeft: `${PROTRUSION}px`,
-				marginLeft: `-${PROTRUSION}px`,
-				boxSizing: 'content-box',
-				background: 'transparent',
-				width: '100%'
+				paddingTop,
+				paddingRight,
+				paddingBottom,
+				paddingLeft,
+				boxSizing: 'border-box',
+				borderRadius,
+				background: containersBackground,
+				backgroundImage: hasBgImage && bgImageUrl ? `url(${bgImageUrl})` : undefined,
+				backgroundSize: bgSize,
+				backgroundRepeat: bgRepeat,
+				backgroundPosition: bgPosition
 			}}
 		>
-			{/* ВНУТРЕННЯЯ «ЦВЕТНАЯ» ОБЁРТКА — собственно секция */}
-			<div
-				style={{
-					display: 'flex',
-					alignItems: 'flex-start',
-					gap: `${effectiveGap}px`,
-					minHeight: 0,
-					paddingTop,
-					paddingRight,
-					paddingBottom,
-					paddingLeft,
-					boxSizing: 'border-box',
-					borderRadius,
-					background: containersBackground,
-					backgroundImage: hasBgImage && bgImageUrl ? `url(${bgImageUrl})` : undefined,
-					backgroundSize: bgSize,
-					backgroundRepeat: bgRepeat,
-					backgroundPosition: bgPosition
-				}}
-			>
-				{children}
-			</div>
+			{children}
 		</div>
 	)
 }
