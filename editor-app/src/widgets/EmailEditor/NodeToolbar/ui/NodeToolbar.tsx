@@ -14,7 +14,6 @@ function scrollCanvasBy(deltaY: number) {
 
 export const NodeToolbar = ({
 	deletable,
-	isMjmlBlock,
 	indicatorRef,
 	dragRef,
 	onMouseEnter,
@@ -95,7 +94,7 @@ export const NodeToolbar = ({
 				open
 					? 'z-10 min-h-32 w-9 rounded-[4px] bg-[var(--accent)] p-1 opacity-100'
 					: 'h-8 w-8 rounded-[4px] bg-[var(--accent)] opacity-50'
-			} max-h-[calc(100vh-12px)] overflow-y-auto ${isMjmlBlock ? 'mjml-block-toolbar' : ''}`}
+			} max-h-[calc(100vh-12px)] overflow-y-auto`}
 		>
 			<PanelButton
 				title='Переместить'

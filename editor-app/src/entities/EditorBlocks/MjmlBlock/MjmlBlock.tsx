@@ -145,7 +145,8 @@ export const MjmlBlock = ({
 		borderRadius: borderRadius ?? (style.borderRadius as string) ?? '0px',
 		display: 'flow-root',
 		position: 'relative',
-		border: isEmpty ? '1px dashed var(--accent)' : 'none'
+		border: isEmpty ? '1px dashed var(--accent)' : 'none',
+		padding: '10px' // Добавляем постоянный внутренний отступ
 	}
 
 	return (
@@ -160,9 +161,11 @@ export const MjmlBlock = ({
 			<div style={innerStyle} ref={innerRef}>
 				<div
 					ref={contentRef}
+					data-craft-component='MjmlBlock'
+					data-craft-canvas='true'
 					style={{
 						width: '100%',
-						minHeight: 0,
+						minHeight: isEmpty ? 0 : '20px', // Минимальная высота для drop-зоны
 						boxSizing: 'border-box',
 						display: 'flow-root'
 					}}
@@ -187,7 +190,7 @@ export const MjmlBlock = ({
 									right: 0,
 									bottom: 0,
 									backgroundColor: 'var(--accent)',
-									opacity: 0.1
+									opacity: 0.05 // Делаем фон чуть заметнее
 								}}
 							/>
 							<div // контент
@@ -239,5 +242,7 @@ MjmlBlock.craft = {
 	},
 	name: 'Блок',
 	related: { settings: MjmlBlockSettings },
-	rules: { canMoveIn: () => true }
+	rules: {
+		canMoveIn: () => true
+	}
 }

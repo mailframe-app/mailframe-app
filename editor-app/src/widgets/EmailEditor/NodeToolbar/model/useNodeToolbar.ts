@@ -4,20 +4,16 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { copyNode, useSaveNodeFeature } from '@/features/NodeActions'
 
-import { MjmlBlock } from '@/entities/EditorBlocks'
-
 export const useNodeToolbar = () => {
 	const {
 		id,
 		dom,
 		isHover,
-		type,
 		connectors: { drag }
 	} = useNode(node => ({
 		id: node.id,
 		dom: node.dom,
-		isHover: node.events.hovered,
-		type: node.data.type
+		isHover: node.events.hovered
 	}))
 
 	const { actions, query } = useEditor()
@@ -34,8 +30,6 @@ export const useNodeToolbar = () => {
 
 	const { saveNode } = useSaveNodeFeature()
 
-	const isMjmlBlock = type === MjmlBlock
-
 	const indicatorRef = useRef<HTMLDivElement>(null)
 	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const [isToolbarVisible, setToolbarVisible] = useState(false)
@@ -44,15 +38,11 @@ export const useNodeToolbar = () => {
 		if (dom) {
 			if ((isActive || isHover || isToolbarVisible) && id !== 'ROOT') {
 				dom.classList.add('component-selected')
-				if (type === MjmlBlock) {
-					dom.classList.add('mjml-block-selected')
-				}
 			} else {
 				dom.classList.remove('component-selected')
-				dom.classList.remove('mjml-block-selected')
 			}
 		}
-	}, [dom, isActive, isHover, id, isToolbarVisible, type])
+	}, [dom, isActive, isHover, id, isToolbarVisible])
 
 	useEffect(() => {
 		if (timerRef.current) clearTimeout(timerRef.current)
@@ -71,17 +61,14 @@ export const useNodeToolbar = () => {
 		timerRef.current = setTimeout(() => setToolbarVisible(false), 200)
 	}
 
-	const getPos = useCallback(
-		(domNode: HTMLElement) => {
-			const { top, left, width, height } = domNode.getBoundingClientRect()
+	const getPos = useCallback((domNode: HTMLElement) => {
+		const { top, left, width } = domNode.getBoundingClientRect()
 
-			return {
-				top: isMjmlBlock ? `${top + height / 2}px` : `${top}px`,
-				left: `${left + width + 8}px`
-			}
-		},
-		[isMjmlBlock]
-	)
+		return {
+			top: `${top}px`,
+			left: `${left + width + 8}px`
+		}
+	}, [])
 
 	useEffect(() => {
 		if (dom && indicatorRef.current && isToolbarVisible) {
@@ -125,7 +112,6 @@ export const useNodeToolbar = () => {
 		id,
 		deletable,
 		isToolbarVisible,
-		isMjmlBlock,
 		indicatorRef,
 		dragRef,
 		handleToolbarMouseEnter,

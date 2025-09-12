@@ -2,6 +2,7 @@ import type { SerializedNodes } from '@craftjs/core'
 import { Editor } from '@craftjs/core'
 import { useMemo } from 'react'
 
+import { AutoWrapper } from '@/features/AutoWrapper'
 import { AddModuleToCanvas } from '@/features/ModulesLibrary'
 import { useSaveNodeFeature } from '@/features/NodeActions'
 
@@ -83,6 +84,7 @@ const EmailEditor = () => {
 			</div>
 			<AddModuleToCanvas />
 			<SaveNodeModalProvider />
+			<AutoWrapper />
 		</Editor>
 	)
 }

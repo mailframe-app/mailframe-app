@@ -43,6 +43,8 @@ export const Container: UserComponent<ContainerProps> = ({
 			ref={ref => {
 				if (ref) connect(drag(ref))
 			}}
+			data-craft-component='Container'
+			data-craft-canvas='true'
 			style={{
 				background: resolvedBackground,
 				borderRadius,

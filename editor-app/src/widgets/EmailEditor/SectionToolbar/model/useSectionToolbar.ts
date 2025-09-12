@@ -49,7 +49,11 @@ export const useSectionToolbar = () => {
 
 	const handleMouseLeave = useCallback(
 		(e: React.MouseEvent) => {
-			const relatedTarget = e.relatedTarget as Node
+			const relatedTarget = e.relatedTarget as Node | null
+			if (!relatedTarget) {
+				setIsHover(false)
+				return
+			}
 
 			const isMovingToOurComponent =
 				dom?.contains(relatedTarget) ||

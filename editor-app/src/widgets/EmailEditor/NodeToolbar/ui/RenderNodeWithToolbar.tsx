@@ -10,7 +10,6 @@ export const RenderNodeWithToolbar = ({ render }: RenderNodeProps) => {
 		id,
 		deletable,
 		isToolbarVisible,
-		isMjmlBlock,
 		indicatorRef,
 		dragRef,
 		handleToolbarMouseEnter,
@@ -26,7 +25,6 @@ export const RenderNodeWithToolbar = ({ render }: RenderNodeProps) => {
 			{isToolbarVisible && id !== ROOT_NODE && (
 				<NodeToolbar
 					deletable={deletable}
-					isMjmlBlock={isMjmlBlock}
 					indicatorRef={indicatorRef}
 					dragRef={dragRef}
 					onMouseEnter={handleToolbarMouseEnter}

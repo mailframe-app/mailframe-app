@@ -2,7 +2,6 @@ import type { DragEvent, MouseEvent } from 'react'
 
 export interface NodeToolbarProps {
 	deletable: boolean
-	isMjmlBlock: boolean
 	indicatorRef: React.RefObject<HTMLDivElement | null>
 	dragRef: (el: HTMLButtonElement | null) => void
 	onMouseEnter: () => void
@@ -27,7 +26,6 @@ export interface UseNodeToolbarReturn {
 	id: string
 	deletable: boolean
 	isToolbarVisible: boolean
-	isMjmlBlock: boolean
 	indicatorRef: React.RefObject<HTMLDivElement | null>
 	dragRef: (el: HTMLButtonElement | null) => void
 	handleToolbarMouseEnter: () => void

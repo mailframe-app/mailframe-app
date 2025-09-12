@@ -1,6 +1,4 @@
-import { type Node, useNode } from '@craftjs/core'
-
-import { MjmlBlock } from '../MjmlBlock'
+import { useNode } from '@craftjs/core'
 
 import type { MjmlSectionProps } from './MjmlSection.types'
 import { MjmlSectionSettings } from './MjmlSectionSettings'
@@ -32,6 +30,8 @@ export const MjmlSection = ({
 			ref={ref => {
 				if (ref) connect(ref)
 			}}
+			data-craft-component='MjmlSection'
+			data-craft-canvas='true'
 			style={{
 				display: 'flex',
 				alignItems: 'flex-start',
@@ -75,6 +75,6 @@ MjmlSection.craft = {
 		settings: MjmlSectionSettings
 	},
 	rules: {
-		canMoveIn: (nodes: Node[]) => nodes.every(node => node.data.type === MjmlBlock)
+		canMoveIn: () => true
 	}
 }
