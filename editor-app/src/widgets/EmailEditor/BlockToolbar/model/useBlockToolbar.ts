@@ -1,6 +1,6 @@
 import { useEditor, useNode } from '@craftjs/core'
 import type { DragEvent, MouseEvent } from 'react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import { copyNode, useSaveNodeFeature } from '@/features/NodeActions'
 
@@ -15,6 +15,7 @@ export const useBlockToolbar = () => {
 	}))
 
 	const { actions, query } = useEditor()
+	const { nodes } = useEditor(state => ({ nodes: state.nodes }))
 	const { isActive, deletable, isDragging } = useEditor((state, query) => {
 		let deletable = false
 		if (id && state.nodes[id]) {
@@ -59,27 +60,42 @@ export const useBlockToolbar = () => {
 		}
 	}, [dom, handleMouseEnter, handleMouseLeave])
 
-	useEffect(() => {
-		if (dom && isToolbarVisible) {
-			const domRect = dom.getBoundingClientRect()
+	const updateOverlayPosition = useCallback(() => {
+		if (!dom) return
+		const rect = dom.getBoundingClientRect()
 
-			if (overlayRef.current) {
-				overlayRef.current.style.top = `${domRect.top}px`
-				overlayRef.current.style.left = `${domRect.left}px`
-				overlayRef.current.style.width = `${domRect.width}px`
-				overlayRef.current.style.height = `${domRect.height}px`
-			}
-
-			if (actionsRef.current) {
-				const actionsWidth = actionsRef.current.getBoundingClientRect().width || 0
-				const actionsTop = domRect.top - 28 // 28px - высота кнопок + отступ
-				const actionsLeft = domRect.right - actionsWidth
-
-				actionsRef.current.style.top = `${actionsTop}px`
-				actionsRef.current.style.left = `${actionsLeft}px`
-			}
+		if (overlayRef.current) {
+			overlayRef.current.style.position = 'fixed'
+			overlayRef.current.style.top = `${rect.top}px`
+			overlayRef.current.style.left = `${rect.left}px`
+			overlayRef.current.style.width = `${rect.width}px`
+			overlayRef.current.style.height = `${rect.height}px`
 		}
-	}, [dom, isToolbarVisible, isActive, isHover])
+		if (actionsRef.current) {
+			actionsRef.current.style.position = 'fixed'
+			const actionsWidth = actionsRef.current.getBoundingClientRect().width || 0
+			const actionsTop = rect.top - 28 // 28px — высота кнопок + отступ
+			const actionsLeft = rect.right - actionsWidth
+			actionsRef.current.style.top = `${actionsTop}px`
+			actionsRef.current.style.left = `${actionsLeft}px`
+		}
+	}, [dom])
+
+	useLayoutEffect(() => {
+		if (!isToolbarVisible) return
+		updateOverlayPosition()
+	}, [isToolbarVisible, isActive, isHover, nodes, updateOverlayPosition])
+
+	useEffect(() => {
+		if (!isToolbarVisible) return
+		const handler = () => updateOverlayPosition()
+		window.addEventListener('scroll', handler, true)
+		window.addEventListener('resize', handler)
+		return () => {
+			window.removeEventListener('scroll', handler, true)
+			window.removeEventListener('resize', handler)
+		}
+	}, [isToolbarVisible, updateOverlayPosition])
 
 	const handleDragStart = (e: DragEvent) => {
 		e.stopPropagation()
