@@ -1,6 +1,6 @@
 import { useEditor, useNode } from '@craftjs/core'
 import type { DragEvent, MouseEvent } from 'react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import { copyNode, useSaveNodeFeature } from '@/features/NodeActions'
 
@@ -17,6 +17,7 @@ export const useNodeToolbar = () => {
 	}))
 
 	const { actions, query } = useEditor()
+	const { nodes } = useEditor(state => ({ nodes: state.nodes }))
 	const { isActive, deletable } = useEditor((state, query) => {
 		let deletable = false
 		if (id && state.nodes[id]) {
@@ -61,22 +62,29 @@ export const useNodeToolbar = () => {
 		timerRef.current = setTimeout(() => setToolbarVisible(false), 200)
 	}
 
-	const getPos = useCallback((domNode: HTMLElement) => {
-		const { top, left, width } = domNode.getBoundingClientRect()
+	const updateIndicatorPosition = useCallback(() => {
+		if (!dom || !indicatorRef.current) return
+		const { top, left, width } = dom.getBoundingClientRect()
+		indicatorRef.current.style.position = 'fixed'
+		indicatorRef.current.style.top = `${top}px`
+		indicatorRef.current.style.left = `${left + width + 8}px`
+	}, [dom])
 
-		return {
-			top: `${top}px`,
-			left: `${left + width + 8}px`
-		}
-	}, [])
+	useLayoutEffect(() => {
+		if (!isToolbarVisible) return
+		updateIndicatorPosition()
+	}, [isToolbarVisible, isActive, isHover, nodes, updateIndicatorPosition])
 
 	useEffect(() => {
-		if (dom && indicatorRef.current && isToolbarVisible) {
-			const { top, left } = getPos(dom)
-			indicatorRef.current.style.top = top
-			indicatorRef.current.style.left = left
+		if (!isToolbarVisible) return
+		const handler = () => updateIndicatorPosition()
+		window.addEventListener('scroll', handler, true)
+		window.addEventListener('resize', handler)
+		return () => {
+			window.removeEventListener('scroll', handler, true)
+			window.removeEventListener('resize', handler)
 		}
-	}, [dom, getPos, isToolbarVisible])
+	}, [isToolbarVisible, updateIndicatorPosition])
 
 	const handleDragStart = (e: DragEvent) => {
 		e.stopPropagation()

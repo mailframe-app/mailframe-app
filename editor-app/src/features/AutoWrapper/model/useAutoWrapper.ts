@@ -59,7 +59,7 @@ export const useAutoWrapper = () => {
 		if (nodesToWrap.length > 0) {
 			console.log(`%c🔄 ОБОРАЧИВАЕМ ${nodesToWrap.length} УЗЛОВ`, 'font-weight: bold; color: red;')
 
-			let updatedNodes = { ...currentNodes }
+			const updatedNodes = { ...currentNodes }
 
 			nodesToWrap.forEach(({ nodeId, wrapType, parentId, insertIndex }) => {
 				const wrapperStructure = createWrapperStructure(nodeId, wrapType, parentId, insertIndex)
