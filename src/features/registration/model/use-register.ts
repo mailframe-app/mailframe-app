@@ -17,13 +17,15 @@ export function useRegister() {
 		onSuccess() {
 			navigate(PRIVATE_ROUTES.DASHBOARD)
 			showCustomToast({
+				description: 'Добро пожаловать в Mailframe.',
 				title: 'Регистрация прошла успешно!',
 				type: 'success'
 			})
 		},
 		onError(error: ErrorResponse) {
 			showCustomToast({
-				title: error.message ?? 'Ошибка при регистрации',
+				description: error.message ?? 'Ошибка при регистрации',
+				title: 'Ошибка',
 				type: 'error'
 			})
 		}

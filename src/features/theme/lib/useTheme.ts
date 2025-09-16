@@ -6,6 +6,13 @@ export type Theme = 'presetGpnDefault' | 'presetGpnDark' | 'presetGpnDisplay'
 
 const defaultTheme: Theme = 'presetGpnDefault'
 
+const getSystemTheme = (): Theme => {
+	if (typeof window === 'undefined') return defaultTheme
+
+	const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+	return prefersDark ? 'presetGpnDark' : 'presetGpnDefault'
+}
+
 const isValidTheme = (theme: any): theme is Theme => {
 	return (
 		theme === 'presetGpnDefault' ||
@@ -33,7 +40,7 @@ export function useTheme() {
 	const updateThemeMutation = useUpdateProfileThemeMutation()
 	const [localTheme, setLocalTheme] = useState<Theme>(() => {
 		const storedTheme = localStorage.getItem('theme')
-		return isValidTheme(storedTheme) ? storedTheme : defaultTheme
+		return isValidTheme(storedTheme) ? storedTheme : getSystemTheme()
 	})
 
 	useEffect(() => {
@@ -49,14 +56,28 @@ export function useTheme() {
 			const storedTheme = localStorage.getItem('theme')
 			if (isValidTheme(storedTheme)) {
 				setLocalTheme(storedTheme)
+			} else {
+				setLocalTheme(getSystemTheme())
 			}
 		}
+
+		// Обработчик для изменений системной темы
+		const handleSystemThemeChange = (e: MediaQueryListEvent) => {
+			const storedTheme = localStorage.getItem('theme')
+			if (!isValidTheme(storedTheme)) {
+				setLocalTheme(e.matches ? 'presetGpnDark' : 'presetGpnDefault')
+			}
+		}
+
+		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+		mediaQuery.addEventListener('change', handleSystemThemeChange)
 
 		window.addEventListener('storage', handleStorageChange)
 		const unsubscribe = themeChangeEmitter.subscribe(handleLocalChange)
 
 		return () => {
 			window.removeEventListener('storage', handleStorageChange)
+			mediaQuery.removeEventListener('change', handleSystemThemeChange)
 			unsubscribe()
 		}
 	}, [])

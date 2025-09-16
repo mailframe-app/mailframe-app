@@ -3,8 +3,8 @@ import {
 	NavbarRail,
 	cnNavbarMixFadeAnimate
 } from '@consta/header/Navbar'
-import { IconArrowNext } from '@consta/icons/IconArrowNext'
-import { IconArrowPrevious } from '@consta/icons/IconArrowPrevious'
+import { IconArrowLeft } from '@consta/icons/IconArrowLeft'
+import { IconArrowRight } from '@consta/icons/IconArrowRight'
 import { Button } from '@consta/uikit/Button'
 import { Layout } from '@consta/uikit/Layout'
 import { useRef } from 'react'
@@ -12,6 +12,8 @@ import type { Location, NavigateFunction } from 'react-router-dom'
 import { Transition } from 'react-transition-group'
 
 import { useLogoutConfirm } from '@/features/logout'
+
+import { BaseLogo } from '@/shared/ui'
 
 import { appMenuItems, logoutMenuItem } from '../lib/menu'
 import type { AppNavbarItem } from '../lib/types'
@@ -70,12 +72,9 @@ export function PrivateLayoutNavbar({
 				transition: 'width var(--navbar-animate-transition-timeout)',
 				position: 'relative',
 				height: '100%',
-				// CSS vars for animation and widths
 				['--navbar-animate-transition-timeout' as any]: '0.3s',
 				['--navbar-animate-menu-rail-width' as any]: '120px',
-				// keep previous width ~ w-80 (20rem = 320px)
-				['--navbar-animate-menu-draver-width' as any]: '320px',
-				// current width based on open state
+				['--navbar-animate-menu-draver-width' as any]: '264px',
 				['width' as any]: open
 					? 'var(--navbar-animate-menu-draver-width)'
 					: 'var(--navbar-animate-menu-rail-width)'
@@ -87,16 +86,20 @@ export function PrivateLayoutNavbar({
 						ref={railRef}
 						className={`${cnNavbarMixFadeAnimate({ animate, menu: 'rail' })} h-full`}
 					>
-						<div className='flex h-full flex-col justify-between px-8 py-8'>
-							<NavbarRail<AppNavbarItem>
-								className='!rounded-l'
-								items={appMenuItems}
-								getItemLabel={() => undefined}
-								getItemTooltip={getItemLabel}
-								getItemActive={getItemActive}
-								getItemIcon={getItemIcon}
-								onItemClick={onItemClick}
-							/>
+						<div className='flex h-full flex-col justify-between px-8 pt-6 pb-8'>
+							<div className='flex flex-col'>
+								<BaseLogo size='xs' onlyIcon />
+								<div className='-mx-8 my-6 border-[var(--color-bg-border)]' />
+								<NavbarRail<AppNavbarItem>
+									className='!rounded-l'
+									items={appMenuItems}
+									getItemLabel={() => undefined}
+									getItemTooltip={getItemLabel}
+									getItemActive={getItemActive}
+									getItemIcon={getItemIcon}
+									onItemClick={onItemClick}
+								/>
+							</div>
 							<NavbarRail<AppNavbarItem>
 								className='!rounded-l'
 								items={[logoutMenuItem]}
@@ -115,15 +118,19 @@ export function PrivateLayoutNavbar({
 						ref={draverRef}
 						className={`${cnNavbarMixFadeAnimate({ animate, menu: 'draver' })} h-full`}
 					>
-						<div className='flex h-full flex-col justify-between px-8 py-8'>
-							<Navbar<AppNavbarItem>
-								className='!rounded-l'
-								items={appMenuItems}
-								getItemLabel={getItemLabel}
-								getItemActive={getItemActive}
-								getItemIcon={getItemIcon}
-								onItemClick={onItemClick}
-							/>
+						<div className='flex h-full flex-col justify-between px-8 pt-6 pb-8'>
+							<div className='flex flex-col'>
+								<BaseLogo size='xs' />
+								<div className='-mx-8 my-6 border-[var(--color-bg-border)]' />
+								<Navbar<AppNavbarItem>
+									className='!rounded-l'
+									items={appMenuItems}
+									getItemLabel={getItemLabel}
+									getItemActive={getItemActive}
+									getItemIcon={getItemIcon}
+									onItemClick={onItemClick}
+								/>
+							</div>
 							<Navbar<AppNavbarItem>
 								className='!rounded-l pb-1'
 								items={[logoutMenuItem]}
@@ -135,13 +142,14 @@ export function PrivateLayoutNavbar({
 					</div>
 				)}
 			</Transition>
-			<div className='absolute right-0 bottom-10 flex justify-end'>
+			<div className='absolute top-6 right-0 flex justify-end'>
 				<Button
 					view='clear'
-					form='round'
+					form='defaultBrick'
 					onlyIcon
-					iconLeft={open ? IconArrowPrevious : IconArrowNext}
+					iconLeft={open ? IconArrowLeft : IconArrowRight}
 					onClick={toggle}
+					className='!h-8 !w-6'
 				/>
 			</div>
 		</Layout>

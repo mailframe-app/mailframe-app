@@ -42,7 +42,8 @@ export function useLoginMutations({
 				setSessionToken(authData.token)
 
 				showCustomToast({
-					title: 'Вход выполнен успешно!',
+					title: 'Успешно!',
+					description: 'Вы вошли в систему.',
 					type: 'success'
 				})
 				navigate(PRIVATE_ROUTES.DASHBOARD, { replace: true })
@@ -50,7 +51,11 @@ export function useLoginMutations({
 		},
 		onError: (error: any) => {
 			const errorMessage = error.message || 'Ошибка при входе'
-			showCustomToast({ title: errorMessage, type: 'error' })
+			showCustomToast({
+				description: errorMessage,
+				title: 'Ошибка при входе',
+				type: 'error'
+			})
 		}
 	})
 
@@ -68,7 +73,11 @@ export function useLoginMutations({
 			},
 			onError: (error: any) => {
 				const errorMessage = error.message || 'Неверный TOTP код'
-				showCustomToast({ title: errorMessage, type: 'error' })
+				showCustomToast({
+					description: errorMessage,
+					title: 'Ошибка при входе',
+					type: 'error'
+				})
 			}
 		})
 
@@ -87,7 +96,11 @@ export function useLoginMutations({
 			},
 			onError: (error: any) => {
 				const errorMessage = error.message || 'Неверный код восстановления'
-				showCustomToast({ title: errorMessage, type: 'error' })
+				showCustomToast({
+					description: errorMessage,
+					title: 'Ошибка при входе',
+					type: 'error'
+				})
 			}
 		})
 

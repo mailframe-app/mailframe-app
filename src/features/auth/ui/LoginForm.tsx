@@ -2,7 +2,7 @@ import { Button } from '@consta/uikit/Button'
 import { Text } from '@consta/uikit/Text'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 import { PUBLIC_ROUTES } from '@/shared/constants'
@@ -44,10 +44,8 @@ export function LoginForm() {
 		resolver: zodResolver(LoginFormSchema)
 	})
 
-	const navigate = useNavigate()
-
 	return (
-		<form onSubmit={handleSubmit(login)} key='login-form'>
+		<form onSubmit={handleSubmit(login)} key='login-form' className='w-full'>
 			<div className='relative'>
 				<TextFieldForm<LoginFormType>
 					name='email'
@@ -56,9 +54,9 @@ export function LoginForm() {
 					placeholder='Введите почту'
 					control={control}
 					autoFocus
+					size='l'
 				/>
 			</div>
-
 			<div className='relative'>
 				<TextFieldForm<LoginFormType>
 					name='password'
@@ -67,16 +65,13 @@ export function LoginForm() {
 					placeholder='Введите пароль'
 					control={control}
 					clearable={false}
+					size='l'
 				/>
 				<Link to={PUBLIC_ROUTES.FORGOT_PASSWORD}>
 					<Text
-						as='span'
+						view='secondary'
 						size='s'
-						view='link'
-						className='absolute top-[1%] right-0 cursor-pointer'
-						style={{
-							right: 0
-						}}
+						className='absolute right-0 -bottom-1 cursor-pointer underline'
 					>
 						Забыли пароль?
 					</Text>
@@ -84,20 +79,13 @@ export function LoginForm() {
 			</div>
 			<Button
 				type='submit'
-				size='l'
+				size='m'
 				width='full'
 				// disabled={!formState.isValid}
 				view={formState.isValid ? 'primary' : 'ghost'}
 				label='Войти'
 				loading={isLoginPending}
-				className='mb-4'
-			/>
-			<Button
-				label='Регистрация'
-				width='full'
-				size='l'
-				view='secondary'
-				onClick={() => navigate(PUBLIC_ROUTES.REGISTER)}
+				className='mt-8'
 			/>
 		</form>
 	)

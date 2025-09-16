@@ -30,6 +30,7 @@ export async function privateRouteLoader(): Promise<Response | null> {
 	return null
 }
 
+// Проверка токена для публичных страниц
 export async function publicRouteLoader(): Promise<Response | null> {
 	const token = getSessionToken()
 
@@ -40,6 +41,7 @@ export async function publicRouteLoader(): Promise<Response | null> {
 	return null
 }
 
+// Проверка кода верификации электронной почты
 export async function verifyEmailLoader({
 	params
 }: LoaderFunctionArgs): Promise<Response> {
@@ -98,7 +100,7 @@ export async function smtpSettingsRouteLoader(): Promise<null> {
 	return null
 }
 
-// Предзагрузка для страницы соц. сетей
+// Предзагрузка для страницы интеграций
 export async function socialAuthRouteLoader(): Promise<null> {
 	await queryClient.prefetchQuery({
 		...externalStatusQuery()
@@ -117,7 +119,6 @@ export async function sessionsRouteLoader(): Promise<null> {
 // Предзагрузка для страницы dashboard - последние рассылки
 export async function dashboardRouteLoader(): Promise<null> {
 	await Promise.all([
-		// Предзагрузка рассылок
 		queryClient.prefetchQuery({
 			...campaignsListQuery({
 				limit: 3,
@@ -125,7 +126,6 @@ export async function dashboardRouteLoader(): Promise<null> {
 				sortOrder: 'desc'
 			})
 		})
-		// Календарь загружается напрямую в компоненте DashboardCalendar
 	])
 
 	return null

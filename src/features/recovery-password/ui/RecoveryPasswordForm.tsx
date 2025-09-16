@@ -53,11 +53,15 @@ export function RecoveryPasswordForm() {
 	const { recoveryPassword, isPending } = useRecoveryPassword()
 	const navigate = useNavigate()
 	return (
-		<form onSubmit={handleSubmit(data => recoveryPassword(data))}>
+		<form
+			onSubmit={handleSubmit(data => recoveryPassword(data))}
+			className='w-full'
+		>
 			<TextFieldForm<RecoveryPasswordFormType>
 				name='password'
 				type='password'
 				label='Пароль'
+				size='l'
 				placeholder='Введите пароль'
 				control={control}
 				autoFocus
@@ -67,6 +71,7 @@ export function RecoveryPasswordForm() {
 				name='confirmPassword'
 				type='password'
 				label='Повторите пароль'
+				size='l'
 				placeholder='Повторите пароль'
 				control={control}
 				clearable={false}
@@ -74,7 +79,7 @@ export function RecoveryPasswordForm() {
 
 			<Button
 				type='submit'
-				size='l'
+				size='m'
 				width='full'
 				// disabled={!formState.isValid}
 				view={formState.isValid ? 'primary' : 'ghost'}
@@ -85,8 +90,9 @@ export function RecoveryPasswordForm() {
 			<Button
 				label='Назад'
 				width='full'
-				size='l'
-				view='secondary'
+				size='m'
+				view='clear'
+				className='!border !border-[var(--color-control-bg-border-default)]'
 				onClick={() => navigate(PUBLIC_ROUTES.LOGIN)}
 			/>
 		</form>

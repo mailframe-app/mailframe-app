@@ -23,7 +23,6 @@ export function ForgotPassword() {
 					width='full'
 					size='l'
 					label='Вернуться на страницу входа'
-					className='mt-6'
 					onClick={() => {
 						navigate(PUBLIC_ROUTES.LOGIN)
 					}}

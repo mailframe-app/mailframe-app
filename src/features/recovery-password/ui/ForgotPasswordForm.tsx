@@ -43,11 +43,12 @@ export function ForgotPasswordForm({
 	}
 
 	return (
-		<form onSubmit={handleSubmit(handleFormSubmit)}>
+		<form onSubmit={handleSubmit(handleFormSubmit)} className='w-full'>
 			<TextFieldForm<ForgotPasswordFormType>
 				name='email'
 				type='email'
 				label='Email'
+				size='l'
 				placeholder='Введите почту'
 				control={control}
 				autoFocus
@@ -55,7 +56,7 @@ export function ForgotPasswordForm({
 
 			<Button
 				type='submit'
-				size='l'
+				size='m'
 				width='full'
 				// disabled={!formState.isValid}
 				view={formState.isValid ? 'primary' : 'ghost'}
@@ -66,8 +67,9 @@ export function ForgotPasswordForm({
 			<Button
 				label='Назад'
 				width='full'
-				size='l'
-				view='secondary'
+				size='m'
+				view='clear'
+				className='!border !border-[var(--color-control-bg-border-default)]'
 				onClick={() => navigate(-1)}
 			/>
 		</form>

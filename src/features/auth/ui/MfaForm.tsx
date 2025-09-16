@@ -33,7 +33,8 @@ export const MfaForm = () => {
 	const handleVerifyTotp = async () => {
 		if (!totpCode || totpCode.length !== 6 || !/^\d+$/.test(totpCode)) {
 			showCustomToast({
-				title: 'Код должен содержать 6 цифр',
+				title: 'Ошибка',
+				description: 'Код должен содержать 6 цифр',
 				type: 'error'
 			})
 			return
@@ -45,7 +46,8 @@ export const MfaForm = () => {
 	const handleVerifyRecovery = async () => {
 		if (!recoveryCode) {
 			showCustomToast({
-				title: 'Введите код восстановления',
+				description: 'Введите код восстановления',
+				title: 'Ошибка',
 				type: 'error'
 			})
 			return
@@ -63,7 +65,7 @@ export const MfaForm = () => {
 				items={mfaTabs}
 				getItemLabel={item => item.label}
 				getItemIcon={item => item.image}
-				className='mb-4'
+				className='mb-4 items-center justify-center'
 			/>
 			{activeTab === 'totp' && (
 				<>
@@ -83,7 +85,7 @@ export const MfaForm = () => {
 					<Button
 						label='Подтвердить'
 						view='primary'
-						size='l'
+						size='m'
 						width='full'
 						onClick={handleVerifyTotp}
 						loading={isVerifyingTotp}
@@ -107,7 +109,7 @@ export const MfaForm = () => {
 					<Button
 						label='Подтвердить'
 						view='primary'
-						size='l'
+						size='m'
 						width='full'
 						onClick={handleVerifyRecovery}
 						loading={isVerifyingRecovery}
@@ -116,10 +118,10 @@ export const MfaForm = () => {
 			)}
 			<Button
 				label='Отмена'
-				view='ghost'
-				size='l'
+				view='clear'
+				size='m'
 				onClick={resetMfa}
-				className='mt-4'
+				className='mt-4 !border !border-[var(--color-control-bg-border-default)]'
 			/>
 		</div>
 	)

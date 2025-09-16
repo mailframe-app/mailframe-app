@@ -19,7 +19,7 @@ export function AppLoader({ children }: { children?: ReactNode }) {
 	useEffect(() => {
 		if (!themeRef.current) return
 		const style = getComputedStyle(themeRef.current)
-		const bgColor = style.getPropertyValue('--color-bg-secondary') || '#fff'
+		const bgColor = style.getPropertyValue('--color-bg-default') || '#fff'
 
 		document.documentElement.style.setProperty(
 			'--color-scroll-bg',

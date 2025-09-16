@@ -1,6 +1,8 @@
 /* Стили для тостов */
 .custom-toast {
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	border: 1px solid var(--color-control-bg-border-default);
+	background-color: var(--color-bg-default);
 	position: relative;
 }
 
@@ -8,10 +10,12 @@
 	font-weight: 500;
 	font-size: 16px;
 	margin-bottom: 4px;
+	color: var(--color-typo-primary) !important;
 }
 
 .custom-toast-description {
 	font-size: 14px;
+	color: var(--color-typo-secondary) !important;
 }
 
 .custom-toast-close-button {
@@ -19,7 +23,7 @@
 	top: 8px !important;
 	right: 8px !important;
 	opacity: 0.7 !important;
-	color: white !important;
+	color: var(--color-typo-primary) !important;
 }
 
 .custom-toast-close-button:hover {
@@ -28,19 +32,19 @@
 
 /* Стили для разных типов тостов */
 .custom-toast-success {
-	background-color: #24c38e !important; /* зеленый */
+	border: 1px solid #24c38e !important;
 }
 
 .custom-toast-error {
-	background-color: #fe4343 !important; /* красный */
+	border: 1px solid #fe4343 !important;
 }
 
 .custom-toast-info {
-	background-color: #0078d2 !important; /* синий */
+	border: 1px solid #0078d2 !important;
 }
 
 .custom-toast-warning {
-	background-color: #f59e0b !important; /* оранжевый */
+	border: 1px solid #f59e0b !important;
 }
 
 .custom-toast-content-wrapper {
@@ -58,7 +62,7 @@
 }
 
 .custom-toast-custom-dismiss {
-	color: white !important;
-	--button-color: white;
-	--button-color-hover: white;
+	color: var(--color-typo-primary) !important;
+	--button-color: var(--color-typo-primary);
+	--button-color-hover: var(--color-typo-primary);
 }

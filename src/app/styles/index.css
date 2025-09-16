@@ -20,33 +20,25 @@
 	background: var(--color-scroll-thumb-hover) !important;
 }
 
-/* mix focus */
-@layer utilities {
-	.children-border-b-0 > * {
-		border-bottom: 0 !important;
-		height: 100% !important;
-	}
-
-	.children-height-full > * {
-		height: 100vh !important;
-	}
-
-	/* Force high z-index overlays */
-	.overlay-topmost {
-		z-index: 2147483647 !important;
-	}
+/* TextGradient */
+.TextGradientDark {
+	background: linear-gradient(135deg, #fff, #a4a6b3 46%, #fff);
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
 }
 
-.MixFocus {
-	--mix-focus-color-one: transparent !important;
-	--mix-focus-color-two: transparent !important;
-	--mix-focus-animation: none !important;
-	box-shadow: none !important;
-	outline: none !important;
+.TextGradientLight {
+	background: linear-gradient(135deg, #191a1d, #747689 46%, #191a1d);
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
 }
 
 /* scrollbar with insets */
-.scroll-inset {
+/* .scroll-inset {
 	--inset-top: 32px;
 	--inset-bottom: 32px;
 	position: relative;
@@ -84,11 +76,38 @@
 	background: transparent !important;
 	margin-top: var(--inset-top) !important;
 	margin-bottom: var(--inset-bottom) !important;
+} */
+
+/* mix focus */
+@layer utilities {
+	.children-border-b-0 > * {
+		border-bottom: 0 !important;
+		height: 100% !important;
+	}
+
+	.children-height-full > * {
+		height: 100vh !important;
+	}
+
+	/* Force high z-index overlays */
+	.overlay-topmost {
+		z-index: 2147483647 !important;
+	}
+}
+
+.MixFocus {
+	--mix-focus-color-one: transparent !important;
+	--mix-focus-color-two: transparent !important;
+	--mix-focus-animation: none !important;
+	box-shadow: none !important;
+	outline: none !important;
 }
 
 /* custom textfield */
 
 .custom-textfield label {
+	font-weight: 500 !important;
+	color: var(--color-typo-primary) !important;
 	font-size: 14px;
 	line-height: 16px;
 	margin-bottom: 4px;

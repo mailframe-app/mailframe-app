@@ -1,10 +1,8 @@
 import { Button } from '@consta/uikit/Button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
-import { PUBLIC_ROUTES } from '@/shared/constants'
 import { TextFieldForm } from '@/shared/ui/TextFieldForm'
 
 import { useRegister } from '../model/use-register'
@@ -70,14 +68,13 @@ export function RegisterForm() {
 	const { handleSubmit, control, formState } = useForm<RegisterFormType>({
 		resolver: zodResolver(RegisterFormSchema)
 	})
-	const navigate = useNavigate()
 	const { register, isRegisterPending } = useRegister()
 	const onSubmit = (data: RegisterFormType) => {
 		register(data)
 	}
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form onSubmit={handleSubmit(onSubmit)} className='w-full'>
 			<TextFieldForm<RegisterFormType>
 				name='name'
 				type='text'
@@ -85,6 +82,7 @@ export function RegisterForm() {
 				placeholder='Введите имя'
 				control={control}
 				autoFocus
+				size='l'
 			/>
 			<TextFieldForm<RegisterFormType>
 				name='email'
@@ -92,6 +90,7 @@ export function RegisterForm() {
 				label='Email'
 				placeholder='Введите почту'
 				control={control}
+				size='l'
 			/>
 
 			<TextFieldForm<RegisterFormType>
@@ -101,6 +100,7 @@ export function RegisterForm() {
 				placeholder='Введите пароль'
 				control={control}
 				clearable={false}
+				size='l'
 			/>
 			<TextFieldForm<RegisterFormType>
 				name='confirmPassword'
@@ -109,24 +109,18 @@ export function RegisterForm() {
 				placeholder='Повторите пароль'
 				control={control}
 				clearable={false}
+				size='l'
 			/>
 
 			<Button
 				type='submit'
-				size='l'
+				size='m'
 				width='full'
 				// disabled={!formState.isValid}
 				view={formState.isValid ? 'primary' : 'ghost'}
 				label='Зарегистрироваться'
 				loading={isRegisterPending}
-				className='mb-4'
-			/>
-			<Button
-				label='Есть аккаунт? Войти'
-				width='full'
-				size='l'
-				view='secondary'
-				onClick={() => navigate(PUBLIC_ROUTES.LOGIN)}
+				className='mt-4'
 			/>
 		</form>
 	)
