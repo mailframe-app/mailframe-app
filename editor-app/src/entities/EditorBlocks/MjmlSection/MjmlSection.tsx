@@ -1,5 +1,7 @@
 import { useNode } from '@craftjs/core'
 
+import { MjmlBlock } from '../MjmlBlock'
+
 import type { MjmlSectionProps } from './MjmlSection.types'
 import { MjmlSectionSettings } from './MjmlSectionSettings'
 
@@ -55,6 +57,8 @@ export const MjmlSection = ({
 	)
 }
 
+MjmlSection.displayName = 'MjmlSection'
+
 MjmlSection.craft = {
 	props: {
 		gap: 20,
@@ -75,6 +79,14 @@ MjmlSection.craft = {
 		settings: MjmlSectionSettings
 	},
 	rules: {
-		canMoveIn: () => true
+		canMoveIn: (incoming: unknown | unknown[]) => {
+			type RuleNode = { data?: { type?: unknown; displayName?: string } }
+			const isBlock = (n: RuleNode) =>
+				n?.data?.type === MjmlBlock || n?.data?.displayName === 'Блок'
+			const items: RuleNode[] = Array.isArray(incoming)
+				? (incoming as RuleNode[])
+				: [incoming as RuleNode]
+			return items.every(isBlock)
+		}
 	}
 }
