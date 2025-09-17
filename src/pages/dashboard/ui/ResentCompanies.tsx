@@ -8,13 +8,13 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { PRIVATE_ROUTES } from '@/shared/constants'
 
+import styles from './ResentCompanies.module.css'
 import type { CampaignListItem } from '@/entities/campaigns'
 import {
 	CampaignCard,
 	CampaignCardSkeleton,
 	useCampaigns
 } from '@/entities/campaigns'
-import styles from './ResentCompanies.module.css'
 
 export const ResentCompanies = () => {
 	const navigate = useNavigate()

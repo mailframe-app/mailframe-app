@@ -8,7 +8,7 @@ import { useCalendar } from '../model/useCalendar'
 import { CalendarPopover } from './CalendarPopover'
 import './DashboardCalendar.css'
 
-export const DashboardCalendar = () => {
+export const DashboardCalendar = ({ className }: { className?: string }) => {
 	const {
 		selectedDate,
 		eventsForSelectedDate,
@@ -60,7 +60,7 @@ export const DashboardCalendar = () => {
 		<Card
 			verticalSpace='l'
 			horizontalSpace='l'
-			className='mx-auto !rounded-lg bg-[var(--color-bg-default)]'
+			className={`mx-auto !rounded-lg bg-[var(--color-bg-default)] ${className}`}
 			ref={calendarRef}
 		>
 			<Text as='h2' view='primary' size='xl' weight='semibold' className='mb-5'>

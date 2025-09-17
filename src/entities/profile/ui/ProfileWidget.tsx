@@ -4,7 +4,7 @@ import { IconSettings } from '@consta/icons/IconSettings'
 import { Popover } from '@consta/uikit/Popover'
 import { Text } from '@consta/uikit/Text'
 import { User } from '@consta/uikit/User'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useLogoutConfirm } from '@/features/logout'
@@ -17,22 +17,10 @@ import { useProfile } from '@/entities/profile'
 
 export function ProfileWidget() {
 	const currentUser = useProfile()
-	const [isSmallScreen, setIsSmallScreen] = useState(false)
 	const anchorRef = useRef<HTMLDivElement>(null)
 	const [isPopoverVisible, setIsPopoverVisible] = useState(false)
 	const navigate = useNavigate()
 	const { openLogoutConfirm } = useLogoutConfirm()
-
-	useEffect(() => {
-		const checkScreenSize = () => {
-			setIsSmallScreen(window.innerWidth < 640)
-		}
-
-		checkScreenSize()
-		window.addEventListener('resize', checkScreenSize)
-
-		return () => window.removeEventListener('resize', checkScreenSize)
-	}, [])
 
 	if (!currentUser) {
 		return null
@@ -51,7 +39,6 @@ export function ProfileWidget() {
 					name={currentUser?.displayName}
 					size='l'
 					withArrow
-					onlyAvatar={isSmallScreen}
 					info={currentUser?.organization ?? ''}
 					status={currentUser?.isEmailVerified ? undefined : 'out'}
 				/>
