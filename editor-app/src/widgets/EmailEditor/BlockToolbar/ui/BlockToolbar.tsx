@@ -15,7 +15,7 @@ interface BlockToolbarProps {
 	isDragging: boolean
 	overlayRef: React.RefObject<HTMLDivElement | null>
 	actionsRef: React.RefObject<HTMLDivElement | null>
-	dragRef: (el: HTMLButtonElement | null) => void
+	dragRef: (el: HTMLElement | null) => void
 	onDragStart: (e: React.DragEvent) => void
 	onCopy: (e: React.MouseEvent) => void
 	onDelete: (e: React.MouseEvent) => void
@@ -64,6 +64,8 @@ export const BlockToolbar = ({
 							title='Переместить'
 							ref={dragRef}
 							onDragStart={onDragStart}
+							draggable
+							className='drag-handle inline-flex items-center justify-center px-1 py-0.5'
 							data-drag-handle='RenderNode'
 						>
 							<GripVertical size={16} />

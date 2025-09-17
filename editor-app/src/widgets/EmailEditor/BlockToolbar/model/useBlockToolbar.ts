@@ -100,7 +100,22 @@ export const useBlockToolbar = () => {
 	const handleDragStart = (e: DragEvent) => {
 		e.stopPropagation()
 		if (dom) {
+			const rect = dom.getBoundingClientRect()
 			e.dataTransfer.setDragImage(dom, 0, 0)
+			console.log(
+				'%cUI DRAG START (BlockToolbar)',
+				'background:#7c3aed;color:#fff;padding:2px 6px;border-radius:4px',
+				{
+					id,
+					rect: { top: rect.top, left: rect.left, w: rect.width, h: rect.height }
+				}
+			)
+		} else {
+			console.log(
+				'%cUI DRAG START (BlockToolbar)',
+				'background:#7c3aed;color:#fff;padding:2px 6px;border-radius:4px',
+				{ id, noDom: true }
+			)
 		}
 	}
 
@@ -125,7 +140,7 @@ export const useBlockToolbar = () => {
 	}
 
 	const dragRef = useCallback(
-		(el: HTMLButtonElement | null) => {
+		(el: HTMLElement | null) => {
 			if (el) drag(el)
 		},
 		[drag]
