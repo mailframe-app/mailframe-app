@@ -74,7 +74,7 @@ export const ResentCompanies = () => {
 		return (
 			<Layout direction='column' className='gap-4'>
 				{data.items.map((campaign: CampaignListItem) => (
-					<CampaignCard key={campaign.id} campaign={campaign} variant='short' />
+					<CampaignCard key={campaign.id} campaign={campaign} variant='long' />
 				))}
 			</Layout>
 		)

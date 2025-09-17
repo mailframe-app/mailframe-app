@@ -60,10 +60,10 @@ export const DashboardCalendar = ({ className }: { className?: string }) => {
 		<Card
 			verticalSpace='l'
 			horizontalSpace='l'
-			className={`mx-auto !rounded-lg bg-[var(--color-bg-default)] ${className}`}
+			className={`mx-auto w-full max-w-[320px] !rounded-lg bg-[var(--color-bg-default)] ${className}`}
 			ref={calendarRef}
 		>
-			<Text as='h2' view='primary' size='xl' weight='semibold' className='mb-5'>
+			<Text as='h2' view='primary' size='xl' weight='semibold' className='mb-2'>
 				Календарь
 			</Text>
 			<DateTime

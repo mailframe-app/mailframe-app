@@ -1,3 +1,4 @@
+import { formatISO, subDays } from 'date-fns'
 import { type LoaderFunctionArgs, redirect } from 'react-router-dom'
 
 import { externalStatusQuery } from '@/features/social-auth'
@@ -7,6 +8,7 @@ import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '@/shared/constants'
 import { toastWithRedirect } from '@/shared/lib'
 import { getSessionToken } from '@/shared/lib/cookie'
 
+import { summaryQuery, timeseriesQuery } from '@/entities/analytics'
 import { campaignDetailQuery, campaignsListQuery } from '@/entities/campaigns'
 import { contactFieldsQuery } from '@/entities/contacts'
 import { smtpQuery } from '@/entities/mail-settings'
@@ -116,16 +118,38 @@ export async function sessionsRouteLoader(): Promise<null> {
 	return null
 }
 
-// Предзагрузка для страницы dashboard - последние рассылки
+// Предзагрузка для страницы dashboard - последние рассылки и аналитика
 export async function dashboardRouteLoader(): Promise<null> {
+	const dateRange = [subDays(new Date(), 30), new Date()]
+	const params = {
+		from:
+			formatISO(dateRange[0], { representation: 'date' }) + 'T00:00:00.000Z',
+		to: formatISO(dateRange[1], { representation: 'date' }) + 'T23:59:59.999Z'
+	}
+
 	await Promise.all([
+		// Последние рассылки
 		queryClient.prefetchQuery({
 			...campaignsListQuery({
 				limit: 3,
 				sortBy: 'updatedAt',
 				sortOrder: 'desc'
 			})
-		})
+		}),
+		// Сводная статистика
+		queryClient.prefetchQuery({
+			...summaryQuery(params)
+		}),
+		// Временные ряды для всех метрик
+		...['sent', 'opened', 'clicked'].map(metric =>
+			queryClient.prefetchQuery({
+				...timeseriesQuery({
+					metric: metric as any,
+					bucket: 'day',
+					...params
+				})
+			})
+		)
 	])
 
 	return null

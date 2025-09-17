@@ -34,12 +34,14 @@ export function TimeseriesWidget({
 	const params = useMemo(() => {
 		if (!dateRange) return undefined
 		return {
-			from: formatISO(dateRange[0]),
-			to: formatISO(dateRange[1]),
+			from:
+				formatISO(dateRange[0], { representation: 'date' }) + 'T00:00:00.000Z',
+			to:
+				formatISO(dateRange[1], { representation: 'date' }) + 'T23:59:59.999Z',
 			bucket,
 			campaignId
 		}
-	}, [dateRange, campaignId, bucket])
+	}, [dateRange?.[0]?.getTime(), dateRange?.[1]?.getTime(), bucket, campaignId])
 
 	const results = useQueries({
 		queries: metrics.map(metric => ({
@@ -119,7 +121,7 @@ export function TimeseriesWidget({
 				)}
 			</div>
 			{isLoading && (
-				<div className='flex h-[300px] flex-col gap-4'>
+				<div className='flex h-[280px] flex-col gap-4'>
 					{/* Скелетон для группированного графика */}
 					<div className='flex flex-1 items-end justify-between px-4 pb-4'>
 						{[1, 2, 3, 4, 5, 6].map(i => (
@@ -139,7 +141,7 @@ export function TimeseriesWidget({
 				<Text view='alert'>Не удалось загрузить данные для графика</Text>
 			)}
 			{!isLoading && !isError && !hasData && (
-				<div className='flex h-[300px] flex-col items-center justify-center gap-4'>
+				<div className='flex h-[280px] flex-col items-center justify-center gap-4'>
 					<EmptyBox />
 					<Text view='secondary' size='s'>
 						За выбранный период нет данных для отображения
@@ -147,7 +149,7 @@ export function TimeseriesWidget({
 				</div>
 			)}
 			{!isLoading && !isError && hasData && (
-				<div className='h-[300px]'>
+				<div className='h-[280px]'>
 					<Column
 						data={chartData}
 						legend={false}
