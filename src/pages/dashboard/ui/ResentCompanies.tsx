@@ -1,18 +1,20 @@
+import { IconTopRight } from '@consta/icons/IconTopRight'
 import { Button } from '@consta/uikit/Button'
 import { Card } from '@consta/uikit/Card'
 import { Layout } from '@consta/uikit/Layout'
 import { ResponsesNothingFound } from '@consta/uikit/ResponsesNothingFound'
-import { useNavigate } from 'react-router-dom'
+import { Text } from '@consta/uikit/Text'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { PRIVATE_ROUTES } from '@/shared/constants'
 
-import styles from './ResentCompanies.module.css'
 import type { CampaignListItem } from '@/entities/campaigns'
 import {
 	CampaignCard,
 	CampaignCardSkeleton,
 	useCampaigns
 } from '@/entities/campaigns'
+import styles from './ResentCompanies.module.css'
 
 export const ResentCompanies = () => {
 	const navigate = useNavigate()
@@ -70,7 +72,7 @@ export const ResentCompanies = () => {
 		}
 
 		return (
-			<Layout direction='column'>
+			<Layout direction='column' className='gap-4'>
 				{data.items.map((campaign: CampaignListItem) => (
 					<CampaignCard key={campaign.id} campaign={campaign} variant='short' />
 				))}
@@ -78,8 +80,24 @@ export const ResentCompanies = () => {
 		)
 	}
 	return (
-		<Layout direction='column' className='w-full'>
-			{renderCampaigns()}
-		</Layout>
+		<Card
+			className='flex-1 !rounded-lg bg-[var(--color-bg-default)]'
+			verticalSpace='l'
+			horizontalSpace='l'
+		>
+			<div className='mb-5 flex items-center justify-between'>
+				<Text as='h2' view='primary' size='xl' weight='semibold'>
+					Рассылки
+				</Text>
+				<Link to={PRIVATE_ROUTES.CAMPANIES}>
+					<Button label='Смотреть все' view='clear' iconRight={IconTopRight} />
+				</Link>
+			</div>
+			<div className='overflow-x-auto'>
+				<div className='inline-block min-w-full align-middle'>
+					<div className='overflow-visible p-0.5'>{renderCampaigns()}</div>
+				</div>
+			</div>
+		</Card>
 	)
 }

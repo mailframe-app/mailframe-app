@@ -1,4 +1,3 @@
-import { Layout } from '@consta/uikit/Layout'
 import { useState } from 'react'
 
 import { PRIVATE_ROUTES } from '@/shared/constants'
@@ -12,7 +11,7 @@ import { CardLink } from './CardLink'
 const ActionButtons = () => {
 	const [hoveredCard, setHoveredCard] = useState<number>(1)
 	return (
-		<Layout direction='row' className='mb-8 gap-4'>
+		<div className='mb-6 flex w-full flex-col justify-between gap-2 md:flex-row md:gap-0'>
 			<CardLink
 				key={1}
 				title='Контакты'
@@ -23,6 +22,7 @@ const ActionButtons = () => {
 				imageUrl={contacts}
 				url={PRIVATE_ROUTES.CONTACTS}
 				position='image-bottom'
+				className='md:mr-2'
 			/>
 
 			<CardLink
@@ -35,6 +35,7 @@ const ActionButtons = () => {
 				imageUrl={template}
 				position='image-top'
 				url={PRIVATE_ROUTES.TEMPLATES}
+				className='md:mr-2'
 			/>
 			<CardLink
 				key={3}
@@ -47,7 +48,7 @@ const ActionButtons = () => {
 				position='image-top'
 				url={PRIVATE_ROUTES.CAMPANIES}
 			/>
-		</Layout>
+		</div>
 	)
 }
 

@@ -30,6 +30,7 @@
 		"@vvo/tzdb": "^6.183.0",
 		"axios": "^1.9.0",
 		"create-gstore": "^0.2.0",
+		"framer-motion": "^12.23.13",
 		"js-cookie": "^3.0.5",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",

@@ -5,7 +5,7 @@ import { cn } from '@/shared/lib/cn'
 import { PRIVATE_ROUTES } from '../constants'
 
 interface BaseLogoProps {
-	size?: 'xs' | 'sm' | 'md' | 'lg'
+	size?: 'xs' | 's' | 'sm' | 'md'
 	onlyIcon?: boolean
 	className?: string
 	style?: React.CSSProperties
@@ -19,9 +19,9 @@ export function BaseLogo({
 }: BaseLogoProps) {
 	const logoSizeClasses = {
 		xs: 'h-8',
+		s: 'h-10',
 		sm: 'h-14',
-		md: 'h-16',
-		lg: 'h-24'
+		md: 'h-16'
 	}
 
 	const containerClasses = `select-none pl-4 ${
