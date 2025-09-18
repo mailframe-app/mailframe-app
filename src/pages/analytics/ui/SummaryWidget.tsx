@@ -4,7 +4,9 @@ import { SkeletonBrick } from '@consta/uikit/Skeleton'
 import { Text } from '@consta/uikit/Text'
 import { useQuery } from '@tanstack/react-query'
 import { formatISO } from 'date-fns'
-import { useMemo } from 'react'
+import { type ReactNode, useMemo } from 'react'
+
+import { DistributionOutline, EmailNew, MailAll } from '@/shared/ui/MailIcons'
 
 import { summaryQuery } from '@/entities/analytics'
 
@@ -15,20 +17,27 @@ type Props = {
 const Stat = ({
 	title,
 	value,
-	rate
+	rate,
+	icon
 }: {
 	title: string
 	value?: number
 	rate?: number
+	icon?: ReactNode
 }) => (
-	<div className='flex h-full flex-col justify-between'>
-		<Text view='secondary' size='s'>
+	<div className='flex h-full flex-col'>
+		<Text view='secondary' size='s' weight='medium' className='mb-3'>
 			{title}
 		</Text>
-		<div className='flex items-baseline justify-between'>
-			<Text size='3xl' weight='bold' view='primary'>
-				{value ?? 0}
-			</Text>
+		<div className='flex items-center justify-between'>
+			<div className='flex items-center gap-3'>
+				<div className='inline-flex h-12 w-12 items-center justify-center rounded-full border border-[var(--color-typo-brand)] bg-[#0071b2]/15'>
+					{icon}
+				</div>
+				<Text size='xl' weight='semibold' view='primary'>
+					{value ?? 0}
+				</Text>
+			</div>
 			{rate !== undefined && (
 				<Text size='l' view='secondary'>
 					{`${Math.round(rate * 1000) / 10} %`}
@@ -91,16 +100,21 @@ export function SummaryWidget({ dateRange }: Props) {
 	const metrics = [
 		{
 			title: 'Всего рассылок',
-			value: totals.campaignsTotal
+			value: totals.campaignsTotal,
+			icon: (
+				<DistributionOutline className='h-6 w-6 text-[var(--color-typo-brand)]' />
+			)
 		},
 		{
 			title: 'Отправлено писем',
-			value: totals.recipients
+			value: totals.recipients,
+			icon: <MailAll className='h-6 w-6 text-[var(--color-typo-brand)]' />
 		},
 		{
 			title: 'Доставлено',
 			value: totals.sent,
-			rate: rates.deliveryRate
+			rate: rates.deliveryRate,
+			icon: <EmailNew className='h-6 w-6 text-[var(--color-typo-brand)]' />
 		},
 		{
 			title: 'Открыто',
@@ -131,12 +145,13 @@ export function SummaryWidget({ dateRange }: Props) {
 					<Card
 						verticalSpace='l'
 						horizontalSpace='l'
-						className='h-full !rounded-xl'
+						className='h-full !rounded-xl bg-[var(--color-bg-default)]'
 					>
 						<Stat
 							title={metric.title}
 							value={metric.value}
 							rate={metric.rate}
+							icon={metric.icon}
 						/>
 					</Card>
 				</GridItem>

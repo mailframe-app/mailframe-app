@@ -141,7 +141,7 @@ export function TimeseriesWidget({
 				<Text view='alert'>Не удалось загрузить данные для графика</Text>
 			)}
 			{!isLoading && !isError && !hasData && (
-				<div className='flex h-[280px] flex-col items-center justify-center gap-4'>
+				<div className='flex h-[280px] flex-col items-center justify-center gap-4 text-[var(--color-typo-primary)]'>
 					<EmptyBox />
 					<Text view='secondary' size='s'>
 						За выбранный период нет данных для отображения

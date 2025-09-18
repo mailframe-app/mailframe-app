@@ -1,93 +1,140 @@
-import { DatePicker } from '@consta/uikit/DatePicker'
+import { Card } from '@consta/uikit/Card'
+import { ChoiceGroup } from '@consta/uikit/ChoiceGroup'
 import { Layout } from '@consta/uikit/Layout'
 import { Text } from '@consta/uikit/Text'
-import { subDays } from 'date-fns'
+import { format, isSameYear, startOfDay, subDays } from 'date-fns'
+import { ru } from 'date-fns/locale'
 import { useState } from 'react'
 
 import { ErrorsTopWidget } from './ui/ErrorsTopWidget'
+import { FunnelWidget } from './ui/FunnelWidget'
 import { SummaryWidget } from './ui/SummaryWidget'
 import { TimeseriesWidget } from './ui/TimeseriesWidget'
 
+type Period = 'День' | 'Неделя' | 'Месяц'
+
 function AnalyticsPage() {
 	const [dateRange, setDateRange] = useState<[Date, Date] | null>([
-		subDays(new Date(), 30),
+		subDays(new Date(), 7),
 		new Date()
 	])
 
-	const handleDateChange = (value: Date | null, index: 0 | 1) => {
-		const newRange: [Date | null, Date | null] = dateRange
-			? [...dateRange]
-			: [null, null]
-		newRange[index] = value
+	const periods: Period[] = ['День', 'Неделя', 'Месяц']
+	const [period, setPeriod] = useState<Period>('Неделя')
 
-		if (newRange[0] && newRange[1]) {
-			setDateRange(newRange as [Date, Date])
-		} else {
-			setDateRange(null)
+	const updateRangeForPeriod = (p: Period) => {
+		const today = startOfDay(new Date())
+		switch (p) {
+			case 'День':
+				setDateRange([today, today])
+				break
+			case 'Неделя':
+				setDateRange([subDays(today, 6), today])
+				break
+			case 'Месяц':
+				setDateRange([subDays(today, 29), today])
+				break
 		}
 	}
 
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='mb-4'>
-				<Text view='primary' size='3xl' weight='bold'>
-					Аналитика
-				</Text>
+			<div className='mb-7 flex items-center justify-between'>
+				<div className='flex flex-col'>
+					<Text
+						as='h1'
+						view='primary'
+						size='xl'
+						weight='semibold'
+						className='leading-6'
+					>
+						Аналитика
+					</Text>
+					<Text as='p' view='secondary' size='s'>
+						Выберите период и посмотрите статистику рассылок.
+					</Text>
+				</div>
+				<div className='flex items-center justify-center'>
+					<ChoiceGroup<Period>
+						items={periods}
+						value={period}
+						onChange={p => {
+							setPeriod(p)
+							updateRangeForPeriod(p)
+						}}
+						getItemLabel={item => item}
+						name='analytics-period'
+					/>
+				</div>
 			</div>
-			<div className='mb-8'>
-				<Text as='p' size='s' view='secondary' className='mb-2'>
-					Выбрать период
-				</Text>
-				<Layout direction='row' className='gap-4'>
-					<div className='w-40'>
-						<DatePicker
-							type='date'
-							value={dateRange?.[0]}
-							onChange={v => handleDateChange(v, 0)}
-							placeholder='ДД.ММ.ГГГГ'
-						/>
+			<Card
+				verticalSpace='xl'
+				horizontalSpace='xl'
+				className='mb-6 !rounded-xl bg-[var(--color-bg-default)]'
+			>
+				<div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
+					<div className='flex flex-col'>
+						<Text view='primary' size='l' weight='semibold'>
+							Сегодня
+						</Text>
+						{(() => {
+							const today = new Date()
+							const todayStr = format(today, "d MMMM yyyy 'года'", {
+								locale: ru
+							})
+							return (
+								<Text view='secondary' size='s'>
+									{todayStr}
+								</Text>
+							)
+						})()}
 					</div>
-					<div className='w-40'>
-						<DatePicker
-							type='date'
-							value={dateRange?.[1]}
-							onChange={v => handleDateChange(v, 1)}
-							placeholder='ДД.ММ.ГГГГ'
-						/>
+					<div className='flex flex-col items-end gap-1 text-right'>
+						<Text view='primary' size='l' weight='semibold'>
+							Выбранный период
+						</Text>
+						{(() => {
+							const today = new Date()
+							if (!dateRange) {
+								return (
+									<Text view='secondary' size='s'>
+										Не выбрано
+									</Text>
+								)
+							}
+							const [from, to] = dateRange
+							const sameYearFrom = isSameYear(from, today)
+							const sameYearTo = isSameYear(to, today)
+							const fromFmt = format(
+								from,
+								sameYearFrom ? 'd MMMM' : "d MMMM yyyy 'года'",
+								{ locale: ru }
+							)
+							const toFmt = format(
+								to,
+								sameYearTo ? "d MMMM yyyy 'года'" : "d MMMM yyyy 'года'",
+								{ locale: ru }
+							)
+							return (
+								<Text view='secondary' size='s'>
+									с {fromFmt} по {toFmt}
+								</Text>
+							)
+						})()}
 					</div>
-				</Layout>
-			</div>
-			<Text as='h3' view='primary' size='xl' weight='semibold' className='mb-8'>
-				Показатели рассылок
-			</Text>
+				</div>
+			</Card>
+
 			<SummaryWidget dateRange={dateRange} />
-			<Text as='h3' view='primary' size='xl' weight='semibold' className='my-8'>
-				График активности подписчиков
-			</Text>
-			<TimeseriesWidget dateRange={dateRange} />
-			{/* <Text
-						as='h3'
-						view='primary'
-						size='xl'
-						weight='semibold'
-						className='my-8'
-					>
-						Воронка конверсии
-					</Text>
+			<div className='mb-6' />
+			<TimeseriesWidget
+				dateRange={dateRange}
+				bucket={period === 'День' ? 'day' : undefined}
+			/>
+			<div className='mb-6' />
 			<FunnelWidget dateRange={dateRange} />
-			<Text
-						as='h3'
-						view='primary'
-						size='xl'
-						weight='semibold'
-						className='my-8'
-					>
-						Распределение вовлеченности
-					</Text>
-			<EngagementWidget /> */}
-			<Text as='h3' view='primary' size='xl' weight='semibold' className='my-8'>
-				Ошибки доставки
-			</Text>
+			{/* <EngagementWidget /> */}
+			<div className='mb-6' />
 			<ErrorsTopWidget dateRange={dateRange} />
 		</Layout>
 	)

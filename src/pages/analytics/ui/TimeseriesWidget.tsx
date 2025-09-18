@@ -1,4 +1,4 @@
-import { Line } from '@consta/charts/Line'
+import { Column } from '@consta/charts/Column'
 import { Card } from '@consta/uikit/Card'
 import { SkeletonBrick } from '@consta/uikit/Skeleton'
 import { Text } from '@consta/uikit/Text'
@@ -6,6 +6,7 @@ import { useQueries } from '@tanstack/react-query'
 import { format, formatISO, parseISO } from 'date-fns'
 import { useMemo } from 'react'
 
+import EmptyBox from './EmptyBox'
 import {
 	type TimeseriesBucket,
 	type TimeseriesMetric,
@@ -33,12 +34,14 @@ export function TimeseriesWidget({
 	const params = useMemo(() => {
 		if (!dateRange) return undefined
 		return {
-			from: formatISO(dateRange[0]),
-			to: formatISO(dateRange[1]),
+			from:
+				formatISO(dateRange[0], { representation: 'date' }) + 'T00:00:00.000Z',
+			to:
+				formatISO(dateRange[1], { representation: 'date' }) + 'T23:59:59.999Z',
 			bucket,
 			campaignId
 		}
-	}, [dateRange, campaignId, bucket])
+	}, [dateRange?.[0]?.getTime(), dateRange?.[1]?.getTime(), bucket, campaignId])
 
 	const results = useQueries({
 		queries: metrics.map(metric => ({
@@ -87,25 +90,72 @@ export function TimeseriesWidget({
 	const hasData = useMemo(() => chartData.length > 0, [chartData])
 
 	return (
-		<Card verticalSpace='xl' horizontalSpace='xl' className='!rounded-xl'>
-			{isLoading && <SkeletonBrick height={300} />}
+		<Card
+			verticalSpace='xl'
+			horizontalSpace='xl'
+			className='!rounded-xl bg-[var(--color-bg-default)]'
+		>
+			<div className='mb-5 flex flex-col items-center justify-between gap-2 xl:flex-row'>
+				<Text as='h2' view='primary' size='xl' weight='semibold'>
+					Статистика отправки
+				</Text>
+				{!isLoading && !isError && hasData && (
+					<div className='flex items-center gap-4'>
+						{metrics.map((metric, index) => {
+							const colors = ['#588AEF', '#58CFA0', '#5A6C8D']
+							return (
+								<div key={metric} className='flex items-center gap-2'>
+									<div
+										className='h-3 w-3 rounded-full'
+										style={{
+											backgroundColor: colors[index]
+										}}
+									/>
+									<Text view='secondary' size='s'>
+										{metricLabels[metric]}
+									</Text>
+								</div>
+							)
+						})}
+					</div>
+				)}
+			</div>
+			{isLoading && (
+				<div className='flex h-[280px] flex-col gap-4'>
+					<div className='flex flex-1 items-end justify-between px-4 pb-4'>
+						{[1, 2, 3, 4, 5, 6].map(i => (
+							<div key={i} className='flex flex-col items-center gap-2'>
+								<div className='flex items-end gap-1'>
+									<SkeletonBrick height={80} width={20} />
+									<SkeletonBrick height={60} width={20} />
+									<SkeletonBrick height={40} width={20} />
+								</div>
+								<SkeletonBrick height={12} width={30} />
+							</div>
+						))}
+					</div>
+				</div>
+			)}
 			{isError && (
 				<Text view='alert'>Не удалось загрузить данные для графика</Text>
 			)}
 			{!isLoading && !isError && !hasData && (
-				<div className='flex h-[300px] items-center justify-center'>
+				<div className='flex h-[280px] flex-col items-center justify-center gap-4 text-[var(--color-typo-primary)]'>
+					<EmptyBox />
 					<Text view='secondary' size='s'>
 						За выбранный период нет данных для отображения
 					</Text>
 				</div>
 			)}
 			{!isLoading && !isError && hasData && (
-				<div className='h-[300px]'>
-					<Line
+				<div className='h-[280px]'>
+					<Column
 						data={chartData}
+						legend={false}
 						xField='t'
 						yField='value'
 						seriesField='metric'
+						isGroup
 						meta={{
 							t: { alias: 'Период' },
 							value: { alias: 'Количество' }

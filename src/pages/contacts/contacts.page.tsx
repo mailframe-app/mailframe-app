@@ -53,17 +53,29 @@ function ContactsPage() {
 	}
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='flex items-center justify-between'>
-				<Text size='3xl' view='primary' weight='bold'>
-					Контакты
-				</Text>
-				<div className='flex items-center gap-2'>
+			<div className='mb-7 flex items-center justify-between'>
+				<div className='flex flex-col'>
+					<Text
+						as='h1'
+						view='primary'
+						size='xl'
+						weight='semibold'
+						className='leading-6'
+					>
+						Контакты
+					</Text>
+					<Text as='p' view='secondary' size='s'>
+						Управляйте контактами и группами контактов.
+					</Text>
+				</div>
+				<div className='flex items-center gap-3'>
 					{activeTab === 'all' ? (
 						<>
 							<Button
 								onlyIcon
 								iconLeft={IconKebab}
-								view='ghost'
+								view='clear'
+								className='!border !border-[var(--color-control-bg-border-default)]'
 								size='m'
 								ref={settingsButtonRef}
 								onClick={() => setIsMenuOpen(true)}
@@ -99,7 +111,7 @@ function ContactsPage() {
 				</div>
 			</div>
 
-			<div className='children-border-b-0 mt-8 w-full'>
+			<div className='children-border-b-0 w-full'>
 				<Tabs
 					items={TABS}
 					value={TABS.find(tab => tab.id === activeTab)}

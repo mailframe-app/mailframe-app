@@ -41,34 +41,45 @@ function CreateContactsPage() {
 	const { openImportHistoryModal } = useImportHistoryModal()
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='flex items-center justify-between gap-2 py-3'>
-				<div className='flex items-center gap-4'>
-					<Button
-						onlyIcon
-						view='ghost'
-						iconLeft={IconBackward}
-						onClick={() => navigate(PRIVATE_ROUTES.CONTACTS)}
-						className='cursor-pointer'
-					/>
-					<Text size='3xl' weight='bold' view='primary'>
-						Добавление нового контакта
+			<div className='mb-7 flex items-center justify-between'>
+				<div className='flex flex-col'>
+					<Text
+						as='h1'
+						view='primary'
+						size='xl'
+						weight='semibold'
+						className='leading-6'
+					>
+						Добавление контактов
+					</Text>
+					<Text as='p' view='secondary' size='s'>
+						Добавьте контакты вручную или импортируйте их из файла.
 					</Text>
 				</div>
-				{activeTab.id === 'manual' ? (
+				<div className='flex items-center gap-3'>
 					<Button
-						view='primary'
-						label='Быстрый контакт'
-						onClick={openCreateContactModal}
+						view='clear'
+						label='Назад'
+						iconLeft={IconBackward}
+						onClick={() => navigate(PRIVATE_ROUTES.CONTACTS)}
+						className='cursor-pointer !border !border-[var(--color-control-bg-border-default)]'
 					/>
-				) : (
-					<Button
-						view='primary'
-						label='История импорта'
-						onClick={openImportHistoryModal}
-					/>
-				)}
+					{activeTab.id === 'manual' ? (
+						<Button
+							view='primary'
+							label='Быстрый контакт'
+							onClick={openCreateContactModal}
+						/>
+					) : (
+						<Button
+							view='primary'
+							label='История импорта'
+							onClick={openImportHistoryModal}
+						/>
+					)}
+				</div>
 			</div>
-			<div className='children-border-b-0 mt-2 w-full'>
+			<div className='children-border-b-0 w-full'>
 				<Tabs
 					items={tabs}
 					value={activeTab}

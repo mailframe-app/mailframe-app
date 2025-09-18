@@ -21,22 +21,45 @@ type Props = {
 const Stat = ({
 	title,
 	value,
-	rate,
-	icon
+	icon,
+	color
 }: {
 	title: string
 	value?: number
-	rate?: number
 	icon?: React.ReactNode
+	color?: string
 }) => (
 	<div className='flex h-full flex-col justify-between'>
-		<Text view='secondary' size='s' weight='medium' className='mb-3'>
+		<div className='flex items-center gap-3'>
+			<div
+				className={`inline-flex h-12 w-12 items-center justify-center rounded-full border`}
+				style={{ borderColor: `var(${color})` }}
+			>
+				<div
+					className={`rounded-full p-2`}
+					style={{
+						backgroundColor: `color-mix(in srgb, var(${color}) 20%, transparent)`
+					}}
+				>
+					{icon}
+				</div>
+			</div>
+			<div className='flex flex-col'>
+				<Text size='s' weight='semibold' view='secondary'>
+					{title}
+				</Text>
+				<Text size='xl' weight='semibold' view='primary'>
+					{value ?? 0}
+				</Text>
+			</div>
+		</div>
+
+		{/* <Text view='secondary' size='s' weight='medium' className='mb-3'>
 			{title}
 		</Text>
 		<div className='flex items-center justify-between'>
 			<div className='flex items-center gap-3'>
 				<div className='inline-flex h-12 w-12 items-center justify-center rounded-full border border-[var(--color-typo-brand)] bg-[#0071b2]/15'>
-					{/* bg-[#0071b2]/25 */}
 					{icon}
 				</div>
 				<Text size='xl' weight='semibold' view='primary'>
@@ -48,7 +71,7 @@ const Stat = ({
 					{`${Math.round(rate * 1000) / 10} %`}
 				</Text>
 			)}
-		</div>
+		</div> */}
 	</div>
 )
 
@@ -112,29 +135,39 @@ export function SummaryWidget({ dateRange }: Props) {
 
 	const { totals, rates } = data
 
-	const metrics = [
+	const metrics: Array<{
+		title: string
+		value: number
+		icon: React.ReactNode
+		rate?: number
+		color?: string
+	}> = [
 		{
-			title: 'Создано рассылок',
+			title: 'Количество рассылок',
 			value: totals.campaignsTotal,
+			color: '--color-typo-brand',
 			icon: (
 				<DistributionOutline className='h-6 w-6 text-[var(--color-typo-brand)]' />
 			)
 		},
 		{
-			title: 'Добавлено контактов',
+			title: 'Количество контактов',
 			value: totals.contactsTotal,
-			icon: <UserAdmin className='h-6 w-6 text-[var(--color-typo-brand)]' />
+			color: '--color-bg-caution',
+			icon: <UserAdmin className='h-6 w-6 text-[var(--color-bg-caution)]' />
 		},
 		{
 			title: 'Отправлено писем',
 			value: totals.recipients,
-			icon: <MailAll className='h-6 w-6 text-[var(--color-typo-brand)]' />
+			color: '--color-bg-contact',
+			icon: <MailAll className='h-6 w-6 text-[var(--color-bg-contact)]' />
 		},
 		{
 			title: 'Доставлено писем',
 			value: totals.sent,
 			rate: rates.deliveryRate,
-			icon: <EmailNew className='h-6 w-6 text-[var(--color-typo-brand)]' />
+			color: '--color-bg-success',
+			icon: <EmailNew className='h-6 w-6 text-[var(--color-bg-success)]' />
 		}
 	]
 
@@ -150,8 +183,8 @@ export function SummaryWidget({ dateRange }: Props) {
 					<Stat
 						title={metric.title}
 						value={metric.value}
-						rate={metric.rate}
 						icon={metric.icon}
+						color={metric.color}
 					/>
 				</Card>
 			))}

@@ -202,3 +202,8 @@
 	right: -16px;
 	background-color: #b8cad5;
 }
+
+/* custom app colors */
+:root {
+	--color-bg-contact: #588aef;
+}

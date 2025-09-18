@@ -180,10 +180,21 @@ function CampaignsPage() {
 
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='mb-8 flex items-center justify-between'>
-				<Text view='primary' size='3xl' weight='bold'>
-					Рассылки
-				</Text>
+			<div className='mb-7 flex items-center justify-between'>
+				<div className='flex flex-col'>
+					<Text
+						as='h1'
+						view='primary'
+						size='xl'
+						weight='semibold'
+						className='leading-6'
+					>
+						Рассылки
+					</Text>
+					<Text as='p' view='secondary' size='s'>
+						Создавайте и управляйте рассылками.
+					</Text>
+				</div>
 				<Button
 					label='Создать рассылку'
 					view='primary'

@@ -9,6 +9,7 @@ import { useMemo } from 'react'
 import { formatDate } from '@/shared/lib/formatDate'
 import { buildHeader } from '@/shared/ui/Table'
 
+import EmptyBox from './EmptyBox'
 import { errorsTopQuery } from '@/entities/analytics'
 
 type Props = {
@@ -71,7 +72,20 @@ export function ErrorsTopWidget({ dateRange }: Props) {
 
 	if (isLoading) {
 		return (
-			<Card verticalSpace='xl' horizontalSpace='xl' className='!rounded-xl'>
+			<Card
+				verticalSpace='xl'
+				horizontalSpace='xl'
+				className='!rounded-xl bg-[var(--color-bg-default)]'
+			>
+				<Text
+					as='h2'
+					view='primary'
+					size='xl'
+					weight='semibold'
+					className='mb-4'
+				>
+					Ошибки доставки
+				</Text>
 				<SkeletonBrick height={300} />
 			</Card>
 		)
@@ -79,7 +93,20 @@ export function ErrorsTopWidget({ dateRange }: Props) {
 
 	if (isError) {
 		return (
-			<Card verticalSpace='xl' horizontalSpace='xl' className='!rounded-xl'>
+			<Card
+				verticalSpace='xl'
+				horizontalSpace='xl'
+				className='!rounded-xl bg-[var(--color-bg-default)]'
+			>
+				<Text
+					as='h2'
+					view='primary'
+					size='xl'
+					weight='semibold'
+					className='mb-4'
+				>
+					Ошибки доставки
+				</Text>
 				<Text view='alert'>Не удалось загрузить данные об ошибках</Text>
 			</Card>
 		)
@@ -87,8 +114,22 @@ export function ErrorsTopWidget({ dateRange }: Props) {
 
 	if (!data || data.items.length === 0) {
 		return (
-			<Card verticalSpace='xl' horizontalSpace='xl' className='!rounded-xl'>
-				<div className='flex h-[300px] items-center justify-center'>
+			<Card
+				verticalSpace='xl'
+				horizontalSpace='xl'
+				className='!rounded-xl bg-[var(--color-bg-default)]'
+			>
+				<Text
+					as='h2'
+					view='primary'
+					size='xl'
+					weight='semibold'
+					className='mb-4'
+				>
+					Ошибки доставки
+				</Text>
+				<div className='flex h-[300px] flex-col items-center justify-center gap-4 text-[var(--color-typo-primary)]'>
+					<EmptyBox />
 					<Text view='secondary' size='s'>
 						За выбранный период нет данных об ошибках
 					</Text>
@@ -98,7 +139,14 @@ export function ErrorsTopWidget({ dateRange }: Props) {
 	}
 
 	return (
-		<Card verticalSpace='xl' horizontalSpace='xl' className='!rounded-xl'>
+		<Card
+			verticalSpace='xl'
+			horizontalSpace='xl'
+			className='!rounded-xl bg-[var(--color-bg-default)]'
+		>
+			<Text as='h2' view='primary' size='xl' weight='semibold' className='mb-4'>
+				Ошибки доставки
+			</Text>
 			<div className=''>
 				<Table
 					rows={data.items}
