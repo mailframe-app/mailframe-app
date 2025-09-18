@@ -6,7 +6,16 @@ import { useQuery } from '@tanstack/react-query'
 import { formatISO } from 'date-fns'
 import { type ReactNode, useMemo } from 'react'
 
-import { DistributionOutline, EmailNew, MailAll } from '@/shared/ui/MailIcons'
+import {
+	DistributionOutline,
+	EmailNew,
+	MailAlert,
+	MailAll,
+	MailCheck,
+	MailReply,
+	MailUnsub,
+	UserAdmin
+} from '@/shared/ui/MailIcons'
 
 import { summaryQuery } from '@/entities/analytics'
 
@@ -18,12 +27,14 @@ const Stat = ({
 	title,
 	value,
 	rate,
-	icon
+	icon,
+	color
 }: {
 	title: string
 	value?: number
 	rate?: number
 	icon?: ReactNode
+	color?: string
 }) => (
 	<div className='flex h-full flex-col'>
 		<Text view='secondary' size='s' weight='medium' className='mb-3'>
@@ -31,8 +42,18 @@ const Stat = ({
 		</Text>
 		<div className='flex items-center justify-between'>
 			<div className='flex items-center gap-3'>
-				<div className='inline-flex h-12 w-12 items-center justify-center rounded-full border border-[var(--color-typo-brand)] bg-[#0071b2]/15'>
-					{icon}
+				<div
+					className={`inline-flex h-12 w-12 items-center justify-center rounded-full border`}
+					style={{ borderColor: `var(${color})` }}
+				>
+					<div
+						className={`rounded-full p-2`}
+						style={{
+							backgroundColor: `color-mix(in srgb, var(${color}) 20%, transparent)`
+						}}
+					>
+						{icon}
+					</div>
 				</div>
 				<Text size='xl' weight='semibold' view='primary'>
 					{value ?? 0}
@@ -99,42 +120,59 @@ export function SummaryWidget({ dateRange }: Props) {
 
 	const metrics = [
 		{
-			title: 'Всего рассылок',
+			title: 'Количество рассылок',
 			value: totals.campaignsTotal,
+			color: '--color-typo-brand',
 			icon: (
 				<DistributionOutline className='h-6 w-6 text-[var(--color-typo-brand)]' />
 			)
 		},
 		{
-			title: 'Отправлено писем',
-			value: totals.recipients,
-			icon: <MailAll className='h-6 w-6 text-[var(--color-typo-brand)]' />
+			title: 'Количество контактов',
+			value: totals.contactsTotal,
+			color: '--color-bg-caution',
+			icon: <UserAdmin className='h-6 w-6 text-[var(--color-bg-caution)]' />
 		},
 		{
-			title: 'Доставлено',
+			title: 'Отправлено писем',
+			value: totals.recipients,
+			color: '--color-typo-brand',
+			icon: <MailAll className='h-6 w-6 text-[var(--color-bg-brand)]' />
+		},
+		{
+			title: 'Доставлено писем',
 			value: totals.sent,
 			rate: rates.deliveryRate,
-			icon: <EmailNew className='h-6 w-6 text-[var(--color-typo-brand)]' />
+			color: '--color-bg-contact',
+			icon: <EmailNew className='h-6 w-6 text-[var(--color-bg-contact)]' />
 		},
 		{
 			title: 'Открыто',
 			value: totals.opens,
-			rate: rates.openRate
+			rate: rates.openRate,
+			color: '--color-typo-success',
+			icon: <MailCheck className='h-6 w-6 text-[var(--color-typo-success)]' />
 		},
 		{
 			title: 'Переходы по ссылкам',
 			value: totals.clicks,
-			rate: rates.clickToOpen
+			rate: rates.clickToOpen,
+			color: '--color-typo-brand',
+			icon: <MailReply className='h-6 w-6 text-[var(--color-typo-brand)]' />
 		},
 		{
 			title: 'Отписалось',
 			value: totals.unsubs,
-			rate: rates.unsubRate
+			rate: rates.unsubRate,
+			color: '--color-typo-warning',
+			icon: <MailUnsub className='h-6 w-6 text-[var(--color-typo-warning)]' />
 		},
 		{
 			title: 'Ошибки',
 			value: totals.failed,
-			rate: rates.failRate
+			rate: rates.failRate,
+			icon: <MailAlert className='h-6 w-6 text-[var(--color-bg-alert)]' />,
+			color: '--color-bg-alert'
 		}
 	]
 
@@ -152,6 +190,7 @@ export function SummaryWidget({ dateRange }: Props) {
 							value={metric.value}
 							rate={metric.rate}
 							icon={metric.icon}
+							color={metric.color}
 						/>
 					</Card>
 				</GridItem>

@@ -63,3 +63,77 @@ export const DistributionOutline = (props: React.SVGProps<SVGSVGElement>) => (
 		></path>
 	</svg>
 )
+
+export const MailCheck = (props: React.SVGProps<SVGSVGElement>) => (
+	<svg
+		xmlns='http://www.w3.org/2000/svg'
+		width='1em'
+		height='1em'
+		viewBox='0 0 24 24'
+		{...props}
+	>
+		<g
+			fill='none'
+			stroke='currentColor'
+			strokeLinecap='round'
+			strokeLinejoin='round'
+			strokeWidth='2'
+		>
+			<path d='M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8'></path>
+			<path d='m22 7l-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7m14 12l2 2l4-4'></path>
+		</g>
+	</svg>
+)
+
+export const MailReply = (props: React.SVGProps<SVGSVGElement>) => (
+	<svg
+		xmlns='http://www.w3.org/2000/svg'
+		width='1em'
+		height='1em'
+		viewBox='0 0 32 32'
+		{...props}
+	>
+		<path
+			fill='currentColor'
+			d='m25 18l-1.414 1.414L26.167 22H18a4 4 0 0 0 0 8h2v-2h-2a2 2 0 0 1 0-4h8.167l-2.583 2.587L25 28l5-5Z'
+		></path>
+		<path
+			fill='currentColor'
+			d='M10 22H4L3.997 6.906l11.434 7.916a1 1 0 0 0 1.138 0L28 6.91V16h2V6a2.002 2.002 0 0 0-2-2H4a2 2 0 0 0-2 1.997V22a2.003 2.003 0 0 0 2 2h6ZM25.799 6L16 12.784L6.201 6Z'
+		></path>
+	</svg>
+)
+
+export const MailUnsub = (props: React.SVGProps<SVGSVGElement>) => (
+	<svg
+		xmlns='http://www.w3.org/2000/svg'
+		width='1em'
+		height='1em'
+		viewBox='0 0 32 32'
+		{...props}
+	>
+		<path
+			fill='none'
+			stroke='currentColor'
+			strokeLinecap='round'
+			strokeLinejoin='round'
+			strokeWidth='2'
+			d='M29 9v7m0-7c0-1-1-2-2-2H5C4 7 3 8 3 9m26 0l-11.862 8.212a2 2 0 0 1-2.276 0L3 9m13 16H5c-1 0-2-1-2-2V9m18 17l6-6m2 3a5 5 0 1 1-10 0a5 5 0 0 1 10 0Z'
+		></path>
+	</svg>
+)
+
+export const MailAlert = (props: React.SVGProps<SVGSVGElement>) => (
+	<svg
+		xmlns='http://www.w3.org/2000/svg'
+		width='1em'
+		height='1em'
+		viewBox='0 0 2048 2048'
+		{...props}
+	>
+		<path
+			fill='currentColor'
+			d='M2048 384v684q-55-79-128-139V648l-282 140q-41-9-82-14t-84-6q-23 0-46 2t-47 5l526-263H143l864 432q-25 23-48 47t-43 50L128 648v888h643q3 32 9 64t15 64H0V384h2048zm-576 512q119 0 224 45t183 124t123 183t46 224q0 119-45 224t-124 183t-183 123t-224 46q-119 0-224-45t-183-124t-123-183t-46-224q0-119 45-224t124-183t183-123t224-46zm0 1024q93 0 174-35t142-96t96-142t36-175q0-93-35-174t-96-142t-142-96t-175-36q-93 0-174 35t-142 96t-96 142t-36 175q0 93 35 174t96 142t142 96t175 36zm-64-768h128v384h-128v-384zm0 512h128v128h-128v-128z'
+		></path>
+	</svg>
+)

@@ -8,7 +8,6 @@ import { useState } from 'react'
 
 import { ErrorsTopWidget } from './ui/ErrorsTopWidget'
 import { FunnelWidget } from './ui/FunnelWidget'
-import { SummaryWidget } from './ui/SummaryWidget'
 import { TimeseriesWidget } from './ui/TimeseriesWidget'
 
 type Period = 'День' | 'Неделя' | 'Месяц'
@@ -125,8 +124,8 @@ function AnalyticsPage() {
 				</div>
 			</Card>
 
-			<SummaryWidget dateRange={dateRange} />
-			<div className='mb-6' />
+			{/* <SummaryWidget dateRange={dateRange} />
+			<div className='mb-6' /> */}
 			<TimeseriesWidget
 				dateRange={dateRange}
 				bucket={period === 'День' ? 'day' : undefined}
