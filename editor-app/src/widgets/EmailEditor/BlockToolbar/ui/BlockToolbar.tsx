@@ -1,4 +1,12 @@
-import { Copy, GripVertical, Save, Trash2 } from 'lucide-react'
+import {
+	ArrowLeftRight,
+	ClipboardCheck,
+	ClipboardPlus,
+	Copy,
+	GripVertical,
+	Save,
+	Trash2
+} from 'lucide-react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -23,6 +31,16 @@ interface BlockToolbarProps {
 	onOverlayClick: (e: React.MouseEvent) => void
 	onMouseEnter: () => void
 	onMouseLeave: (e: React.MouseEvent) => void
+
+	// операции с содержимым блока
+	onCopyContent?: (e: React.MouseEvent) => void
+	onCutContent?: (e: React.MouseEvent) => void
+	onPasteAppend?: (e: React.MouseEvent) => void
+	onPasteReplace?: (e: React.MouseEvent) => void
+	onPasteMove?: (e: React.MouseEvent) => void
+	onSwapWithSource?: (e: React.MouseEvent) => void
+	canPaste?: boolean
+	canSwap?: boolean
 }
 
 export const BlockToolbar = ({
@@ -40,7 +58,14 @@ export const BlockToolbar = ({
 	onSave,
 	onOverlayClick,
 	onMouseEnter,
-	onMouseLeave
+	onMouseLeave,
+	onCopyContent,
+	onPasteAppend,
+	onPasteReplace,
+	onPasteMove,
+	onSwapWithSource,
+	canPaste = false,
+	canSwap = false
 }: BlockToolbarProps) => {
 	return (
 		<>
@@ -56,10 +81,11 @@ export const BlockToolbar = ({
 				ReactDOM.createPortal(
 					<div
 						ref={actionsRef}
-						className='block-toolbar-actions fixed z-10 flex'
+						className='block-toolbar-actions fixed z-10 flex gap-1'
 						onMouseEnter={onMouseEnter}
 						onMouseLeave={onMouseLeave}
 					>
+						{/* Перетаскивание / Сохранить / Копия узла / Удалить */}
 						<PanelButton
 							title='Переместить'
 							ref={dragRef}
@@ -70,16 +96,62 @@ export const BlockToolbar = ({
 						>
 							<GripVertical size={16} />
 						</PanelButton>
+
 						<PanelButton title='Сохранить' onClick={onSave}>
 							<Save size={16} />
 						</PanelButton>
-						<PanelButton title='Копировать' onClick={onCopy}>
+
+						<PanelButton title='Копировать узел' onClick={onCopy}>
 							<Copy size={16} />
 						</PanelButton>
+
 						{deletable && (
 							<PanelButton title='Удалить' onClick={onDelete}>
 								<Trash2 size={16} />
 							</PanelButton>
+						)}
+
+						{/* Контент блока */}
+						{onCopyContent && (
+							<>
+								<span className='mx-1 h-4 w-px self-center bg-gray-200' />
+
+								<PanelButton title='Копировать содержимое' onClick={onCopyContent}>
+									<Copy size={16} />
+								</PanelButton>
+
+								<PanelButton
+									title='Вставить (добавить)'
+									onClick={onPasteAppend}
+									disabled={!canPaste}
+								>
+									<ClipboardPlus size={16} />
+								</PanelButton>
+
+								<PanelButton
+									title='Заменить содержимое'
+									onClick={onPasteReplace}
+									disabled={!canPaste}
+								>
+									<ClipboardCheck size={16} />
+								</PanelButton>
+
+								<PanelButton
+									title='Перенести сюда (вырезать из источника)'
+									onClick={onPasteMove}
+									disabled={!canPaste}
+								>
+									<ClipboardCheck size={16} />
+								</PanelButton>
+
+								<PanelButton
+									title='Поменять содержимое местами с источником'
+									onClick={onSwapWithSource}
+									disabled={!canSwap}
+								>
+									<ArrowLeftRight size={16} />
+								</PanelButton>
+							</>
 						)}
 					</div>,
 					document.body

@@ -2,6 +2,7 @@ import { useEditor, useNode } from '@craftjs/core'
 import type { DragEvent, MouseEvent } from 'react'
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
+import { useBlockTransfer } from '@/features/BlockTransfer'
 import { copyNode, useSaveNodeFeature } from '@/features/NodeActions'
 
 export const useBlockToolbar = () => {
@@ -146,6 +147,53 @@ export const useBlockToolbar = () => {
 		[drag]
 	)
 
+	// интеграция переноса содержимого блока
+	const { copyFromBlock, pasteIntoBlock, hasClipboard, getClipboardInfo } = useBlockTransfer()
+
+	const handleCopyContent = useCallback(
+		(e: MouseEvent) => {
+			e.stopPropagation()
+			copyFromBlock(id)
+		},
+		[copyFromBlock, id]
+	)
+
+	const handlePasteAppend = useCallback(
+		(e: MouseEvent) => {
+			e.stopPropagation()
+			pasteIntoBlock(id, 'append')
+		},
+		[pasteIntoBlock, id]
+	)
+
+	const handlePasteReplace = useCallback(
+		(e: MouseEvent) => {
+			e.stopPropagation()
+			pasteIntoBlock(id, 'replace')
+		},
+		[pasteIntoBlock, id]
+	)
+
+	const handlePasteMove = useCallback(
+		(e: MouseEvent) => {
+			e.stopPropagation()
+			pasteIntoBlock(id, 'move')
+		},
+		[pasteIntoBlock, id]
+	)
+
+	const handleSwapWithClipboardSource = useCallback(
+		(e: MouseEvent) => {
+			e.stopPropagation()
+			pasteIntoBlock(id, 'swap')
+		},
+		[pasteIntoBlock, id]
+	)
+
+	const clip = getClipboardInfo()
+	const canPaste = hasClipboard()
+	const canSwap = !!clip.sourceBlockId && canPaste && clip.sourceBlockId !== id
+
 	return {
 		id,
 		deletable,
@@ -162,6 +210,14 @@ export const useBlockToolbar = () => {
 		handleSave,
 		handleOverlayClick,
 		handleMouseEnter,
-		handleMouseLeave
+		handleMouseLeave,
+
+		canPaste,
+		canSwap,
+		handleCopyContent,
+		handlePasteAppend,
+		handlePasteReplace,
+		handlePasteMove,
+		handleSwapWithClipboardSource
 	}
 }
