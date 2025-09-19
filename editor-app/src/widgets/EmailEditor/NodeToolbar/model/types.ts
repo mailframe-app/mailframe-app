@@ -42,6 +42,7 @@ export type PanelButtonProps = {
 	onClick?: (e: React.MouseEvent) => void
 	onDragStart?: (e: React.DragEvent) => void
 	className?: string
+	disabled?: boolean
 } & React.HTMLAttributes<HTMLButtonElement>
 
 export type RenderNodeProps = {

@@ -2,6 +2,8 @@ import type { UserComponent } from '@craftjs/core'
 import { useNode } from '@craftjs/core'
 import { Upload } from 'lucide-react'
 
+import { MjmlSection } from '../MjmlSection'
+
 import type { ContainerProps, PaddingObject } from './Container.types'
 
 function getPaddingString(p: PaddingObject) {
@@ -110,6 +112,14 @@ Container.craft = {
 	},
 	name: 'Container',
 	rules: {
-		canMoveIn: () => true
+		canMoveIn: (incoming: unknown | unknown[]) => {
+			type RuleNode = { data?: { type?: unknown; displayName?: string } }
+			const isSection = (n: RuleNode) =>
+				n?.data?.type === MjmlSection || n?.data?.displayName === 'Сетки'
+			const items: RuleNode[] = Array.isArray(incoming)
+				? (incoming as RuleNode[])
+				: [incoming as RuleNode]
+			return items.every(isSection)
+		}
 	}
 }

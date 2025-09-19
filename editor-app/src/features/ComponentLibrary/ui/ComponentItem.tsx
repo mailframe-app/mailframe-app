@@ -47,7 +47,7 @@ export const ComponentItem: React.FC<ComponentItemProps> = ({
 	const buildFinalElement = (rawEl: React.ReactElement): React.ReactElement => {
 		const resolvedType = resolveType(rawEl) as React.ElementType
 		const plain = normalizeToPlainElement(rawEl)
-		return <Element is={resolvedType} {...(plain.props as {})} canvas={isCanvas} />
+		return <Element is={resolvedType} {...(plain.props as object)} canvas={isCanvas} />
 	}
 
 	const DRAG_ICON_PX = 16

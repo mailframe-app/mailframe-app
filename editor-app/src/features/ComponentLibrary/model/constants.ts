@@ -1,6 +1,6 @@
 import { IconArrowUp } from '@consta/icons/IconArrowUp'
 import { IconArtBrush } from '@consta/icons/IconArtBrush'
-import { IconCards } from '@consta/icons/IconCards'
+// import { IconCards } from '@consta/icons/IconCards'
 import { IconColumns } from '@consta/icons/IconColumns'
 import { IconPanelBottom } from '@consta/icons/IconPanelBottom'
 import { IconPhoto } from '@consta/icons/IconPhoto'
@@ -36,12 +36,12 @@ export const COMPONENTS: ComponentConfig[] = [
 			React.createElement(Element, { is: MjmlBlock, canvas: true })
 		)
 	},
-	{
-		icon: IconCards,
-		title: 'Блок',
-		component: MjmlBlock,
-		isCanvas: true
-	},
+	// {
+	// 	icon: IconCards,
+	// 	title: 'Блок',
+	// 	component: MjmlBlock,
+	// 	isCanvas: true
+	// },
 	{
 		icon: IconType,
 		title: 'Текст',

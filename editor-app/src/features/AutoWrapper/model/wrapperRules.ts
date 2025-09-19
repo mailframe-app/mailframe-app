@@ -16,13 +16,11 @@ export const shouldWrapNode = (
 	nodeName: string,
 	parentName: string
 ): keyof typeof WrapType | null => {
-	if (parentName === 'Container' && nodeName !== 'Сетки') {
-		if (nodeName === 'Блок') {
-			return 'SECTION_ONLY'
-		} else {
-			return 'SECTION_BLOCK'
-		}
+	// Единственный auto-wrap: Блок на верхнем уровне заворачиваем в Сетку
+	if (parentName === 'Container' && nodeName === 'Блок') {
+		return 'SECTION_ONLY'
 	}
+	// Все остальные случаи — не оборачиваем (кидать можно только в Блок)
 	return null
 }
 
