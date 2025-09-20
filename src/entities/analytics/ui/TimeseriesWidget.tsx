@@ -80,7 +80,6 @@ export function TimeseriesWidget({
 			}
 		})
 
-		// Сортируем точки по исходной дате для корректного отображения на графике
 		return allPoints.sort((a, b) => {
 			const dateA = parseISO(a.originalDate)
 			const dateB = parseISO(b.originalDate)

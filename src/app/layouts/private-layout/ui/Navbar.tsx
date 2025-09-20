@@ -3,8 +3,6 @@ import {
 	NavbarRail,
 	cnNavbarMixFadeAnimate
 } from '@consta/header/Navbar'
-import { IconArrowLeft } from '@consta/icons/IconArrowLeft'
-import { IconArrowRight } from '@consta/icons/IconArrowRight'
 import { Button } from '@consta/uikit/Button'
 import { Layout } from '@consta/uikit/Layout'
 import { useEffect, useRef, useState } from 'react'
@@ -18,6 +16,8 @@ import { BaseLogo } from '@/shared/ui'
 import { appMenuItems, logoutMenuItem } from '../lib/menu'
 import type { AppNavbarItem } from '../lib/types'
 import { useNavbarOpen } from '../model/use-navbar-open'
+
+import { ArrowMenuClose, ArrowMenuOpen } from './MenuIcon'
 
 interface PrivateLayoutNavbarProps {
 	navigate: NavigateFunction
@@ -198,7 +198,7 @@ export function PrivateLayoutNavbar({
 					view='clear'
 					form='defaultBrick'
 					onlyIcon
-					iconLeft={open ? IconArrowLeft : IconArrowRight}
+					iconLeft={open ? ArrowMenuClose : ArrowMenuOpen}
 					onClick={toggle}
 					className='!h-8 !w-6'
 				/>

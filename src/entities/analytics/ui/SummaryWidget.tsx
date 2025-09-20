@@ -53,25 +53,6 @@ const Stat = ({
 				</Text>
 			</div>
 		</div>
-
-		{/* <Text view='secondary' size='s' weight='medium' className='mb-3'>
-			{title}
-		</Text>
-		<div className='flex items-center justify-between'>
-			<div className='flex items-center gap-3'>
-				<div className='inline-flex h-12 w-12 items-center justify-center rounded-full border border-[var(--color-typo-brand)] bg-[#0071b2]/15'>
-					{icon}
-				</div>
-				<Text size='xl' weight='semibold' view='primary'>
-					{value ?? 0}
-				</Text>
-			</div>
-			{rate !== undefined && (
-				<Text size='l' view='secondary'>
-					{`${Math.round(rate * 1000) / 10} %`}
-				</Text>
-			)}
-		</div> */}
 	</div>
 )
 

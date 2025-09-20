@@ -61,6 +61,29 @@
 	min-width: 0;
 }
 
+.custom-toast-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.custom-toast-success .custom-toast-icon {
+	color: #24c38e;
+}
+
+.custom-toast-error .custom-toast-icon {
+	color: #fe4343;
+}
+
+.custom-toast-info .custom-toast-icon {
+	color: #0078d2;
+}
+
+.custom-toast-warning .custom-toast-icon {
+	color: #f59e0b;
+}
+
 .custom-toast-custom-dismiss {
 	color: var(--color-typo-primary) !important;
 	--button-color: var(--color-typo-primary);

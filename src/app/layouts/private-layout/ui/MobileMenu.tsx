@@ -76,7 +76,7 @@ export function MobileMenu({
 				</div>
 				<div className='text-center'>
 					<Text size='xs' view='secondary'>
-						Mailframe
+						Mailframe © 2025
 					</Text>
 				</div>
 			</div>
