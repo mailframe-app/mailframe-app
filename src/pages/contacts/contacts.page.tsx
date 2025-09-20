@@ -1,5 +1,5 @@
 import { IconAdd } from '@consta/icons/IconAdd'
-import { IconKebab } from '@consta/icons/IconKebab'
+import { IconBento } from '@consta/icons/IconBento'
 import { IconSettings } from '@consta/icons/IconSettings'
 import { IconTrash } from '@consta/icons/IconTrash'
 import { Button } from '@consta/uikit/Button'
@@ -71,10 +71,12 @@ function ContactsPage() {
 					{activeTab === 'all' ? (
 						<>
 							<Button
+								label='Меню'
 								onlyIcon
-								iconLeft={IconKebab}
+								iconSize='s'
+								iconLeft={IconBento}
 								view='clear'
-								className='!border !border-[var(--color-control-bg-border-default)]'
+								className='!hidden !border !border-[var(--color-bg-ghost)] md:!inline-flex'
 								size='m'
 								ref={settingsButtonRef}
 								onClick={() => setIsMenuOpen(true)}

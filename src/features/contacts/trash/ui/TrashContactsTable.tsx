@@ -52,7 +52,7 @@ export const TrashContactsTable: React.FC<TrashContactsTableProps> = ({
 		{
 			title: 'Email',
 			accessor: 'email',
-			width: 300,
+			width: 200,
 			renderCell: ({ row }: { row: any }) => (
 				<DataCell>
 					<Text size='m'>{row.email}</Text>
@@ -62,7 +62,7 @@ export const TrashContactsTable: React.FC<TrashContactsTableProps> = ({
 		{
 			title: 'Дата удаления',
 			accessor: 'deletedAt',
-			width: 200,
+			width: 250,
 			renderCell: ({ row }: { row: any }) => (
 				<DataCell>
 					<Text size='m'>{formatDate(row.deletedAt)}</Text>
@@ -72,7 +72,7 @@ export const TrashContactsTable: React.FC<TrashContactsTableProps> = ({
 		{
 			title: 'Действия',
 			accessor: 'actions',
-			width: 150,
+			width: 100,
 			renderCell: ({ row }: { row: any }) => (
 				<div className='flex items-center gap-2'>
 					<Button
@@ -139,12 +139,18 @@ export const TrashContactsTable: React.FC<TrashContactsTableProps> = ({
 	return (
 		<>
 			<TableWrapper>
-				<Table
-					rows={contacts}
-					columns={columns as any}
-					zebraStriped
-					getRowKey={row => row.id}
-				/>
+				<div className='overflow-x-auto'>
+					<div className='inline-block min-w-full align-middle'>
+						<div className='overflow-visible p-0.5'>
+							<Table
+								rows={contacts}
+								columns={columns as any}
+								zebraStriped
+								getRowKey={row => row.id}
+							/>
+						</div>
+					</div>
+				</div>
 			</TableWrapper>
 			<TablePagination
 				total={total}

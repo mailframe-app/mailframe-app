@@ -7,7 +7,7 @@ import {
 	type ContactListItemDto,
 	ContactStatus,
 	useContactFields
-} from '../../../../entities/contacts'
+} from '@/entities/contacts'
 
 interface ContactEditFormProps {
 	contact: ContactListItemDto

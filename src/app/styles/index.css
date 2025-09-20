@@ -181,9 +181,29 @@
 	color: var(--color-typo-primary) !important;
 }
 
-/* .ListItem.ListItem_active:hover {
-	border-radius: 16px;
-} */
+/* Убрать границы у фиксированных колонок */
+.ct--TableRowCell_pinned.ct--TableCell_borderRight,
+.ct--TableHeader-Cell_pinned.ct--TableCell_borderRight {
+	border-right: none !important;
+}
+
+.ct--TableRowCell_pinned.ct--TableCell_borderLeft,
+.ct--TableHeader-Cell_pinned.ct--TableCell_borderLeft {
+	border-left: none !important;
+}
+
+/* Изменить цвет границ таблицы на светлый */
+.ct--TableCell_borderLeft {
+	border-left: 1px solid var(--color-bg-ghost) !important;
+}
+
+.ct--TableCell_borderTop {
+	border-top: 1px solid var(--color-bg-ghost) !important;
+}
+
+.ct--TableBody-Separator {
+	border-top: 1px solid var(--color-bg-ghost) !important;
+}
 
 .ListItem_active {
 	background-color: transparent !important;

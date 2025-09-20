@@ -26,6 +26,7 @@ const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
 }) => {
 	return (
 		<ModalShell
+			closeButton={false}
 			isOpen={isOpen}
 			onClose={onClose}
 			title={title}

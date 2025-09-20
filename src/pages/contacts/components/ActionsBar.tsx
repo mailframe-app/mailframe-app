@@ -57,7 +57,6 @@ const ActionsBar: React.FC<ActionsBarProps> = ({
 					placeholder={placeholder}
 					value={search}
 					onChange={value => onSearchChange((value as string) || '')}
-					size='l'
 					withClearButton
 					leftSide={IconSearchStroked}
 					className='custom-clear-icon textfield-no-border w-full'
@@ -75,7 +74,6 @@ const ActionsBar: React.FC<ActionsBarProps> = ({
 				{rightExtras}
 				<Button
 					ref={actionsButtonRef as any}
-					size='l'
 					view='ghost'
 					label='Действия'
 					iconRight={isActionsOpen ? IconSelectOpen : IconSelect}

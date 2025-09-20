@@ -4,7 +4,7 @@ import { Layout } from '@consta/uikit/Layout'
 import { Text } from '@consta/uikit/Text'
 import { motion } from 'framer-motion'
 import { type FC } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useTheme } from '@/features/theme'
 
@@ -29,6 +29,7 @@ type CardLinkProps = {
 	position: string
 	url: MainLayoutRoutes[keyof MainLayoutRoutes]
 	className?: string
+	onButtonClick?: () => void
 }
 
 const CardLink: FC<CardLinkProps> = ({
@@ -40,10 +41,26 @@ const CardLink: FC<CardLinkProps> = ({
 	imageUrl,
 	position,
 	url,
-	className
+	className,
+	onButtonClick
 }) => {
 	const { theme } = useTheme()
+	const navigate = useNavigate()
 	const animationDuration = 0.5
+
+	const handleCardClick = () => {
+		navigate(url as any)
+	}
+
+	const handleButtonClick = (e: React.MouseEvent) => {
+		e.preventDefault()
+		e.stopPropagation()
+		if (onButtonClick) {
+			onButtonClick()
+		} else {
+			navigate(url as any)
+		}
+	}
 
 	return (
 		<motion.div
@@ -60,6 +77,7 @@ const CardLink: FC<CardLinkProps> = ({
 				horizontalSpace='m'
 				className={`relative flex max-h-[14rem] min-w-[24%] cursor-pointer flex-col overflow-hidden !rounded-lg transition-all duration-300 ease-in ${isHovered ? 'hovered !bg-[#4391c5]' : ''} ${styles.cardContainer} ${className}`}
 				onMouseEnter={onHover}
+				onClick={handleCardClick}
 				shadow={false}
 				style={{
 					background: 'var(--color-bg-default)'
@@ -104,7 +122,7 @@ const CardLink: FC<CardLinkProps> = ({
 							{description}
 						</Text>
 					</Layout>
-					<Link to={url as any} style={{ position: 'relative', zIndex: 1 }}>
+					<div style={{ position: 'relative', zIndex: 1 }}>
 						<motion.button
 							className={`${styles.button} pointer mt-auto ${
 								isHovered ? styles['button-hovered'] : ''
@@ -117,6 +135,7 @@ const CardLink: FC<CardLinkProps> = ({
 							style={{
 								border: !isHovered ? '1px solid var(--color-bg-stripe)' : 'none'
 							}}
+							onClick={handleButtonClick}
 						>
 							<motion.span
 								animate={{
@@ -134,7 +153,7 @@ const CardLink: FC<CardLinkProps> = ({
 								className='fill-current text-[#4391c5]'
 							></IconAdd>
 						</motion.button>
-					</Link>
+					</div>
 					<motion.img
 						className={`absolute right-0 bottom-0 z-0 h-[180px] w-[200px] ${styles[position]}`}
 						src={imageUrl}

@@ -3,8 +3,8 @@ import { IconAllDone } from '@consta/icons/IconAllDone'
 import { IconEdit } from '@consta/icons/IconEdit'
 import { IconRemove } from '@consta/icons/IconRemove'
 import { IconRevert } from '@consta/icons/IconRevert'
-import { IconSortDown } from '@consta/icons/IconSortDown'
-import { IconSortUp } from '@consta/icons/IconSortUp'
+import { IconSortDownCenter } from '@consta/icons/IconSortDownCenter'
+import { IconSortUpCenter } from '@consta/icons/IconSortUpCenter'
 import { IconTrash } from '@consta/icons/IconTrash'
 import { DataCell } from '@consta/table/DataCell'
 import type { TableColumn } from '@consta/table/Table'
@@ -34,22 +34,15 @@ import {
 	BulkRemoveFromGroupsModal,
 	BulkUpdateFieldModal
 } from '@/features/contacts-bulk'
-import { DeleteContactsModal } from '@/features/contacts/contact-delete/ui/DeleteContactsModal'
-import {
-	ContactRowContent,
-	ExpandableEmailCell,
-	type TableRow,
-	isContactDto,
-	isContactInfoRow,
-	useExpandableContactRow
-} from '@/features/contacts/expandable-contact-row'
+import { DeleteContactsModal } from '@/features/contacts/contact-delete'
+import { EditContactModal } from '@/features/contacts/contact-edit'
 import { useTrashModal } from '@/features/contacts/trash'
 import { useTableUrlSync } from '@/features/table-url-sync'
 
-import { formatDate } from '@/shared/lib/formatDate'
-import { stableStringify } from '@/shared/lib/url-sync'
+import { formatDate, stableStringify } from '@/shared/lib'
 import { TableSkeleton } from '@/shared/ui/Skeletons'
 import {
+	ActionsCol,
 	RightControlButtons,
 	SelectCol,
 	TablePagination,
@@ -58,7 +51,6 @@ import {
 } from '@/shared/ui/Table'
 
 import ActionsBar from '../../components/ActionsBar'
-import { ActionsCreateModal } from '../CreateContactsModal'
 
 import {
 	CONTACTS_DEFAULT_LIMIT,
@@ -74,6 +66,7 @@ import {
 	useRefetchFields,
 	useUpdateField
 } from '@/entities/contacts'
+import { ActionsCreateModal } from '@/widgets/CreateContactsModal'
 
 export interface ContactsTabHandle {
 	openCreateModal: () => void
@@ -201,6 +194,14 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 	const [isUpdateFieldOpen, setIsUpdateFieldOpen] = useState(false)
 	const [isBulkDeleteOpen, setIsBulkDeleteOpen] = useState(false)
 
+	// Single contact delete modal state
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+	const [contactToDelete, setContactToDelete] = useState<any>(null)
+
+	// Single contact edit modal state
+	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+	const [contactToEdit, setContactToEdit] = useState<any>(null)
+
 	// Groups data for bulk operations
 	const { data: groupsData } = useGroups({ page: 1, limit: 100 } as any)
 
@@ -278,34 +279,45 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 	const [isCreateContactsOpen, setIsCreateContactsOpen] = useState(false)
 	const [isTableSettingsOpen, setIsTableSettingsOpen] = useState(false)
 
-	// Состояние раскрывающихся строк
-	const { expandedRows, toggleRow, closeRow } = useExpandableContactRow()
+	// Common handlers (after all dependencies are declared)
+	const handleSingleDeleteSuccess = useCallback(() => {
+		invalidateContacts()
+		setIsDeleteModalOpen(false)
+		setContactToDelete(null)
+	}, [invalidateContacts])
 
-	// Функция получения email из данных контакта
-	const getEmailValue = useCallback((contact: any): string => {
-		// В ContactListItemDto email хранится прямо в поле email
-		return contact.email || ''
+	const handleSingleDeleteClose = useCallback(() => {
+		setIsDeleteModalOpen(false)
+		setContactToDelete(null)
 	}, [])
 
-	// Создание rows с info-строками для раскрывающихся контактов
-	const rows = useMemo(() => {
-		const result: TableRow[] = []
+	const handleBulkDeleteSuccess = useCallback(() => {
+		invalidateContacts()
+		clearSelection()
+	}, [invalidateContacts, clearSelection])
 
-		items.forEach(contact => {
-			result.push(contact)
+	const handleBulkActionSuccess = useCallback(() => {
+		invalidateContacts()
+		invalidateGroups()
+		clearSelection()
+	}, [invalidateContacts, invalidateGroups, clearSelection])
 
-			// Добавляем info-строку после контакта, если он раскрыт
-			if (expandedRows.includes(contact.id)) {
-				result.push({
-					isInfo: true,
-					contactId: contact.id,
-					contact
-				})
-			}
-		})
+	const handleBulkUpdateSuccess = useCallback(() => {
+		invalidateContacts()
+		invalidateFields()
+		clearSelection()
+	}, [invalidateContacts, invalidateFields, clearSelection])
 
-		return result
-	}, [items, expandedRows])
+	const handleSingleEditClose = useCallback(() => {
+		setIsEditModalOpen(false)
+		setContactToEdit(null)
+	}, [])
+
+	const handleSingleEditSuccess = useCallback(() => {
+		invalidateContacts()
+		setIsEditModalOpen(false)
+		setContactToEdit(null)
+	}, [invalidateContacts])
 
 	// Expose methods via ref
 	useImperativeHandle(ref, () => ({
@@ -319,9 +331,9 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 		const isActive = sortBy === keyName
 		const icon = isActive
 			? sortOrder === 'asc'
-				? IconSortUp
-				: IconSortDown
-			: IconSortDown
+				? IconSortUpCenter
+				: IconSortDownCenter
+			: IconSortDownCenter
 		const view: 'clear' | 'ghost' = isActive ? 'ghost' : 'clear'
 		return buildHeader({
 			label,
@@ -415,7 +427,7 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 		}
 
 	// Построение колонок
-	const columns: TableColumn<TableRow>[] = useMemo(() => {
+	const columns: TableColumn<any>[] = useMemo(() => {
 		if (!fieldsData?.fields) return []
 
 		// Функция для ограничения ширины колонок
@@ -424,96 +436,45 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 			return Math.max(COL_WIDTH_MIN, Math.min(COL_WIDTH_MAX, n))
 		}
 
-		// SelectCol как первая колонка - адаптируем для TableRow
-		const selectColBase = SelectCol<any>({
+		// SelectCol как первая колонка
+		const selectCol = SelectCol<any>({
 			allOnPageSelected,
 			toggleAllOnPage,
 			selectedIds,
 			toggleOne
 		})
 
-		const selectCol: TableColumn<TableRow> = {
-			...selectColBase,
-			renderCell: ({ row }: { row: TableRow }) => {
-				// Скрываем чекбокс для info-строк
-				if (isContactInfoRow(row)) {
-					return null
-				}
-
-				// Для обычных контактов - используем оригинальный renderCell
-				if (selectColBase.renderCell) {
-					return selectColBase.renderCell({ row } as any)
-				}
-
-				return null
-			}
-		}
-
 		// Построение пользовательских колонок на основе fields
-		const userColumns: TableColumn<TableRow>[] = (fieldsData.fields || [])
+		const userColumns: TableColumn<any>[] = (fieldsData.fields || [])
 			.filter(f => f.isVisible && f.key !== 'status')
 			.sort((a, b) => a.sortOrder - b.sortOrder)
-			.map(f => {
-				// Специальная обработка для email колонки
-				if (f.fieldType === 'EMAIL') {
-					return {
-						title: f.name,
-						accessor: f.key as any,
-						width: clamp(f.columnWidth),
-						minWidth: COL_WIDTH_MIN,
-						maxWidth: COL_WIDTH_MAX,
-						renderHeaderCell: () => (
-							<div ref={registerHeaderRef(f.key)}>
-								{makeHeader(f.name, f.key)!(undefined as any)}
-							</div>
-						),
-						renderCell: ({ row }: { row: TableRow }) => {
-							if (isContactInfoRow(row)) {
-								return (
-									<ContactRowContent
-										contact={row.contact}
-										onClose={() => closeRow(row.contactId)}
-									/>
-								)
-							}
+			.map(f => ({
+				title: f.name,
+				accessor: f.key as any,
+				width: clamp(f.columnWidth),
+				minWidth: COL_WIDTH_MIN,
+				maxWidth: COL_WIDTH_MAX,
+				renderHeaderCell: () => (
+					<div ref={registerHeaderRef(f.key)}>
+						{makeHeader(f.name, f.key)!(undefined as any)}
+					</div>
+				),
+				renderCell: renderByType(f)
+			}))
 
-							if (isContactDto(row)) {
-								return (
-									<ExpandableEmailCell
-										contact={row}
-										email={getEmailValue(row)}
-										isExpanded={expandedRows.includes(row.id)}
-										onToggle={toggleRow}
-									/>
-								)
-							}
+		// Колонка действий
+		const actionsCol = ActionsCol<any>({
+			onEdit: row => {
+				setContactToEdit(row)
+				setIsEditModalOpen(true)
+			},
+			onDelete: row => {
+				setContactToDelete(row)
+				setIsDeleteModalOpen(true)
+			}
+		})
 
-							return null
-						},
-						colSpan: ({ row }: { row: TableRow }) =>
-							isContactInfoRow(row) ? 'end' : 1
-					}
-				}
-
-				// Обычные колонки
-				return {
-					title: f.name,
-					accessor: f.key as any,
-					width: clamp(f.columnWidth),
-					minWidth: COL_WIDTH_MIN,
-					maxWidth: COL_WIDTH_MAX,
-					renderHeaderCell: () => (
-						<div ref={registerHeaderRef(f.key)}>
-							{makeHeader(f.name, f.key)!(undefined as any)}
-						</div>
-					),
-					renderCell: renderByType(f)
-				}
-			})
-
-		const cols = [selectCol, ...userColumns]
-
-		// Колонка статуса убрана - статусы будут показываться в другом месте
+		const cols = [selectCol, ...userColumns, actionsCol]
 
 		return cols
 	}, [
@@ -680,21 +641,12 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 				<TableWrapper>
 					<div onPointerDown={() => enable()}>
 						<Table
-							rows={rows as any}
+							rows={items as any}
 							columns={columns as any}
 							resizable='outside'
-							getRowKey={(row: TableRow) => {
-								if (isContactInfoRow(row)) {
-									return `${row.contactId}-info`
-								}
-								if (isContactDto(row)) {
-									return row.id
-								}
-								return 'unknown'
-							}}
+							getRowKey={(row: any) => row.id}
 							headerZIndex={10}
 							stickyHeader={false}
-							rowHoverEffect
 						/>
 					</div>
 				</TableWrapper>
@@ -725,11 +677,7 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 					id: g.id as string,
 					name: g.name as string
 				}))}
-				onSuccess={() => {
-					invalidateContacts()
-					invalidateGroups()
-					clearSelection()
-				}}
+				onSuccess={handleBulkActionSuccess}
 			/>
 
 			<BulkRemoveFromGroupsModal
@@ -740,11 +688,7 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 					id: g.id as string,
 					name: g.name as string
 				}))}
-				onSuccess={() => {
-					invalidateContacts()
-					invalidateGroups()
-					clearSelection()
-				}}
+				onSuccess={handleBulkActionSuccess}
 			/>
 
 			<BulkUpdateFieldModal
@@ -755,21 +699,14 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 					key: f.key as string,
 					name: f.name as string
 				}))}
-				onSuccess={() => {
-					invalidateContacts()
-					invalidateFields()
-					clearSelection()
-				}}
+				onSuccess={handleBulkUpdateSuccess}
 			/>
 
 			<DeleteContactsModal
 				isOpen={isBulkDeleteOpen}
 				onClose={() => setIsBulkDeleteOpen(false)}
 				contactIds={Array.from(selectedIds)}
-				onDeleted={() => {
-					invalidateContacts()
-					clearSelection()
-				}}
+				onDeleted={handleBulkDeleteSuccess}
 			/>
 
 			{/* Table Settings Modal */}
@@ -783,6 +720,27 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 				isOpen={isCreateContactsOpen}
 				onClose={() => setIsCreateContactsOpen(false)}
 			/>
+
+			{/* Single Contact Delete Modal */}
+			{contactToDelete && (
+				<DeleteContactsModal
+					isOpen={isDeleteModalOpen}
+					onClose={handleSingleDeleteClose}
+					contactIds={[contactToDelete.id]}
+					contactTitle={contactToDelete.email}
+					onDeleted={handleSingleDeleteSuccess}
+				/>
+			)}
+
+			{/* Single Contact Edit Modal */}
+			{contactToEdit && (
+				<EditContactModal
+					isOpen={isEditModalOpen}
+					onClose={handleSingleEditClose}
+					contact={contactToEdit}
+					onUpdated={handleSingleEditSuccess}
+				/>
+			)}
 		</Card>
 	)
 })

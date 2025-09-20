@@ -12,6 +12,6 @@ export function TableWrapper({
 	noVertScroll = true
 }: TableWrapperProps) {
 	const cls =
-		`${noVertScroll ? 'table-no-vert-scroll' : ''} w-full rounded-md border border-[var(--color-bg-border)] ${className || ''}`.trim()
+		`${noVertScroll ? 'table-no-vert-scroll' : ''} w-full ${className || ''}`.trim()
 	return <div className={cls}>{children}</div>
 }
