@@ -1,4 +1,4 @@
-import { RadioGroup } from '@consta/uikit/RadioGroup'
+import { ChoiceGroup } from '@consta/uikit/ChoiceGroup'
 import { addHours, addMonths, endOfDay, parseISO, startOfDay } from 'date-fns'
 
 import type { TimeseriesBucket } from '@/entities/analytics'
@@ -46,13 +46,16 @@ type Props = {
 
 export function TimeScaleSelector({ value, onChange, className }: Props) {
 	return (
-		<RadioGroup
-			value={value}
+		<ChoiceGroup<TimeScale>
 			items={TIME_SCALES}
-			getItemLabel={item => item.label}
+			value={value}
+			className={` ${className || ''}`}
 			onChange={onChange}
-			direction='row'
-			className={className}
+			getItemLabel={item => item.label}
+			name='time-scale-selector'
+			style={{
+				backgroundColor: 'var(--color-bg-default)'
+			}}
 		/>
 	)
 }

@@ -2,17 +2,21 @@ import { IconEdit } from '@consta/icons/IconEdit'
 import { Text } from '@consta/uikit/Text'
 import { TextField } from '@consta/uikit/TextField'
 
+import { formatDate } from '@/shared/lib/formatDate'
+
 import { useEditableCampaignName } from '../model/useEditableCampaignName'
 
 interface EditableCampaignNameProps {
 	campaignId: string
 	initialName: string
+	updatedAt: string
 	onNameUpdate: (newName: string) => void
 }
 
 export const EditableCampaignName = ({
 	campaignId,
 	initialName,
+	updatedAt,
 	onNameUpdate
 }: EditableCampaignNameProps) => {
 	const {
@@ -43,16 +47,23 @@ export const EditableCampaignName = ({
 			className='flex min-w-0 cursor-pointer items-center gap-4'
 			onClick={startEditing}
 		>
-			<Text
-				size='3xl'
-				weight='bold'
-				as='h1'
-				view='primary'
-				className='overflow-hidden text-ellipsis whitespace-nowrap'
-			>
-				{initialName}
-			</Text>
-			<IconEdit size='s' className='flex-shrink-0' view='primary' />
+			<div className='flex flex-col'>
+				<div className='flex items-center gap-2'>
+					<Text
+						as='h1'
+						view='primary'
+						size='xl'
+						weight='semibold'
+						className='leading-6'
+					>
+						{initialName}
+					</Text>
+					<IconEdit size='s' className='flex-shrink-0' view='primary' />
+				</div>
+				<Text as='p' view='secondary' size='s' className='!hidden sm:!block'>
+					Обновлено: {formatDate(updatedAt)}
+				</Text>
+			</div>
 		</div>
 	)
 }

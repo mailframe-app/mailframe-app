@@ -38,8 +38,8 @@ function AnalyticsPage() {
 
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='mb-7 flex items-center justify-between'>
-				<div className='flex flex-col'>
+			<div className='mb-7 flex flex-col items-center justify-between gap-4 md:flex-row md:gap-0'>
+				<div className='flex flex-col text-left'>
 					<Text
 						as='h1'
 						view='primary'
@@ -57,19 +57,24 @@ function AnalyticsPage() {
 					<ChoiceGroup<Period>
 						items={periods}
 						value={period}
+						className='choice-group-no-border'
 						onChange={p => {
 							setPeriod(p)
 							updateRangeForPeriod(p)
 						}}
 						getItemLabel={item => item}
 						name='analytics-period'
+						style={{
+							backgroundColor: 'var(--color-bg-default)'
+						}}
 					/>
 				</div>
 			</div>
 			<Card
-				verticalSpace='xl'
-				horizontalSpace='xl'
-				className='mb-6 !rounded-xl bg-[var(--color-bg-default)]'
+				verticalSpace='l'
+				horizontalSpace='l'
+				className='mb-6 !rounded-lg bg-[var(--color-bg-default)]'
+				shadow={false}
 			>
 				<div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
 					<div className='flex flex-col'>
@@ -124,17 +129,18 @@ function AnalyticsPage() {
 				</div>
 			</Card>
 
-			{/* <SummaryWidget dateRange={dateRange} />
-			<div className='mb-6' /> */}
 			<TimeseriesWidget
 				dateRange={dateRange}
 				bucket={period === 'День' ? 'day' : undefined}
 			/>
 			<div className='mb-6' />
 			<FunnelWidget dateRange={dateRange} />
-			{/* <EngagementWidget /> */}
+
 			<div className='mb-6' />
 			<ErrorsTopWidget dateRange={dateRange} />
+
+			{/* <SummaryWidget dateRange={dateRange} />
+			{/* <EngagementWidget /> */}
 		</Layout>
 	)
 }

@@ -79,7 +79,7 @@ export function LoginForm() {
 			</div>
 			<Button
 				type='submit'
-				size='m'
+				size='l'
 				width='full'
 				// disabled={!formState.isValid}
 				view={formState.isValid ? 'primary' : 'ghost'}

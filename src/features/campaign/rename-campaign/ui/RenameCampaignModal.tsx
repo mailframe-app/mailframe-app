@@ -40,14 +40,16 @@ export function RenameCampaignModal({
 				payload: { name: newName }
 			})
 			showCustomToast({
-				title: 'Название рассылки обновлено',
+				title: 'Успешно',
+				description: 'Название рассылки обновлено',
 				type: 'success'
 			})
 			onRenamed?.(updatedCampaign.name)
 			onClose()
 		} catch (error) {
 			showCustomToast({
-				title: 'Ошибка при обновлении названия',
+				description: 'Ошибка при обновлении названия',
+				title: 'Ошибка',
 				type: 'error'
 			})
 		}

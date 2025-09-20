@@ -3,7 +3,7 @@ import { SearchField } from '../model/SearchField'
 
 export function SearchAndFilters({ tabId }: { tabId: string }) {
 	return (
-		<div className='my-8 flex items-center gap-x-4'>
+		<div className='mb-6 flex items-center gap-x-4'>
 			<SearchField />
 			<FiltersPopover tabId={tabId} />
 		</div>

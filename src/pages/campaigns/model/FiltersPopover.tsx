@@ -1,4 +1,4 @@
-import { IconFunnel } from '@consta/icons/IconFunnel'
+import { IconFilter } from '@consta/icons/IconFilter'
 import { IconRevert } from '@consta/icons/IconRevert'
 import { Button } from '@consta/uikit/Button'
 import { Popover } from '@consta/uikit/Popover'
@@ -6,6 +6,8 @@ import { Select } from '@consta/uikit/SelectCanary'
 import { Text } from '@consta/uikit/Text'
 import { useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
+import { useTheme } from '@/features/theme'
 
 import { type CampaignStatus } from '@/entities/campaigns'
 
@@ -51,7 +53,7 @@ export function FiltersPopover({ tabId }: { tabId: string }) {
 	const anchorRef = useRef<HTMLButtonElement>(null)
 	const [isPopoverVisible, setIsPopoverVisible] = useState(false)
 	const [searchParams, setSearchParams] = useSearchParams()
-
+	const { theme } = useTheme()
 	const sortByValue = searchParams.get('sortBy') || SORT_BY_ITEMS[0].value
 	const sortOrderValue =
 		searchParams.get('sortOrder') || SORT_ORDER_ITEMS[0].value
@@ -88,16 +90,28 @@ export function FiltersPopover({ tabId }: { tabId: string }) {
 			<Button
 				label='Фильтры'
 				view='ghost'
-				onlyIcon
+				size='l'
 				iconSize='s'
-				iconLeft={IconFunnel}
+				iconLeft={IconFilter}
 				onClick={() => setIsPopoverVisible(!isPopoverVisible)}
 				ref={anchorRef}
+				style={
+					{
+						'--button-bg-color':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)',
+						'--button-bg-color-disable':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 			{isPopoverVisible && (
 				//@ts-ignore
 				<Popover
-					direction='downStartLeft'
+					direction='downStartRight'
 					offset='2xs'
 					onClickOutside={() => setIsPopoverVisible(false)}
 					anchorRef={anchorRef as any}

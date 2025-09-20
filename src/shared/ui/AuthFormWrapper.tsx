@@ -60,7 +60,7 @@ export function AuthFormWrapper({
 			<Text
 				view='secondary'
 				size='s'
-				className='mt-3 w-full text-center sm:max-w-md'
+				className='mt-6 w-full text-center sm:max-w-md'
 			>
 				Входя в систему, вы соглашаетесь с{' '}
 				<span className='underline'>условиями использования</span> и{' '}

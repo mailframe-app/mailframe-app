@@ -6,7 +6,8 @@ import { useQueries } from '@tanstack/react-query'
 import { format, formatISO, parseISO } from 'date-fns'
 import { useMemo } from 'react'
 
-import EmptyBox from './EmptyBox'
+import { EmptyBox } from '@/shared/ui'
+
 import {
 	type TimeseriesBucket,
 	type TimeseriesMetric,
@@ -91,9 +92,10 @@ export function TimeseriesWidget({
 
 	return (
 		<Card
-			verticalSpace='xl'
-			horizontalSpace='xl'
-			className='!rounded-xl bg-[var(--color-bg-default)]'
+			verticalSpace='l'
+			horizontalSpace='l'
+			className='!rounded-lg bg-[var(--color-bg-default)]'
+			shadow={false}
 		>
 			<div className='mb-5 flex flex-col items-center justify-between gap-2 xl:flex-row'>
 				<Text as='h2' view='primary' size='xl' weight='semibold'>

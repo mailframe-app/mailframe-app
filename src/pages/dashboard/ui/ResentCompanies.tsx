@@ -37,7 +37,12 @@ export const ResentCompanies = () => {
 
 		if (isError) {
 			return (
-				<Card verticalSpace='m' horizontalSpace='m'>
+				<Card
+					verticalSpace='m'
+					horizontalSpace='m'
+					className='!rounded-lg'
+					shadow={false}
+				>
 					<div className={styles.smallResponse}>
 						<ResponsesNothingFound
 							title='Ошибка загрузки'
@@ -52,7 +57,12 @@ export const ResentCompanies = () => {
 
 		if (!data?.items || data.items.length === 0) {
 			return (
-				<Card verticalSpace='m' horizontalSpace='m'>
+				<Card
+					verticalSpace='m'
+					horizontalSpace='m'
+					className='!rounded-lg'
+					shadow={false}
+				>
 					<div className={styles.smallResponse}>
 						<ResponsesNothingFound
 							title='Ничего не найдено'
@@ -72,7 +82,7 @@ export const ResentCompanies = () => {
 		}
 
 		return (
-			<Layout direction='column' className='gap-4'>
+			<Layout direction='column' className='gap-2'>
 				{data.items.map((campaign: CampaignListItem) => (
 					<CampaignCard key={campaign.id} campaign={campaign} variant='long' />
 				))}
@@ -81,9 +91,10 @@ export const ResentCompanies = () => {
 	}
 	return (
 		<Card
-			className='flex-1 !rounded-lg bg-[var(--color-bg-default)]'
+			className='flex-1 !rounded-lg !bg-[var(--color-bg-default)]'
 			verticalSpace='l'
 			horizontalSpace='l'
+			shadow={false}
 		>
 			<div className='mb-5 flex items-center justify-between'>
 				<Text as='h2' view='primary' size='xl' weight='semibold'>

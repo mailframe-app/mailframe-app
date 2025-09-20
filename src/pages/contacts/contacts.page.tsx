@@ -5,7 +5,6 @@ import { IconTrash } from '@consta/icons/IconTrash'
 import { Button } from '@consta/uikit/Button'
 import { ContextMenu } from '@consta/uikit/ContextMenu'
 import { Layout } from '@consta/uikit/Layout'
-import { Tabs } from '@consta/uikit/Tabs'
 import { Text } from '@consta/uikit/Text'
 import { useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -111,13 +110,26 @@ function ContactsPage() {
 				</div>
 			</div>
 
-			<div className='children-border-b-0 w-full'>
-				<Tabs
-					items={TABS}
-					value={TABS.find(tab => tab.id === activeTab)}
-					onChange={handleTabChange}
-					view='clear'
-				/>
+			<div className='mb-4 flex gap-2'>
+				{TABS.map(tab => (
+					<Button
+						key={tab.id}
+						label={tab.label}
+						view={activeTab === tab.id ? 'primary' : 'clear'}
+						size='m'
+						onClick={() => handleTabChange(tab)}
+						className={activeTab === tab.id ? '' : ''}
+						style={{
+							background: activeTab === tab.id ? 'var(--color-bg-default)' : '',
+							color:
+								activeTab === tab.id
+									? 'var(--color-control-typo-secondary)'
+									: '',
+							borderRadius: '10px',
+							fontWeight: activeTab === tab.id ? '500' : '400'
+						}}
+					/>
+				))}
 			</div>
 
 			<Layout direction='column' className='w-full items-stretch'>

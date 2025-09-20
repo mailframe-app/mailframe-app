@@ -7,9 +7,9 @@ import { formatISO } from 'date-fns'
 import { useMemo } from 'react'
 
 import { formatDate } from '@/shared/lib/formatDate'
+import { EmptyBox } from '@/shared/ui'
 import { buildHeader } from '@/shared/ui/Table'
 
-import EmptyBox from './EmptyBox'
 import { errorsTopQuery } from '@/entities/analytics'
 
 type Props = {
@@ -73,9 +73,10 @@ export function ErrorsTopWidget({ dateRange }: Props) {
 	if (isLoading) {
 		return (
 			<Card
-				verticalSpace='xl'
-				horizontalSpace='xl'
-				className='!rounded-xl bg-[var(--color-bg-default)]'
+				verticalSpace='l'
+				horizontalSpace='l'
+				className='!rounded-lg bg-[var(--color-bg-default)]'
+				shadow={false}
 			>
 				<Text
 					as='h2'
@@ -94,9 +95,10 @@ export function ErrorsTopWidget({ dateRange }: Props) {
 	if (isError) {
 		return (
 			<Card
-				verticalSpace='xl'
-				horizontalSpace='xl'
-				className='!rounded-xl bg-[var(--color-bg-default)]'
+				verticalSpace='l'
+				horizontalSpace='l'
+				className='!rounded-lg bg-[var(--color-bg-default)]'
+				shadow={false}
 			>
 				<Text
 					as='h2'
@@ -115,9 +117,10 @@ export function ErrorsTopWidget({ dateRange }: Props) {
 	if (!data || data.items.length === 0) {
 		return (
 			<Card
-				verticalSpace='xl'
-				horizontalSpace='xl'
-				className='!rounded-xl bg-[var(--color-bg-default)]'
+				verticalSpace='l'
+				horizontalSpace='l'
+				className='!rounded-lg bg-[var(--color-bg-default)]'
+				shadow={false}
 			>
 				<Text
 					as='h2'
@@ -140,9 +143,10 @@ export function ErrorsTopWidget({ dateRange }: Props) {
 
 	return (
 		<Card
-			verticalSpace='xl'
-			horizontalSpace='xl'
-			className='!rounded-xl bg-[var(--color-bg-default)]'
+			verticalSpace='l'
+			horizontalSpace='l'
+			className='!rounded-lg bg-[var(--color-bg-default)]'
+			shadow={false}
 		>
 			<Text as='h2' view='primary' size='xl' weight='semibold' className='mb-4'>
 				Ошибки доставки

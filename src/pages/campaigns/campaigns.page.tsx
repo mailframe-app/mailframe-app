@@ -1,8 +1,9 @@
 import { IconAdd } from '@consta/icons/IconAdd'
 import { Button } from '@consta/uikit/Button'
+import { Card } from '@consta/uikit/Card'
 import { Layout } from '@consta/uikit/Layout'
 import { ResponsesEmptyPockets } from '@consta/uikit/ResponsesEmptyPockets'
-import { Tabs } from '@consta/uikit/Tabs'
+import { Select } from '@consta/uikit/Select'
 import { Text } from '@consta/uikit/Text'
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -150,8 +151,10 @@ function CampaignsPage() {
 		limit
 	})
 
-	const handleTabChange = (tab: Tab) => {
-		setSearchParams({ tab: tab.id })
+	const handleTabChange = (tab: Tab | null) => {
+		if (tab) {
+			setSearchParams({ tab: tab.id })
+		}
 	}
 
 	const handleClearSearch = () => {
@@ -202,41 +205,71 @@ function CampaignsPage() {
 					onClick={openCreateCampaignModal}
 				/>
 			</div>
-
-			<div className='w-full'>
-				<Tabs
-					view='clear'
+			{/* Desktop */}
+			<div className='mb-4 hidden gap-2 xl:flex'>
+				{items.map(tab => (
+					<Button
+						key={tab.id}
+						label={tab.label}
+						view={activeTab.id === tab.id ? 'primary' : 'clear'}
+						size='m'
+						onClick={() => handleTabChange(tab)}
+						className={activeTab.id === tab.id ? '' : ''}
+						style={{
+							background:
+								activeTab.id === tab.id ? 'var(--color-bg-default)' : '',
+							color:
+								activeTab.id === tab.id
+									? 'var(--color-control-typo-secondary)'
+									: '',
+							borderRadius: '10px',
+							fontWeight: activeTab.id === tab.id ? '500' : '400'
+						}}
+					/>
+				))}
+			</div>
+			{/* Mobile */}
+			<div className='mb-4 xl:hidden'>
+				<Select
+					size='l'
+					placeholder='Выберите категорию'
+					items={items}
 					value={activeTab}
 					onChange={handleTabChange}
-					items={items}
-					getItemLabel={(item: Tab) => item.label}
-					getItemKey={(item: Tab) => item.id}
-					className='custom-tab'
+					getItemKey={item => item.id}
+					getItemLabel={item => item.label}
+					className='select-no-border'
 				/>
 			</div>
-			<SearchAndFilters tabId={activeTab.id} />
+			<Card
+				verticalSpace='l'
+				horizontalSpace='l'
+				shadow={false}
+				className='flex h-full w-full flex-col !rounded-lg bg-[var(--color-bg-default)]'
+			>
+				<SearchAndFilters tabId={activeTab.id} />
+				<CampaignsView
+					data={data}
+					isLoading={isLoading}
+					isError={isError}
+					limit={limit}
+					onClearSearch={handleClearSearch}
+					hasFilters={hasFilters}
+					onCreateCampaign={openCreateCampaignModal}
+				/>
 
-			<CampaignsView
-				data={data}
-				isLoading={isLoading}
-				isError={isError}
-				limit={limit}
-				onClearSearch={handleClearSearch}
-				hasFilters={hasFilters}
-				onCreateCampaign={openCreateCampaignModal}
-			/>
-
-			{data && data.total > 0 && (
-				<div className='mt-8'>
-					<TablePagination
-						total={data.total}
-						offset={(page - 1) * limit}
-						step={limit}
-						onChange={handlePageChange}
-						onStepChange={handleStepChange}
-					/>
-				</div>
-			)}
+				{data && data.total > 0 && (
+					<div className=''>
+						<TablePagination
+							total={data.total}
+							offset={(page - 1) * limit}
+							step={limit}
+							onChange={handlePageChange}
+							onStepChange={handleStepChange}
+						/>
+					</div>
+				)}
+			</Card>
 		</Layout>
 	)
 }

@@ -22,7 +22,7 @@ function SettingsPage() {
 				<Card
 					verticalSpace='2xl'
 					horizontalSpace='2xl'
-					className='flex h-full w-full flex-col items-center !rounded-2xl'
+					className='flex h-full w-full flex-col items-center !rounded-2xl bg-[var(--color-bg-default)]'
 				>
 					<ChangeAvatar profile={profile} />
 
@@ -44,11 +44,6 @@ function SettingsPage() {
 					</Text>
 
 					<div className='flex flex-col gap-2 pt-8'>
-						{/* <Button
-							view='primary'
-							iconLeft={IconUser}
-							label='Мой профиль'
-						/> */}
 						<Button
 							view='clear'
 							iconLeft={IconUnlock}
@@ -70,7 +65,7 @@ function SettingsPage() {
 				<Card
 					verticalSpace='2xl'
 					horizontalSpace='2xl'
-					className='h-full w-full flex-1 !rounded-2xl'
+					className='h-full w-full flex-1 !rounded-2xl bg-[var(--color-bg-default)]'
 				>
 					<EditProfileForm profile={profile} />
 				</Card>

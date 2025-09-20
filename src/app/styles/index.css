@@ -207,3 +207,44 @@
 :root {
 	--color-bg-contact: #588aef;
 }
+
+/* Settings tab button shadow */
+.tab-shadow {
+	box-shadow:
+		0px 1px 4px 0px #00203329,
+		0px 2px 2px 0px #00203305 !important;
+}
+
+/* Custom TextField with no border */
+.textfield-no-border .TextField-InputContainer {
+	border: none !important;
+}
+
+/* Custom ChoiceGroup with no border */
+.choice-group-no-border {
+	border: none !important;
+	box-shadow: none !important;
+}
+
+.choice-group-no-border .ChoiceGroup-Label {
+	border: none !important;
+}
+
+/* Custom Select with no border */
+.select-no-border .Select-Control {
+	border: none !important;
+	box-shadow: none !important;
+}
+
+/* Center select dropdown icon */
+.select-no-border .Select-Indicators,
+.select-no-border .Select-IndicatorsDropdown {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+}
+
+.select-no-border .Select-DropdownIndicatorIcon {
+	display: flex !important;
+	align-items: center !important;
+}

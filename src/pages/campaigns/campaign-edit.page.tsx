@@ -1,5 +1,6 @@
 import { IconBackward } from '@consta/icons/IconBackward'
 import { IconEdit } from '@consta/icons/IconEdit'
+import { IconForward } from '@consta/icons/IconForward'
 import { IconKebab } from '@consta/icons/IconKebab'
 import { IconTrash } from '@consta/icons/IconTrash'
 import { Button } from '@consta/uikit/Button'
@@ -106,17 +107,19 @@ function CreateCampaignPage() {
 
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='flex items-center justify-between gap-2 py-3'>
+			<div className='mb-7 flex items-center justify-between'>
 				<div className='flex items-center gap-4'>
 					<Button
+						view='clear'
+						label='Назад'
 						onlyIcon
-						view='ghost'
 						iconLeft={IconBackward}
 						onClick={() => navigate(PRIVATE_ROUTES.CAMPANIES)}
-						className='cursor-pointer'
+						className='cursor-pointer !border !border-[var(--color-control-bg-ghost)]'
 					/>
 					<EditableCampaignName
 						campaignId={campaign.id}
+						updatedAt={campaign.updatedAt}
 						initialName={campaignName}
 						onNameUpdate={setCampaignName}
 					/>
@@ -124,18 +127,28 @@ function CreateCampaignPage() {
 				<div className='flex items-center gap-2'>
 					<Button
 						ref={menuAnchorRef}
-						view='ghost'
+						view='clear'
+						onlyIcon
 						iconLeft={IconKebab}
 						onClick={() => {
 							setIsMenuOpen(!isMenuOpen)
 						}}
+						className='!hidden cursor-pointer !border !border-[var(--color-control-bg-ghost)] sm:!inline-flex'
 					/>
 					<Button
 						view='primary'
 						label='Далее'
-						className='w-[132px]'
+						className='!hidden w-[132px] sm:!block'
 						disabled={!isReadyForNext || updateCampaignMutation.isPending}
 						onClick={handleStartCampaign}
+					/>
+					<Button
+						view='clear'
+						onlyIcon
+						iconLeft={IconForward}
+						onClick={handleStartCampaign}
+						disabled={!isReadyForNext || updateCampaignMutation.isPending}
+						className='!inline-flex cursor-pointer !border !border-[var(--color-control-bg-ghost)] sm:!hidden'
 					/>
 				</div>
 			</div>
@@ -149,16 +162,16 @@ function CreateCampaignPage() {
 				direction='downStartRight'
 			/>
 
-			<Layout direction='column' className='flex flex-col gap-6 pt-8'>
-				<div className='flex gap-6'>
+			<div className='flex flex-col gap-6'>
+				<div className='flex flex-col gap-6 xl:flex-row'>
 					<SmtpSelectCard campaign={campaign} />
 					<GroupSelectCard campaign={campaign} />
 				</div>
-				<div className='flex gap-6'>
+				<div className='flex flex-col gap-6 xl:flex-row'>
 					<SubjectCard campaign={campaign} />
 					<TemplateCard campaign={campaign} />
 				</div>
-			</Layout>
+			</div>
 		</Layout>
 	)
 }

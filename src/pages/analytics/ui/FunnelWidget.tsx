@@ -6,8 +6,6 @@ import { useQuery } from '@tanstack/react-query'
 import { formatISO } from 'date-fns'
 import { useMemo } from 'react'
 
-// removed CircleProgress in favor of Pie charts
-
 import { funnelQuery } from '@/entities/analytics'
 
 type Props = {
@@ -38,9 +36,10 @@ export function FunnelWidget({ dateRange }: Props) {
 	if (isLoading) {
 		return (
 			<Card
-				verticalSpace='xl'
-				horizontalSpace='xl'
-				className='!rounded-xl bg-[var(--color-bg-default)]'
+				verticalSpace='l'
+				horizontalSpace='l'
+				shadow={false}
+				className='!rounded-lg bg-[var(--color-bg-default)]'
 			>
 				<SkeletonBrick height={280} />
 			</Card>
@@ -50,9 +49,10 @@ export function FunnelWidget({ dateRange }: Props) {
 	if (isError) {
 		return (
 			<Card
-				verticalSpace='xl'
-				horizontalSpace='xl'
-				className='!rounded-xl bg-[var(--color-bg-default)]'
+				verticalSpace='l'
+				horizontalSpace='l'
+				shadow={false}
+				className='!rounded-lg bg-[var(--color-bg-default)]'
 			>
 				<Text view='alert'>Не удалось загрузить данные воронки</Text>
 			</Card>
@@ -97,14 +97,15 @@ export function FunnelWidget({ dateRange }: Props) {
 
 	return (
 		<Card
-			verticalSpace='xl'
-			horizontalSpace='xl'
-			className='!rounded-xl bg-[var(--color-bg-default)]'
+			verticalSpace='l'
+			horizontalSpace='l'
+			shadow={false}
+			className='!rounded-lg bg-[var(--color-bg-default)]'
 		>
 			<Text as='h2' view='primary' size='xl' weight='semibold' className='mb-4'>
 				Воронка коммуникаций
 			</Text>
-			<div className='grid grid-cols-5 gap-4'>
+			<div className='grid grid-cols-5 gap-2 sm:gap-4'>
 				{steps.map(step => {
 					const percent = recipients > 0 ? (step.value / recipients) * 100 : 0
 					const pieData = [
@@ -116,7 +117,7 @@ export function FunnelWidget({ dateRange }: Props) {
 							key={step.label}
 							className='flex flex-col items-center text-center'
 						>
-							<div className='relative h-[112px] w-[112px]'>
+							<div className='relative h-[60px] w-[60px] sm:h-[80px] sm:w-[80px] lg:h-[112px] lg:w-[112px]'>
 								<Pie
 									data={pieData}
 									angleField='value'
@@ -132,20 +133,35 @@ export function FunnelWidget({ dateRange }: Props) {
 											content: {
 												formatter: () => `${percent.toFixed(1)}%`,
 												style: {
-													fontSize: 14,
+													fontSize: 10,
 													lineHeight: 1,
 													fontWeight: 600,
-													color: 'var(--color-typo-primary)'
+													color: 'var(--color-typo-primary)',
+													'@media (min-width: 640px)': {
+														fontSize: 12
+													},
+													'@media (min-width: 1024px)': {
+														fontSize: 14
+													}
 												}
 											}
 										} as any
 									}
 								/>
 							</div>
-							<Text size='s' view='secondary' className='mt-2'>
+							<Text
+								size='xs'
+								view='secondary'
+								className='mt-1 text-[10px] sm:mt-2 sm:text-xs lg:text-sm'
+							>
 								{step.label}
 							</Text>
-							<Text size='l' weight='bold' className='mt-1' view='primary'>
+							<Text
+								size='xs'
+								weight='bold'
+								className='mt-0.5 text-[11px] sm:mt-1 sm:text-sm lg:text-base'
+								view='primary'
+							>
 								{step.value.toLocaleString()}
 							</Text>
 						</div>

@@ -1,5 +1,10 @@
+import type { IconComponent } from '@consta/icons/Icon'
+import { IconConnection } from '@consta/icons/IconConnection'
+import { IconLock } from '@consta/icons/IconLock'
+import { IconMail } from '@consta/icons/IconMail'
+import { IconUser } from '@consta/icons/IconUser'
+import { Button } from '@consta/uikit/Button'
 import { Layout } from '@consta/uikit/Layout'
-import { Tabs } from '@consta/uikit/Tabs'
 import { Text } from '@consta/uikit/Text'
 import { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
@@ -10,17 +15,34 @@ type MenuItem = {
 	id: string
 	label: string
 	path: string
+	icon: IconComponent
 }
 
 const items: MenuItem[] = [
-	{ id: 'profile', label: 'Профиль', path: PRIVATE_ROUTES.PROFILE },
+	{
+		id: 'profile',
+		label: 'Профиль',
+		path: PRIVATE_ROUTES.PROFILE,
+		icon: IconUser
+	},
 	{
 		id: 'smtp',
 		label: 'Настройки SMTP',
-		path: PRIVATE_ROUTES.MAIL_SETTINGS
+		path: PRIVATE_ROUTES.MAIL_SETTINGS,
+		icon: IconMail
 	},
-	{ id: 'security', label: 'Безопасность', path: PRIVATE_ROUTES.SECURITY },
-	{ id: 'connections', label: 'Интеграции', path: PRIVATE_ROUTES.CONNECTIONS }
+	{
+		id: 'security',
+		label: 'Безопасность',
+		path: PRIVATE_ROUTES.SECURITY,
+		icon: IconLock
+	},
+	{
+		id: 'connections',
+		label: 'Интеграции',
+		path: PRIVATE_ROUTES.CONNECTIONS,
+		icon: IconConnection
+	}
 ]
 
 export function SettingsLayout() {
@@ -41,23 +63,44 @@ export function SettingsLayout() {
 
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='flex items-center justify-between'>
-				<Text view='primary' size='3xl' weight='bold' className='mb-8'>
-					Настройки
-				</Text>
+			<div className='mb-7 flex items-center justify-between'>
+				<div className='flex flex-col'>
+					<Text
+						as='h1'
+						view='primary'
+						size='xl'
+						weight='semibold'
+						className='leading-6'
+					>
+						Настройки
+					</Text>
+					<Text as='p' view='secondary' size='s'>
+						Управление настройками вашего аккаунта.
+					</Text>
+				</div>
 			</div>
-			<div className='w-full'>
-				{activeTab && (
-					<Tabs
-						view='clear'
-						value={activeTab}
-						onChange={handleChange}
-						items={items}
-						getItemLabel={item => item.label}
-						getItemKey={item => item.id}
-						className='custom-tab mb-8'
+			<div className='mb-4 flex gap-2'>
+				{items.map(item => (
+					<Button
+						key={item.id}
+						label={item.label}
+						view={activeTab?.id === item.id ? 'primary' : 'clear'}
+						size='m'
+						// iconLeft={item.icon}
+						onClick={() => handleChange(item)}
+						className={activeTab?.id === item.id ? '' : ''}
+						style={{
+							background:
+								activeTab?.id === item.id ? 'var(--color-bg-default)' : '',
+							color:
+								activeTab?.id === item.id
+									? 'var(--color-control-typo-secondary)'
+									: '',
+							borderRadius: '10px',
+							fontWeight: activeTab?.id === item.id ? '500' : '400'
+						}}
 					/>
-				)}
+				))}
 			</div>
 			<Outlet />
 		</Layout>

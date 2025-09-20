@@ -62,6 +62,7 @@ export const DashboardCalendar = ({ className }: { className?: string }) => {
 			horizontalSpace='l'
 			className={`mx-auto w-full max-w-[320px] !rounded-lg bg-[var(--color-bg-default)] ${className}`}
 			ref={calendarRef}
+			shadow={false}
 		>
 			<Text as='h2' view='primary' size='xl' weight='semibold' className='mb-2'>
 				Календарь

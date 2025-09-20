@@ -13,7 +13,12 @@ type Props = {
 
 export const StatCard = ({ title, value, percent, color }: Props) => {
 	return (
-		<Card className='flex h-full w-full justify-between !rounded-xl p-6'>
+		<Card
+			verticalSpace='l'
+			horizontalSpace='l'
+			shadow={false}
+			className='flex h-full w-full justify-between !rounded-lg bg-[var(--color-bg-default)]'
+		>
 			<div className='flex flex-col justify-between'>
 				<Text size='3xl' weight='bold' view='primary'>
 					{value}

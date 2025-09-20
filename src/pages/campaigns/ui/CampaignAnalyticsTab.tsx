@@ -1,3 +1,4 @@
+import { Card } from '@consta/uikit/Card'
 import { Grid, GridItem } from '@consta/uikit/Grid'
 import { SkeletonBrick } from '@consta/uikit/Skeleton'
 import { Text } from '@consta/uikit/Text'
@@ -80,15 +81,26 @@ export function CampaignAnalyticsTab({ campaignId }: Props) {
 	if (!data) return null
 
 	return (
-		<div className='flex flex-col gap-8'>
-			<div className='flex flex-col gap-1'>
-				<Text size='xl' weight='semibold' view='primary'>
-					Доставлено: {deliveryRate.toFixed(0)}%
-				</Text>
-				<Text size='s' view='secondary'>
-					{data.sentCount} из {data.recipientsCount} писем
-				</Text>
-			</div>
+		<div className='flex flex-col gap-6'>
+			<Card
+				verticalSpace='l'
+				horizontalSpace='l'
+				className='flex items-center justify-between !rounded-lg bg-[var(--color-bg-default)]'
+				shadow={false}
+			>
+				<div className='flex flex-col justify-between'>
+					<Text size='xl' weight='semibold' view='primary'>
+						Доставлено: {deliveryRate.toFixed(0)}%
+					</Text>
+					<Text size='s' view='secondary'>
+						{data.sentCount} из {data.recipientsCount} писем
+					</Text>
+				</div>
+				<TimeScaleSelector
+					value={selectedTimeScale}
+					onChange={setSelectedTimeScale}
+				/>
+			</Card>
 
 			<Grid cols={4} gap='xl'>
 				<GridItem>
@@ -125,22 +137,11 @@ export function CampaignAnalyticsTab({ campaignId }: Props) {
 				</GridItem>
 			</Grid>
 
-			<div>
-				<div className='mb-4 flex items-center justify-between'>
-					<Text size='2xl' weight='semibold' view='primary'>
-						График активности подписчиков
-					</Text>
-					<TimeScaleSelector
-						value={selectedTimeScale}
-						onChange={setSelectedTimeScale}
-					/>
-				</div>
-				<TimeseriesWidget
-					dateRange={dateRange}
-					campaignId={campaignId}
-					bucket={selectedTimeScale.bucket}
-				/>
-			</div>
+			<TimeseriesWidget
+				dateRange={dateRange}
+				campaignId={campaignId}
+				bucket={selectedTimeScale.bucket}
+			/>
 
 			{data.errorsTop && data.errorsTop.length > 0 && (
 				<div>

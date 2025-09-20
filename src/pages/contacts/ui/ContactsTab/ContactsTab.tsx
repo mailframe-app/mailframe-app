@@ -10,6 +10,7 @@ import { DataCell } from '@consta/table/DataCell'
 import type { TableColumn } from '@consta/table/Table'
 import { Table } from '@consta/table/Table'
 import { Button } from '@consta/uikit/Button'
+import { Card } from '@consta/uikit/Card'
 import { ResponsesEmptyPockets } from '@consta/uikit/ResponsesEmptyPockets'
 import { Text } from '@consta/uikit/Text'
 import {
@@ -568,9 +569,17 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 	}
 
 	return (
-		<div className='w-full'>
+		<Card
+			verticalSpace='l'
+			horizontalSpace='l'
+			className='!rounded-lg'
+			style={{
+				backgroundColor: 'var(--color-bg-default)'
+			}}
+			shadow={false}
+		>
 			<ActionsBar
-				placeholder='Поиск по email и полям'
+				placeholder='Поиск по полям'
 				search={search}
 				onSearchChange={handleSearchChange}
 				isActionsOpen={isActionsOpen}
@@ -774,7 +783,7 @@ export const ContactsTab = forwardRef<ContactsTabHandle>((_props, ref) => {
 				isOpen={isCreateContactsOpen}
 				onClose={() => setIsCreateContactsOpen(false)}
 			/>
-		</div>
+		</Card>
 	)
 })
 

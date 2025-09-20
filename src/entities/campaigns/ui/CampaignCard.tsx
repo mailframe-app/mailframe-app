@@ -36,7 +36,12 @@ export function CampaignCard({
 	}
 
 	return (
-		<Card verticalSpace='m' horizontalSpace='m' className='campaign-card'>
+		<Card
+			verticalSpace='m'
+			horizontalSpace='m'
+			className='campaign-card !border !border-[var(--color-bg-ghost)]'
+			shadow={false}
+		>
 			<Layout>
 				<Layout direction='column' className='campaign-card__info'>
 					<StatusBadge statusText={uiStatus} />

@@ -60,6 +60,7 @@ const CardLink: FC<CardLinkProps> = ({
 				horizontalSpace='m'
 				className={`relative flex max-h-[14rem] min-w-[24%] cursor-pointer flex-col overflow-hidden !rounded-lg transition-all duration-300 ease-in ${isHovered ? 'hovered !bg-[#4391c5]' : ''} ${styles.cardContainer} ${className}`}
 				onMouseEnter={onHover}
+				shadow={false}
 				style={{
 					background: 'var(--color-bg-default)'
 				}}
@@ -113,6 +114,9 @@ const CardLink: FC<CardLinkProps> = ({
 								paddingRight: '12px'
 							}}
 							transition={{ duration: animationDuration }}
+							style={{
+								border: !isHovered ? '1px solid var(--color-bg-stripe)' : 'none'
+							}}
 						>
 							<motion.span
 								animate={{

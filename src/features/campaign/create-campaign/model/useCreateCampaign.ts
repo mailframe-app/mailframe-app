@@ -13,15 +13,17 @@ export function useCreateCampaign() {
 				const campaign: any = await mutate.mutateAsync(values as any)
 				const displayName = campaign?.name || values.name
 				showCustomToast({
-					title: `Рассылка "${displayName}" создана`,
-					type: 'success'
+					title: `Успешно`,
+					type: 'success',
+					description: `Рассылка "${displayName}" создана`
 				})
 				return campaign
 			} catch (e: any) {
 				const msg = e?.message || 'Не удалось создать рассылку'
 				showCustomToast({
-					title: msg,
-					type: 'error'
+					title: `Ошибка`,
+					type: 'error',
+					description: msg
 				})
 				throw e
 			}

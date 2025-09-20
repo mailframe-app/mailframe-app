@@ -1,10 +1,13 @@
 import type { IconComponent } from '@consta/icons/Icon'
+import { IconSearchStroked } from '@consta/icons/IconSearchStroked'
 import { IconSelect } from '@consta/icons/IconSelect'
 import { IconSelectOpen } from '@consta/icons/IconSelectOpen'
 import { Button } from '@consta/uikit/Button'
 import { ContextMenu } from '@consta/uikit/ContextMenu'
 import { TextField } from '@consta/uikit/TextField'
 import React, { useMemo, useRef } from 'react'
+
+import { useTheme } from '@/features/theme'
 
 type ItemStatus = 'alert' | 'warning' | 'success'
 
@@ -43,26 +46,36 @@ const ActionsBar: React.FC<ActionsBarProps> = ({
 }) => {
 	const actionsButtonRef = useRef<any>(null)
 	const menuItems = useMemo(() => items, [items])
+	const { theme } = useTheme()
 
 	return (
 		<div
-			className={`my-8 flex items-center justify-between gap-3 ${className || ''}`}
+			className={`mb-6 flex items-center justify-between gap-3 ${className || ''}`}
 		>
-			<div className='w-[280px] md:w-[320px]'>
+			<div className='w-full'>
 				<TextField
 					placeholder={placeholder}
 					value={search}
 					onChange={value => onSearchChange((value as string) || '')}
-					size='m'
+					size='l'
 					withClearButton
-					className='w-full'
+					leftSide={IconSearchStroked}
+					className='custom-clear-icon textfield-no-border w-full'
+					style={
+						{
+							'--color-control-bg-default':
+								theme === 'presetGpnDefault'
+									? '#F8FAFC'
+									: 'var(--color-bg-stripe)'
+						} as React.CSSProperties
+					}
 				/>
 			</div>
 			<div className='ml-auto flex items-center gap-2'>
 				{rightExtras}
 				<Button
 					ref={actionsButtonRef as any}
-					size='m'
+					size='l'
 					view='ghost'
 					label='Действия'
 					iconRight={isActionsOpen ? IconSelectOpen : IconSelect}
@@ -71,6 +84,18 @@ const ActionsBar: React.FC<ActionsBarProps> = ({
 					onClick={() => {
 						if (!actionsDisabled) onToggleActions()
 					}}
+					style={
+						{
+							'--button-bg-color':
+								theme === 'presetGpnDefault'
+									? '#F8FAFC'
+									: 'var(--color-bg-stripe)',
+							'--button-bg-color-disable':
+								theme === 'presetGpnDefault'
+									? '#F8FAFC'
+									: 'var(--color-bg-stripe)'
+						} as React.CSSProperties
+					}
 				/>
 				{isActionsOpen && !actionsDisabled ? (
 					<ContextMenu

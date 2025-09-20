@@ -32,7 +32,7 @@ const Stat = ({
 	<div className='flex h-full flex-col justify-between'>
 		<div className='flex items-center gap-3'>
 			<div
-				className={`inline-flex h-12 w-12 items-center justify-center rounded-full border`}
+				className={`inline-flex h-10 w-10 items-center justify-center rounded-full border md:h-12 md:w-12`}
 				style={{ borderColor: `var(${color})` }}
 			>
 				<div
@@ -100,7 +100,8 @@ export function SummaryWidget({ dateRange }: Props) {
 						key={i}
 						verticalSpace='l'
 						horizontalSpace='l'
-						className='!rounded-xl bg-[var(--color-bg-default)]'
+						className='!rounded-lg bg-[var(--color-bg-default)]'
+						shadow={false}
 					>
 						<div className='flex h-[68px] flex-col justify-between'>
 							<SkeletonBrick className='w-3/5' height={16} />
@@ -120,9 +121,10 @@ export function SummaryWidget({ dateRange }: Props) {
 			<Grid cols={12} gap='xl' className='mb-6'>
 				<GridItem col={12}>
 					<Card
-						verticalSpace='xl'
-						horizontalSpace='xl'
-						className='!rounded-xl bg-[var(--color-bg-default)]'
+						verticalSpace='l'
+						horizontalSpace='l'
+						className='!rounded-lg bg-[var(--color-bg-default)]'
+						shadow={false}
 					>
 						<Text view='alert'>Не удалось загрузить сводку</Text>
 					</Card>
@@ -178,7 +180,8 @@ export function SummaryWidget({ dateRange }: Props) {
 					key={metric.title}
 					verticalSpace='l'
 					horizontalSpace='l'
-					className='h-full !rounded-xl bg-[var(--color-bg-default)]'
+					className='h-full !rounded-lg bg-[var(--color-bg-default)]'
+					shadow={false}
 				>
 					<Stat
 						title={metric.title}

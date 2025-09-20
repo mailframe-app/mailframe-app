@@ -10,7 +10,7 @@ function ConnectionsPage() {
 			<Card
 				verticalSpace='2xl'
 				horizontalSpace='2xl'
-				className='flex h-full w-full flex-col !rounded-2xl'
+				className='flex h-full w-full flex-col !rounded-2xl bg-[var(--color-bg-default)]'
 			>
 				<Text size='2xl' weight='bold' view='primary' className='mb-8'>
 					Подключение сторонних сервисов
