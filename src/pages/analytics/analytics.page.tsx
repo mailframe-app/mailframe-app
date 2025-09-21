@@ -1,40 +1,13 @@
-import { Card } from '@consta/uikit/Card'
-import { ChoiceGroup } from '@consta/uikit/ChoiceGroup'
 import { Layout } from '@consta/uikit/Layout'
 import { Text } from '@consta/uikit/Text'
-import { format, isSameYear, startOfDay, subDays } from 'date-fns'
-import { ru } from 'date-fns/locale'
-import { useState } from 'react'
 
-import { ErrorsTopWidget } from './ui/ErrorsTopWidget'
-import { FunnelWidget } from './ui/FunnelWidget'
-import { TimeseriesWidget } from './ui/TimeseriesWidget'
-
-type Period = 'День' | 'Неделя' | 'Месяц'
+import { useAnalyticsState } from './model/hooks'
+import { AnalyticsPeriodSelector } from './ui/components/AnalyticsPeriodSelector'
+import { DateRangeDisplay } from './ui/components/DateRangeDisplay'
+import { ErrorsTopWidget, FunnelWidget, TimeseriesWidget } from './ui/widgets'
 
 function AnalyticsPage() {
-	const [dateRange, setDateRange] = useState<[Date, Date] | null>([
-		subDays(new Date(), 7),
-		new Date()
-	])
-
-	const periods: Period[] = ['День', 'Неделя', 'Месяц']
-	const [period, setPeriod] = useState<Period>('Неделя')
-
-	const updateRangeForPeriod = (p: Period) => {
-		const today = startOfDay(new Date())
-		switch (p) {
-			case 'День':
-				setDateRange([today, today])
-				break
-			case 'Неделя':
-				setDateRange([subDays(today, 6), today])
-				break
-			case 'Месяц':
-				setDateRange([subDays(today, 29), today])
-				break
-		}
-	}
+	const { dateRange, period, updateDateRange } = useAnalyticsState()
 
 	return (
 		<Layout direction='column' className='w-full'>
@@ -53,81 +26,15 @@ function AnalyticsPage() {
 						Выберите период и посмотрите статистику рассылок.
 					</Text>
 				</div>
-				<div className='flex items-center justify-center'>
-					<ChoiceGroup<Period>
-						items={periods}
-						value={period}
-						className='choice-group-no-border'
-						onChange={p => {
-							setPeriod(p)
-							updateRangeForPeriod(p)
-						}}
-						getItemLabel={item => item}
-						name='analytics-period'
-						style={{
-							backgroundColor: 'var(--color-bg-default)'
-						}}
-					/>
-				</div>
+				<AnalyticsPeriodSelector
+					period={period}
+					onPeriodChange={updateDateRange}
+				/>
 			</div>
-			<Card
-				verticalSpace='l'
-				horizontalSpace='l'
-				className='mb-6 !rounded-lg bg-[var(--color-bg-default)]'
-				shadow={false}
-			>
-				<div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
-					<div className='flex flex-col'>
-						<Text view='primary' size='l' weight='semibold'>
-							Сегодня
-						</Text>
-						{(() => {
-							const today = new Date()
-							const todayStr = format(today, "d MMMM yyyy 'года'", {
-								locale: ru
-							})
-							return (
-								<Text view='secondary' size='s'>
-									{todayStr}
-								</Text>
-							)
-						})()}
-					</div>
-					<div className='flex flex-col items-end gap-1 text-right'>
-						<Text view='primary' size='l' weight='semibold'>
-							Выбранный период
-						</Text>
-						{(() => {
-							const today = new Date()
-							if (!dateRange) {
-								return (
-									<Text view='secondary' size='s'>
-										Не выбрано
-									</Text>
-								)
-							}
-							const [from, to] = dateRange
-							const sameYearFrom = isSameYear(from, today)
-							const sameYearTo = isSameYear(to, today)
-							const fromFmt = format(
-								from,
-								sameYearFrom ? 'd MMMM' : "d MMMM yyyy 'года'",
-								{ locale: ru }
-							)
-							const toFmt = format(
-								to,
-								sameYearTo ? "d MMMM yyyy 'года'" : "d MMMM yyyy 'года'",
-								{ locale: ru }
-							)
-							return (
-								<Text view='secondary' size='s'>
-									с {fromFmt} по {toFmt}
-								</Text>
-							)
-						})()}
-					</div>
-				</div>
-			</Card>
+
+			<div className='mb-6 !rounded-lg bg-[var(--color-bg-default)] p-6'>
+				<DateRangeDisplay dateRange={dateRange} />
+			</div>
 
 			<TimeseriesWidget
 				dateRange={dateRange}
@@ -138,9 +45,9 @@ function AnalyticsPage() {
 
 			<div className='mb-6' />
 			<ErrorsTopWidget dateRange={dateRange} />
-
-			{/* <SummaryWidget dateRange={dateRange} />
-			{/* <EngagementWidget /> */}
+			{/* 
+			<SummaryWidget dateRange={dateRange} />
+			<EngagementWidget /> */}
 		</Layout>
 	)
 }

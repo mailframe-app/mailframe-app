@@ -15,7 +15,7 @@ import {
 	MailReply,
 	MailUnsub,
 	UserAdmin
-} from '@/shared/ui/MailIcons'
+} from '@/shared/ui'
 
 import { summaryQuery } from '@/entities/analytics'
 

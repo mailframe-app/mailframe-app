@@ -13,7 +13,7 @@ import {
 } from '@/features/column-manager'
 
 import { formatDate } from '@/shared/lib/formatDate'
-import { RightControlButtons, SelectCol, buildHeader } from '@/shared/ui/Table'
+import { RightControlButtons, SelectCol, buildHeader } from '@/shared/ui'
 
 import type { ContactFieldType } from '@/entities/contacts'
 

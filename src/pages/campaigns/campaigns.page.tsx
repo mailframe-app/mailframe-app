@@ -10,7 +10,7 @@ import { useSearchParams } from 'react-router-dom'
 
 import { useCreateCampaignModal } from '@/features/campaign/create-campaign'
 
-import { TablePagination } from '@/shared/ui/Table'
+import { TablePagination } from '@/shared/ui'
 
 import { CampaignGrid } from './ui/CampaignGrid'
 import { CampaignGridSkeleton } from './ui/CampaignGridSkeleton'

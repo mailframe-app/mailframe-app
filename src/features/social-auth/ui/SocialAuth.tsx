@@ -4,7 +4,7 @@ import { Text } from '@consta/uikit/Text'
 import { FcGoogle } from 'react-icons/fc'
 import { Link } from 'react-router-dom'
 
-import { YandexIcon } from '@/shared/ui/YandexIcon'
+import { YandexIcon } from '@/shared/ui'
 
 import { useOAuthLogin } from '../model/use-oauth-login'
 

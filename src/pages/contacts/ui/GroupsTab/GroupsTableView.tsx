@@ -13,8 +13,7 @@ import { ResponsesEmptyPockets } from '@consta/uikit/ResponsesEmptyPockets'
 import { forwardRef, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { TableSkeleton } from '@/shared/ui/Skeletons'
-import { TablePagination, TableWrapper } from '@/shared/ui/Table'
+import { TablePagination, TableSkeleton, TableWrapper } from '@/shared/ui'
 
 import ActionsBar from '../../components/ActionsBar'
 

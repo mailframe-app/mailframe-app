@@ -2,7 +2,7 @@ import { Card } from '@consta/uikit/Card'
 import { SkeletonBrick } from '@consta/uikit/Skeleton'
 import { Text } from '@consta/uikit/Text'
 
-import { CircleProgress } from '@/shared/ui/CircleProgress'
+import { CircleProgress } from '@/shared/ui'
 
 type Props = {
 	title: string

@@ -1,13 +1,13 @@
 import { Layout } from '@consta/uikit/Layout'
-import { subDays } from 'date-fns'
 
 import { DashboardCalendar } from '@/features/campaign/dashboard-calendar'
 
+import { useDashboardData } from './model/useDashboardData'
 import { ActionButtons, GreetingHeader, ResentCompanies } from './ui'
 import { SummaryWidget, TimeseriesWidget } from '@/entities/analytics'
 
 function DashboardPage() {
-	const dateRange: [Date, Date] = [subDays(new Date(), 30), new Date()]
+	const { dateRange } = useDashboardData()
 
 	return (
 		<Layout direction='column' className='w-full'>

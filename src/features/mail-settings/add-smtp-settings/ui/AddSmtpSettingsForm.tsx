@@ -4,8 +4,7 @@ import { forwardRef, useImperativeHandle } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { SwitchForm } from '@/shared/ui/SwitchForm'
-import { TextFieldForm } from '@/shared/ui/TextFieldForm'
+import { SwitchForm, TextFieldForm } from '@/shared/ui'
 
 import type { SmtpSettingsDto } from '@/entities/mail-settings'
 

@@ -3,7 +3,7 @@ import { Text } from '@consta/uikit/Text'
 
 import { useTheme } from '@/features/theme'
 
-import { BaseLogo } from './BaseLogo'
+import { BaseLogo } from '@/shared/ui'
 
 interface AuthFormWrapperProps {
 	children?: React.ReactNode

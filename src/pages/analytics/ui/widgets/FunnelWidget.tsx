@@ -1,10 +1,9 @@
 import { Pie } from '@consta/charts/Pie'
 import { Card } from '@consta/uikit/Card'
 import { SkeletonBrick } from '@consta/uikit/Skeleton'
-import { Text } from '@consta/uikit/Text'
 import { useQuery } from '@tanstack/react-query'
 import { formatISO } from 'date-fns'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { funnelQuery } from '@/entities/analytics'
 
@@ -20,6 +19,21 @@ type FunnelStep = {
 }
 
 export function FunnelWidget({ dateRange }: Props) {
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+
+	useEffect(() => {
+		let timeoutId: NodeJS.Timeout
+		const handleResize = () => {
+			clearTimeout(timeoutId)
+			timeoutId = setTimeout(() => setWindowWidth(window.innerWidth), 100)
+		}
+		window.addEventListener('resize', handleResize)
+		return () => {
+			clearTimeout(timeoutId)
+			window.removeEventListener('resize', handleResize)
+		}
+	}, [])
+
 	const params = useMemo(() => {
 		if (!dateRange) return undefined
 		return {
@@ -54,7 +68,9 @@ export function FunnelWidget({ dateRange }: Props) {
 				shadow={false}
 				className='!rounded-lg bg-[var(--color-bg-default)]'
 			>
-				<Text view='alert'>Не удалось загрузить данные воронки</Text>
+				<div className='text-[var(--color-typo-alert)]'>
+					Не удалось загрузить данные воронки
+				</div>
 			</Card>
 		)
 	}
@@ -102,9 +118,9 @@ export function FunnelWidget({ dateRange }: Props) {
 			shadow={false}
 			className='!rounded-lg bg-[var(--color-bg-default)]'
 		>
-			<Text as='h2' view='primary' size='xl' weight='semibold' className='mb-4'>
+			<h2 className='mb-4 text-xl font-semibold text-[var(--color-typo-primary)]'>
 				Воронка коммуникаций
-			</Text>
+			</h2>
 			<div className='grid grid-cols-5 gap-2 sm:gap-4'>
 				{steps.map(step => {
 					const percent = recipients > 0 ? (step.value / recipients) * 100 : 0
@@ -133,37 +149,27 @@ export function FunnelWidget({ dateRange }: Props) {
 											content: {
 												formatter: () => `${percent.toFixed(1)}%`,
 												style: {
-													fontSize: 10,
+													fontSize:
+														windowWidth >= 1024
+															? '0.875rem'
+															: windowWidth >= 640
+																? '0.75rem'
+																: '0.625rem',
 													lineHeight: 1,
 													fontWeight: 600,
-													color: 'var(--color-typo-primary)',
-													'@media (min-width: 640px)': {
-														fontSize: 12
-													},
-													'@media (min-width: 1024px)': {
-														fontSize: 14
-													}
+													color: 'var(--color-typo-primary)'
 												}
 											}
 										} as any
 									}
 								/>
 							</div>
-							<Text
-								size='xs'
-								view='secondary'
-								className='mt-1 text-[10px] sm:mt-2 sm:text-xs lg:text-sm'
-							>
+							<div className='mt-1 text-xs text-[var(--color-typo-secondary)] sm:mt-2 sm:text-sm lg:text-base'>
 								{step.label}
-							</Text>
-							<Text
-								size='xs'
-								weight='bold'
-								className='mt-0.5 text-[11px] sm:mt-1 sm:text-sm lg:text-base'
-								view='primary'
-							>
+							</div>
+							<div className='mt-0.5 text-sm font-semibold text-[var(--color-typo-primary)] sm:mt-1 sm:text-base lg:text-lg'>
 								{step.value.toLocaleString()}
-							</Text>
+							</div>
 						</div>
 					)
 				})}

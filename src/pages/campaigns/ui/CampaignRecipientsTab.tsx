@@ -10,8 +10,12 @@ import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { formatDate } from '@/shared/lib/formatDate'
-import { TableSkeleton } from '@/shared/ui/Skeletons'
-import { TablePagination, TableWrapper, buildHeader } from '@/shared/ui/Table'
+import {
+	TablePagination,
+	TableSkeleton,
+	TableWrapper,
+	buildHeader
+} from '@/shared/ui'
 
 import { useCampaignLogs } from '@/entities/campaigns'
 import type {

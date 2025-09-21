@@ -11,8 +11,7 @@ import { CreateFieldModal } from '@/features/column-manager/CreateField'
 import { FieldEditModal } from '@/features/column-manager/EditField'
 
 import { showCustomToast } from '@/shared/lib/toaster'
-import { DeleteConfirmModal } from '@/shared/ui/Modals'
-import { TableWrapper, buildHeader } from '@/shared/ui/Table'
+import { DeleteConfirmModal, TableWrapper, buildHeader } from '@/shared/ui'
 
 import type { ContactFieldDefinitionDto } from '@/entities/contacts'
 import { useContactFields, useSoftDeleteField } from '@/entities/contacts'

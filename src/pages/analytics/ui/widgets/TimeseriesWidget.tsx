@@ -8,16 +8,12 @@ import { useMemo } from 'react'
 
 import { EmptyBox } from '@/shared/ui'
 
-import {
-	type TimeseriesBucket,
-	type TimeseriesMetric,
-	timeseriesQuery
-} from '@/entities/analytics'
+import type { TimeseriesWidgetProps } from '../../lib/types'
 
-type Props = {
-	dateRange: [Date, Date] | null
+import { type TimeseriesMetric, timeseriesQuery } from '@/entities/analytics'
+
+type Props = TimeseriesWidgetProps & {
 	campaignId?: string
-	bucket?: TimeseriesBucket
 }
 
 const metrics: TimeseriesMetric[] = ['sent', 'opened', 'clicked']

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
-import { TextFieldForm } from '@/shared/ui/TextFieldForm'
+import { TextFieldForm } from '@/shared/ui'
 
 import type { SendPasswordRecoveryRequest } from '../api'
 

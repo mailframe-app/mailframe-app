@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 
 import { formatDate } from '@/shared/lib/formatDate'
-import { TablePagination, TableWrapper, buildHeader } from '@/shared/ui/Table'
+import { TablePagination, TableWrapper, buildHeader } from '@/shared/ui'
 
 import { importHistoryQuery } from '@/entities/contacts'
 import type {

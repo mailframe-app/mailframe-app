@@ -5,12 +5,7 @@ import { Text } from '@consta/uikit/Text'
 import { useQuery } from '@tanstack/react-query'
 import { formatISO } from 'date-fns'
 
-import {
-	DistributionOutline,
-	EmailNew,
-	MailAll,
-	UserAdmin
-} from '@/shared/ui/MailIcons'
+import { DistributionOutline, EmailNew, MailAll, UserAdmin } from '@/shared/ui'
 
 import { summaryQuery } from '@/entities/analytics'
 

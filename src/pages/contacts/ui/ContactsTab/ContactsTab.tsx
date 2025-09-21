@@ -40,15 +40,15 @@ import { useTrashModal } from '@/features/contacts/trash'
 import { useTableUrlSync } from '@/features/table-url-sync'
 
 import { formatDate, stableStringify } from '@/shared/lib'
-import { TableSkeleton } from '@/shared/ui/Skeletons'
 import {
 	ActionsCol,
 	RightControlButtons,
 	SelectCol,
 	TablePagination,
+	TableSkeleton,
 	TableWrapper,
 	buildHeader
-} from '@/shared/ui/Table'
+} from '@/shared/ui'
 
 import ActionsBar from '../../components/ActionsBar'
 

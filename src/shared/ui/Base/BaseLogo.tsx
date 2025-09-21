@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 
+import { PRIVATE_ROUTES } from '@/shared/constants'
 import { cn } from '@/shared/lib/cn'
-
-import { PRIVATE_ROUTES } from '../constants'
 
 interface BaseLogoProps {
 	size?: 'xs' | 's' | 'sm' | 'md'

@@ -6,14 +6,14 @@ import { useMemo, useState } from 'react'
 
 import { StatCard, StatCardSkeleton } from './StatCard'
 import { useCampaignStats } from '@/entities/campaigns'
-import { ErrorsTopWidget } from '@/pages/analytics/ui/ErrorsTopWidget'
+import { ErrorsTopWidget } from '@/pages/analytics/ui/widgets/ErrorsTopWidget'
 import {
 	TIME_SCALES,
 	type TimeScale,
 	TimeScaleSelector,
 	getDateRangeForScale
-} from '@/pages/analytics/ui/TimeScaleSelector'
-import { TimeseriesWidget } from '@/pages/analytics/ui/TimeseriesWidget'
+} from '@/pages/analytics/ui/widgets/TimeScaleSelector'
+import { TimeseriesWidget } from '@/pages/analytics/ui/widgets/TimeseriesWidget'
 
 type Props = {
 	campaignId: string

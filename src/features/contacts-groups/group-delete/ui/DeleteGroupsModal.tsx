@@ -1,4 +1,4 @@
-import DeleteConfirmModal from '@/shared/ui/Modals/DeleteConfirmModal'
+import { DeleteConfirmModal } from '@/shared/ui/Modals'
 
 import { useDeleteGroups } from '../model/useDeleteGroups'
 

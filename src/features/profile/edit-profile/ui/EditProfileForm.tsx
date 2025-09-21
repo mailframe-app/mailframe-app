@@ -5,7 +5,7 @@ import { DatePicker } from '@consta/uikit/DatePicker'
 import { Text } from '@consta/uikit/Text'
 import { Controller, useForm } from 'react-hook-form'
 
-import { TextFieldForm } from '@/shared/ui/TextFieldForm'
+import { TextFieldForm } from '@/shared/ui'
 
 import { ProfileFormHeader } from './ProfileFormHeader'
 import { TimezoneSelect, timezoneItems } from './TimezoneSelect'

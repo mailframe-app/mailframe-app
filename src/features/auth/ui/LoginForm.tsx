@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 import { PUBLIC_ROUTES } from '@/shared/constants'
-import { TextFieldForm } from '@/shared/ui/TextFieldForm'
+import { TextFieldForm } from '@/shared/ui'
 
 import { useAuth } from '../model/auth-context'
 

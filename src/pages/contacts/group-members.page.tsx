@@ -43,15 +43,15 @@ import { useTableUrlSync } from '@/features/table-url-sync'
 
 import { PRIVATE_ROUTES } from '@/shared/constants'
 import { formatDate, showCustomToast } from '@/shared/lib'
-import DeleteConfirmModal from '@/shared/ui/Modals/DeleteConfirmModal'
-import { TableSkeleton } from '@/shared/ui/Skeletons'
 import {
 	RightControlButtons,
 	SelectCol,
 	TablePagination,
+	TableSkeleton,
 	TableWrapper,
 	buildHeader
-} from '@/shared/ui/Table'
+} from '@/shared/ui'
+import { DeleteConfirmModal } from '@/shared/ui/Modals'
 
 import ActionsBar from './components/ActionsBar'
 import GroupMembersHeader from './ui/GroupMembers/GroupMembersHeader'

@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { TextFieldForm } from '@/shared/ui/TextFieldForm'
+import { TextFieldForm } from '@/shared/ui'
 
 import { useRegister } from '../model/use-register'
 

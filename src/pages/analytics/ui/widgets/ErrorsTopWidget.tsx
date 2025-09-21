@@ -7,8 +7,7 @@ import { formatISO } from 'date-fns'
 import { useMemo } from 'react'
 
 import { formatDate } from '@/shared/lib/formatDate'
-import { EmptyBox } from '@/shared/ui'
-import { buildHeader } from '@/shared/ui/Table'
+import { EmptyBox, buildHeader } from '@/shared/ui'
 
 import { errorsTopQuery } from '@/entities/analytics'
 

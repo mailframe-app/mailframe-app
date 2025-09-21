@@ -6,7 +6,7 @@ import { Text } from '@consta/uikit/Text'
 import { useMemo } from 'react'
 
 import { formatDate } from '@/shared/lib/formatDate'
-import { RightControlButtons, SelectCol, buildHeader } from '@/shared/ui/Table'
+import { RightControlButtons, SelectCol, buildHeader } from '@/shared/ui'
 
 import type { GroupResponseDto, GroupsSortBy } from '@/entities/contacts'
 
