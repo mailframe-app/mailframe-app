@@ -32,7 +32,6 @@ export const COMPONENTS: ComponentConfig[] = [
 		component: React.createElement(
 			MjmlSection,
 			{},
-			React.createElement(Element, { is: MjmlBlock, canvas: true }),
 			React.createElement(Element, { is: MjmlBlock, canvas: true })
 		)
 	},
