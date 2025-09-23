@@ -41,7 +41,6 @@ export const Container: UserComponent<ContainerProps> = ({
 	}
 
 	const resolvedPadding = getPaddingString(resolvedPaddingObj)
-
 	const isEmpty = !children || (Array.isArray(children) && children.length === 0)
 
 	const handleAddSection = () => {
@@ -54,6 +53,31 @@ export const Container: UserComponent<ContainerProps> = ({
 			.toNodeTree()
 		actions.addNodeTree(tree, id)
 	}
+
+	const AddSectionButton = (
+		<button
+			type='button'
+			onClick={handleAddSection}
+			title='Добавить сетку'
+			style={{
+				width: 40,
+				height: 40,
+				borderRadius: '9999px',
+				border: 'none',
+				outline: 'none',
+				background: 'var(--accent)',
+				color: '#fff',
+				display: 'inline-flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				cursor: 'pointer',
+				boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
+			}}
+			aria-label='Добавить сетку'
+		>
+			<Plus size={20} />
+		</button>
+	)
 
 	return (
 		<div
@@ -110,32 +134,23 @@ export const Container: UserComponent<ContainerProps> = ({
 					<span style={{ pointerEvents: 'none' }}>
 						Для начала работы перетащите <br /> сюда элемент Сетки или нажмите
 					</span>
-					<button
-						type='button'
-						onClick={handleAddSection}
-						title='Добавить сетку'
-						style={{
-							marginTop: 6,
-							width: 36,
-							height: 36,
-							borderRadius: '9999px',
-							border: 'none',
-							outline: 'none',
-							background: 'var(--accent)',
-							color: '#fff',
-							display: 'inline-flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							cursor: 'pointer',
-							boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
-						}}
-						aria-label='Добавить сетку'
-					>
-						<Plus size={18} />
-					</button>
+					{AddSectionButton}
 				</div>
 			) : (
-				children
+				<>
+					{children}
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							padding: '16px 0 8px',
+							pointerEvents: 'auto',
+							userSelect: 'none'
+						}}
+					>
+						{AddSectionButton}
+					</div>
+				</>
 			)}
 		</div>
 	)
