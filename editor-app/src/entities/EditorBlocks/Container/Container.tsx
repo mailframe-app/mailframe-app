@@ -1,7 +1,8 @@
 import type { UserComponent } from '@craftjs/core'
-import { useNode } from '@craftjs/core'
-import { Upload } from 'lucide-react'
+import { Element, useEditor, useNode } from '@craftjs/core'
+import { Plus, Upload } from 'lucide-react'
 
+import { MjmlBlock } from '../MjmlBlock'
 import { MjmlSection } from '../MjmlSection'
 
 import type { ContainerProps, PaddingObject } from './Container.types'
@@ -22,8 +23,11 @@ export const Container: UserComponent<ContainerProps> = ({
 	hasBgImage
 }) => {
 	const {
+		id,
 		connectors: { connect, drag }
-	} = useNode()
+	} = useNode(node => ({ id: node.id }))
+
+	const { actions, query } = useEditor()
 
 	const resolvedBackground = background && background !== 'transparent' ? background : '#ffffff'
 
@@ -39,6 +43,17 @@ export const Container: UserComponent<ContainerProps> = ({
 	const resolvedPadding = getPaddingString(resolvedPaddingObj)
 
 	const isEmpty = !children || (Array.isArray(children) && children.length === 0)
+
+	const handleAddSection = () => {
+		const tree = query
+			.parseReactElement(
+				<Element is={MjmlSection} canvas>
+					<Element is={MjmlBlock} canvas />
+				</Element>
+			)
+			.toNodeTree()
+		actions.addNodeTree(tree, id)
+	}
 
 	return (
 		<div
@@ -81,7 +96,7 @@ export const Container: UserComponent<ContainerProps> = ({
 						right: 0,
 						top: '50%',
 						transform: 'translateY(-50%)',
-						pointerEvents: 'none',
+						pointerEvents: 'auto',
 						userSelect: 'none',
 						display: 'flex',
 						flexDirection: 'column',
@@ -92,7 +107,32 @@ export const Container: UserComponent<ContainerProps> = ({
 					}}
 				>
 					<Upload size={16} />
-					Перетащите сюда элемент <br /> или готовый блок из левого меню
+					<span style={{ pointerEvents: 'none' }}>
+						Для начала работы перетащите <br /> сюда элемент Сетки или нажмите
+					</span>
+					<button
+						type='button'
+						onClick={handleAddSection}
+						title='Добавить сетку'
+						style={{
+							marginTop: 6,
+							width: 36,
+							height: 36,
+							borderRadius: '9999px',
+							border: 'none',
+							outline: 'none',
+							background: 'var(--accent)',
+							color: '#fff',
+							display: 'inline-flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							cursor: 'pointer',
+							boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
+						}}
+						aria-label='Добавить сетку'
+					>
+						<Plus size={18} />
+					</button>
 				</div>
 			) : (
 				children
