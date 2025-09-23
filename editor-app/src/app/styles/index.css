@@ -77,9 +77,13 @@
 
 .editor-drop-indicator {
 	position: relative;
-	background-color: transparent !important;
-	height: 8px;
+	height: 4px;
 	z-index: 100;
+	--drop-color: var(--accent); /* по умолчанию — success */
+}
+
+.editor-drop-indicator[style*='var(--red)'] {
+	--drop-color: var(--red);
 }
 
 .editor-drop-indicator::before {
@@ -92,8 +96,7 @@
 	font-size: 12px;
 	font-weight: 500;
 	white-space: nowrap;
-	/* Стили для "таблетки" */
-	background-color: var(--accent);
+	background-color: var(--drop-color);
 	padding: 4px 12px;
 	border-radius: 16px;
 	z-index: 1;
@@ -107,7 +110,7 @@
 	width: 100%;
 	height: 2px;
 	transform: translateY(-50%);
-	background-color: var(--accent);
+	background-color: var(--drop-color);
 	z-index: 0;
 }
 
