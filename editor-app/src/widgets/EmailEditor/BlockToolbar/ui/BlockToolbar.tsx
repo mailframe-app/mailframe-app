@@ -1,6 +1,8 @@
 import {
 	ArrowLeftRight,
 	ClipboardCheck,
+	ClipboardCopy,
+	ClipboardPaste,
 	ClipboardPlus,
 	Copy,
 	GripVertical,
@@ -117,7 +119,7 @@ export const BlockToolbar = ({
 								<span className='mx-1 h-4 w-px self-center bg-gray-200' />
 
 								<PanelButton title='Копировать содержимое' onClick={onCopyContent}>
-									<Copy size={16} />
+									<ClipboardCopy size={16} />
 								</PanelButton>
 
 								<PanelButton
@@ -141,7 +143,7 @@ export const BlockToolbar = ({
 									onClick={onPasteMove}
 									disabled={!canPaste}
 								>
-									<ClipboardCheck size={16} />
+									<ClipboardPaste size={16} />
 								</PanelButton>
 
 								<PanelButton
