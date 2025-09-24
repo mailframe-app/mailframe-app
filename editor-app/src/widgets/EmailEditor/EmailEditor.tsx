@@ -68,7 +68,7 @@ const EmailEditor = () => {
 			onNodesChange={handleNodesChange}
 			resolver={resolver}
 			indicator={{
-				thickness: 8,
+				thickness: 4,
 				success: 'var(--accent)',
 				error: 'var(--red)',
 				className: 'editor-drop-indicator'
