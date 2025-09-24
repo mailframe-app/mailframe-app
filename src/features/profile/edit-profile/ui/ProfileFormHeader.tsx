@@ -16,10 +16,15 @@ export const ProfileFormHeader = ({
 	onRevert
 }: ProfileFormHeaderProps) => {
 	return (
-		<div className='mb-8 flex items-center justify-between'>
-			<Text view='primary' size='2xl' weight='bold'>
-				Профиль
-			</Text>
+		<div className='mb-7 flex items-center justify-between'>
+			<div className='flex flex-col'>
+				<Text view='primary' size='xl' weight='semibold'>
+					Данные аккаунта
+				</Text>
+				<Text view='secondary' size='s' weight='regular'>
+					Редактируйте ваши персональные данные
+				</Text>
+			</div>
 			{isDirty && (
 				<div className='flex items-center gap-2'>
 					<Button

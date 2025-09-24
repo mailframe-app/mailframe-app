@@ -97,10 +97,10 @@ export function PrivateLayoutNavbar({
 				...(isMobile
 					? {}
 					: {
-						['width' as any]: open
-							? 'var(--navbar-animate-menu-draver-width)'
-							: 'var(--navbar-animate-menu-rail-width)'
-					})
+							['width' as any]: open
+								? 'var(--navbar-animate-menu-draver-width)'
+								: 'var(--navbar-animate-menu-rail-width)'
+						})
 			}}
 		>
 			{/* Мобильная версия */}

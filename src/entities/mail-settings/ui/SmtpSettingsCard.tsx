@@ -40,12 +40,13 @@ export const SmtpSettingsCard = ({
 					<div className='flex items-center'>
 						{/* Индикатор статуса */}
 						<div
-							className={`mr-2 h-3 w-3 rounded-full ${settings.isValid === undefined
-								? 'bg-gray-300'
-								: settings.isValid
-									? 'bg-green-500'
-									: 'bg-red-500'
-								}`}
+							className={`mr-2 h-3 w-3 rounded-full ${
+								settings.isValid === undefined
+									? 'bg-gray-300'
+									: settings.isValid
+										? 'bg-green-500'
+										: 'bg-red-500'
+							}`}
 							title={
 								settings.isValid === undefined
 									? 'Статус неизвестен'

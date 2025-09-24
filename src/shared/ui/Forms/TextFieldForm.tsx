@@ -32,6 +32,7 @@ export function TextFieldForm<T extends FieldValues>({
 	shouldUnregister,
 	form,
 	clearable = true,
+	className,
 	...textFieldProps
 }: TextFieldFormProps<T>) {
 	const context = useFormContext<T>()
@@ -56,7 +57,7 @@ export function TextFieldForm<T extends FieldValues>({
 					onChange={handleChange}
 					onBlur={onBlur}
 					onClear={clearable ? () => field.onChange('') : undefined}
-					className={`custom-textfield ${clearable ? 'custom-clear-icon' : ''}`}
+					className={`custom-textfield ${clearable ? 'custom-clear-icon' : ''} ${className}`}
 					withClearButton={clearable}
 					form={form}
 					value={value ?? ''}

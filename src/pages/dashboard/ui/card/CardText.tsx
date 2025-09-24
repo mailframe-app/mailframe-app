@@ -33,8 +33,8 @@ const CardText: FC<CardTextProps> = ({
 				style={{
 					color:
 						isHovered ||
-							theme === 'presetGpnDark' ||
-							theme === 'presetGpnDisplay'
+						theme === 'presetGpnDark' ||
+						theme === 'presetGpnDisplay'
 							? 'white'
 							: '',
 					transition: `color ${animationDuration}s ease`

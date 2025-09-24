@@ -35,7 +35,7 @@ export function ConnectionView({
 		<>
 			<Layout direction='column' className='mt-4'>
 				<div className='w-full'>
-					<div className='space-y-5'>
+					<div className='space-y-4'>
 						{providers.map(provider => (
 							<ProviderCard
 								key={provider.key}

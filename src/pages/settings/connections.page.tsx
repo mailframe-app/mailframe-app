@@ -6,11 +6,11 @@ import { Connections } from '@/features/social-auth'
 
 function ConnectionsPage() {
 	return (
-		<Layout direction='column' flex={1}>
+		<Layout direction='column'>
 			<Card
 				verticalSpace='l'
 				horizontalSpace='l'
-				className='flex h-full w-full flex-col !rounded-lg bg-[var(--color-bg-default)]'
+				className='flex flex-col !rounded-lg bg-[var(--color-bg-default)]'
 				shadow={false}
 			>
 				<Text as='h2' view='primary' size='l' weight='semibold'>

@@ -49,6 +49,8 @@ import {
 } from '@/shared/ui'
 import { DeleteConfirmModal } from '@/shared/ui/Modals'
 
+import ActionsBar from './components/ActionsBar'
+import GroupMembersHeader from './ui/GroupMembers/GroupMembersHeader'
 import {
 	CONTACTS_DEFAULT_LIMIT,
 	CONTACTS_DEFAULT_PAGE,
@@ -65,8 +67,6 @@ import {
 	useRemoveMembersFromGroupMutation,
 	useUpdateField
 } from '@/entities/contacts'
-import ActionsBar from './components/ActionsBar'
-import GroupMembersHeader from './ui/GroupMembers/GroupMembersHeader'
 
 // useTableSelection hook (copied from ContactsTab)
 function useTableSelection<T extends { id: string }>(pageItems: T[]) {
@@ -246,7 +246,7 @@ function GroupMembersPage() {
 	// Column width persistence
 	const keyToId = useMemo(() => {
 		const map = new Map<string, string>()
-			; (fieldsData?.fields || []).forEach((f: any) => map.set(f.key, f.id))
+		;(fieldsData?.fields || []).forEach((f: any) => map.set(f.key, f.id))
 		return map
 	}, [fieldsData])
 
@@ -332,73 +332,73 @@ function GroupMembersPage() {
 	// Render by field type function
 	const renderByType =
 		(f: any) =>
-			({ row }: { row: any }) => {
-				const raw = row?.[f.key]
-				const t = f.fieldType as ContactFieldType
-				if (raw == null)
+		({ row }: { row: any }) => {
+			const raw = row?.[f.key]
+			const t = f.fieldType as ContactFieldType
+			if (raw == null)
+				return (
+					<DataCell>
+						<Text size='m'>-</Text>
+					</DataCell>
+				)
+			switch (t) {
+				case 'DATE':
 					return (
 						<DataCell>
-							<Text size='m'>-</Text>
+							<Text size='m'>{formatDate(raw)}</Text>
 						</DataCell>
 					)
-				switch (t) {
-					case 'DATE':
-						return (
-							<DataCell>
-								<Text size='m'>{formatDate(raw)}</Text>
-							</DataCell>
-						)
-					case 'NUMBER': {
-						const num = Number(raw)
-						return (
-							<DataCell>
-								<Text size='m'>
-									{Number.isFinite(num)
-										? num.toLocaleString('ru-RU')
-										: String(raw)}
-								</Text>
-							</DataCell>
-						)
-					}
-					case 'URL':
-						return (
-							<DataCell>
-								<a
-									href={String(raw)}
-									target='_blank'
-									rel='noreferrer'
-									className='underline'
-								>
-									<Text size='m'>{String(raw)}</Text>
-								</a>
-							</DataCell>
-						)
-					case 'EMAIL':
-						return (
-							<DataCell>
-								<a href={`mailto:${String(raw)}`} className='underline'>
-									<Text size='m'>{String(raw)}</Text>
-								</a>
-							</DataCell>
-						)
-					case 'SELECT': {
-						const options = f?.fieldMetadata?.options || []
-						const val = String(raw)
-						const found = options.find((o: any) => o.value === val)
-						return (
-							<DataCell>
-								<Text size='m'>{found?.label ?? val}</Text>
-							</DataCell>
-						)
-					}
-					default:
-						return (
-							<DataCell>
-								<Text size='m'>{String(raw)}</Text>
-							</DataCell>
-						)
+				case 'NUMBER': {
+					const num = Number(raw)
+					return (
+						<DataCell>
+							<Text size='m'>
+								{Number.isFinite(num)
+									? num.toLocaleString('ru-RU')
+									: String(raw)}
+							</Text>
+						</DataCell>
+					)
 				}
+				case 'URL':
+					return (
+						<DataCell>
+							<a
+								href={String(raw)}
+								target='_blank'
+								rel='noreferrer'
+								className='underline'
+							>
+								<Text size='m'>{String(raw)}</Text>
+							</a>
+						</DataCell>
+					)
+				case 'EMAIL':
+					return (
+						<DataCell>
+							<a href={`mailto:${String(raw)}`} className='underline'>
+								<Text size='m'>{String(raw)}</Text>
+							</a>
+						</DataCell>
+					)
+				case 'SELECT': {
+					const options = f?.fieldMetadata?.options || []
+					const val = String(raw)
+					const found = options.find((o: any) => o.value === val)
+					return (
+						<DataCell>
+							<Text size='m'>{found?.label ?? val}</Text>
+						</DataCell>
+					)
+				}
+				default:
+					return (
+						<DataCell>
+							<Text size='m'>{String(raw)}</Text>
+						</DataCell>
+					)
 			}
+		}
 
 	// Build columns
 	const columns: TableColumn<any>[] = useMemo(() => {

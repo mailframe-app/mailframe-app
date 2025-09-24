@@ -34,7 +34,7 @@ export function ProviderCard({
 			<div className='flex items-center justify-between gap-4'>
 				<div className='flex items-center gap-x-6'>
 					<div
-						className='flex h-12 w-12 items-center justify-center rounded-full'
+						className='flex aspect-square h-12 w-12 items-center justify-center rounded-full'
 						style={{
 							backgroundColor: 'var(--color-control-bg-primary)'
 						}}
@@ -43,7 +43,7 @@ export function ProviderCard({
 					</div>
 					<div className='flex flex-col'>
 						<div className='flex items-center gap-2'>
-							<Text view='primary' size='l' weight='semibold' as='h2'>
+							<Text view='primary' weight='bold' as='h2'>
 								{provider.name}
 							</Text>
 							{isConnected && (
@@ -51,11 +51,12 @@ export function ProviderCard({
 									label='Подключено'
 									status='success'
 									view='tinted'
+									size='s'
 									iconLeft={IconCheck}
 								/>
 							)}
 						</div>
-						<Text view='secondary' size='s' as='p' className='mt-1'>
+						<Text view='secondary' size='xs' as='p' className='mt-1'>
 							{provider.description}
 						</Text>
 					</div>

@@ -15,10 +15,10 @@ export const PasswordSecurityCard = () => {
 			className='w-full !rounded-lg border border-[var(--color-bg-ghost)]'
 			shadow={false}
 		>
-			<div className='flex items-center justify-between gap-4'>
-				<div className='flex items-center'>
+			<div className='flex items-center justify-between gap-x-4'>
+				<div className='flex items-center gap-x-6'>
 					<div
-						className='mr-4 rounded-full px-3 py-2'
+						className='flex aspect-square h-12 w-12 items-center justify-center rounded-full'
 						style={{
 							backgroundColor: 'var(--color-control-bg-primary)'
 						}}
@@ -26,8 +26,8 @@ export const PasswordSecurityCard = () => {
 						<IconLock size='m' className='text-white' />
 					</div>
 					<div>
-						<div className='mb-1'>
-							<Text weight='bold' view='primary'>
+						<div className='mb-1 flex items-center'>
+							<Text weight='bold' view='primary' as='h2' className='mr-2'>
 								Пароль
 							</Text>
 						</div>

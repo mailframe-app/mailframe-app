@@ -4,8 +4,8 @@ import { dashboardCards } from '../model/dashboardCards'
 import { useActionButtons } from '../model/useActionButtons'
 import { CardId } from '../types'
 
-import { ActionsCreateModal } from '@/widgets/CreateContactsModal'
 import { CardLink } from './card'
+import { ActionsCreateModal } from '@/widgets/CreateContactsModal'
 
 const ActionButtons = memo(() => {
 	const {

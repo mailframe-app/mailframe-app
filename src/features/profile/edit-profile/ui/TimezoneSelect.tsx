@@ -3,6 +3,8 @@ import { useDebounce } from '@consta/uikit/useDebounce'
 import { getTimeZones } from '@vvo/tzdb'
 import { useMemo, useState } from 'react'
 
+import { useTheme } from '@/features/theme'
+
 export type Timezone = {
 	label: string
 	value: string
@@ -45,7 +47,7 @@ interface TimezoneSelectProps {
 export const TimezoneSelect = ({ value, onChange }: TimezoneSelectProps) => {
 	const [searchValue, setSearchValue] = useState('')
 	const setSearchValueDebounce = useDebounce(setSearchValue, 300)
-
+	const { theme } = useTheme()
 	const filteredTimezones = useMemo(() => {
 		if (!searchValue) {
 			return timezoneItems
@@ -66,6 +68,15 @@ export const TimezoneSelect = ({ value, onChange }: TimezoneSelectProps) => {
 			value={searchValue ? undefined : value}
 			onChange={onChange}
 			input
+			style={
+				{
+					border: 'none',
+					backgroundColor:
+						theme === 'presetGpnDefault' ? '#F8FAFC' : 'var(--color-bg-stripe)',
+					'--color-control-bg-default':
+						theme === 'presetGpnDefault' ? '#F8FAFC' : 'var(--color-bg-stripe)'
+				} as React.CSSProperties
+			}
 		/>
 	)
 }

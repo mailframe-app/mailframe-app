@@ -19,10 +19,7 @@ function SmtpSettingsPage() {
 
 	return (
 		<Layout direction='column' flex={1}>
-			<Card
-				className='flex h-full w-full flex-col !rounded-lg'
-				shadow={false}
-			>
+			<Card className='flex h-full w-full flex-col !rounded-lg' shadow={false}>
 				{!isLoading && smtpSettings.length === 0 ? (
 					<>
 						<Text size='m' weight='bold' view='primary' className='mb-8'>

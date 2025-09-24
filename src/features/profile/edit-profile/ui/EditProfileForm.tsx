@@ -5,6 +5,8 @@ import { DatePicker } from '@consta/uikit/DatePicker'
 import { Text } from '@consta/uikit/Text'
 import { Controller, useForm } from 'react-hook-form'
 
+import { useTheme } from '@/features/theme'
+
 import { TextFieldForm } from '@/shared/ui'
 
 import { ProfileFormHeader } from './ProfileFormHeader'
@@ -36,6 +38,8 @@ export const EditProfileForm = ({ profile }: EditProfileFormProps) => {
 				: undefined
 		}
 	})
+
+	const { theme } = useTheme()
 
 	const updateProfileMutation = useUpdateProfileInfoMutation()
 
@@ -72,17 +76,23 @@ export const EditProfileForm = ({ profile }: EditProfileFormProps) => {
 				onRevert={() => reset()}
 			/>
 			<div>
-				<Text view='primary' size='m' weight='semibold' className='mb-4'>
-					Персональные данные
-				</Text>
 				<div className='grid grid-cols-2 gap-x-4'>
 					{/* ФИО */}
 					<div className='col-span-2'>
 						<TextFieldForm
 							name='displayName'
 							control={control}
-							label='ФИО'
+							label='Фамилия и имя'
 							clearable={false}
+							className='textfield-no-border'
+							style={
+								{
+									'--color-control-bg-default':
+										theme === 'presetGpnDefault'
+											? '#F8FAFC'
+											: 'var(--color-bg-stripe)'
+								} as React.CSSProperties
+							}
 						/>
 					</div>
 					{/* Email */}
@@ -90,9 +100,18 @@ export const EditProfileForm = ({ profile }: EditProfileFormProps) => {
 						<TextFieldForm
 							name='email'
 							control={control}
-							label='Email'
+							label='Почта'
 							readOnly
 							clearable={false}
+							className='textfield-no-border'
+							style={
+								{
+									'--color-control-bg-default':
+										theme === 'presetGpnDefault'
+											? '#F8FAFC'
+											: 'var(--color-bg-stripe)'
+								} as React.CSSProperties
+							}
 						/>
 						{profile?.isEmailVerified ? (
 							<div className='absolute top-[36px] right-3'>
@@ -121,6 +140,15 @@ export const EditProfileForm = ({ profile }: EditProfileFormProps) => {
 						label='Город'
 						placeholder='Введите город'
 						clearable={false}
+						className='textfield-no-border'
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
+						}
 					/>
 					{/* Часовой пояс */}
 					<Controller
@@ -128,7 +156,12 @@ export const EditProfileForm = ({ profile }: EditProfileFormProps) => {
 						control={control}
 						render={({ field }) => (
 							<div>
-								<Text view='secondary' size='s' className='mb-2 block'>
+								<Text
+									view='primary'
+									size='s'
+									weight='medium'
+									className='mb-2 block'
+								>
 									Часовой пояс
 								</Text>
 								<TimezoneSelect value={field.value} onChange={field.onChange} />
@@ -142,6 +175,15 @@ export const EditProfileForm = ({ profile }: EditProfileFormProps) => {
 						label='Отдел'
 						placeholder='Введите отдел'
 						clearable={false}
+						className='textfield-no-border'
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
+						}
 					/>
 					{/* Дата рождения */}
 					<Controller
@@ -149,11 +191,24 @@ export const EditProfileForm = ({ profile }: EditProfileFormProps) => {
 						control={control}
 						render={({ field }) => (
 							<div>
-								<Text view='secondary' size='s' className='mb-2 block'>
+								<Text
+									view='primary'
+									size='s'
+									weight='medium'
+									className='mb-2 block'
+								>
 									Дата рождения
 								</Text>
 								<DatePicker
-									className='w-full'
+									className='textfield-no-border w-full'
+									style={
+										{
+											'--color-control-bg-default':
+												theme === 'presetGpnDefault'
+													? '#F8FAFC'
+													: 'var(--color-bg-stripe)'
+										} as React.CSSProperties
+									}
 									value={field.value ? new Date(field.value) : null}
 									onChange={date => {
 										if (!date) {

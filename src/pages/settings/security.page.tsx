@@ -11,13 +11,19 @@ import { Sessions } from '@/entities/session'
 function SecurityPage() {
 	return (
 		<Layout direction='column' className='w-full'>
-			<Card
+			{/* <Card
 				verticalSpace='l'
 				horizontalSpace='l'
 				className='flex h-full w-full flex-col !rounded-lg bg-[var(--color-bg-default)]'
 				shadow={false}
-			>
-				<Layout direction='column' className='flex-col gap-4'>
+			> */}
+			<Layout direction='column' className='flex-col gap-4'>
+				<Card
+					verticalSpace='l'
+					horizontalSpace='l'
+					className='flex h-full w-full flex-col gap-4 !rounded-lg bg-[var(--color-bg-default)]'
+					shadow={false}
+				>
 					<div className='flex flex-col'>
 						<Text as='h2' view='primary' size='l' weight='semibold'>
 							Управление аккаунтом
@@ -28,17 +34,31 @@ function SecurityPage() {
 					</div>
 					<EmailVerificationCard />
 					<PasswordSecurityCard />
-					<div className='flex flex-col mt-4'>
+				</Card>
+				<Card
+					verticalSpace='l'
+					horizontalSpace='l'
+					className='flex h-full w-full flex-col gap-4 !rounded-lg bg-[var(--color-bg-default)]'
+					shadow={false}
+				>
+					<div className='flex flex-col'>
 						<Text as='h2' view='primary' size='l' weight='semibold'>
 							Многофакторная аутентификация
 						</Text>
 						<Text view='secondary' size='s' weight='regular'>
-							Двухфакторная аутентификация — это дополнительный уровень защиты для
-							вашего аккаунта
+							Двухфакторная аутентификация — это дополнительный уровень защиты
+							для вашего аккаунта
 						</Text>
 					</div>
 					<MfaStatus />
-					<div className='flex flex-col mt-4'>
+				</Card>
+				<Card
+					verticalSpace='l'
+					horizontalSpace='l'
+					className='flex h-full w-full flex-col gap-4 !rounded-lg bg-[var(--color-bg-default)]'
+					shadow={false}
+				>
+					<div className='flex flex-col'>
 						<Text as='h2' view='primary' size='l' weight='semibold'>
 							Активные подключения
 						</Text>
@@ -47,8 +67,9 @@ function SecurityPage() {
 						</Text>
 					</div>
 					<Sessions />
-				</Layout>
-			</Card>
+				</Card>
+			</Layout>
+			{/* </Card> */}
 		</Layout>
 	)
 }

@@ -22,9 +22,9 @@ function SettingsPage() {
 			className='!rounded-lg bg-[var(--color-bg-default)]'
 			shadow={false}
 		>
-			<Layout direction='row' className='gap-4'>
+			<Layout direction='row'>
 				{/* Left Card - Avatar */}
-				<div className='min-w-[274px] flex-shrink-0 flex-grow basis-1/4'>
+				<div className='my-auto min-w-[274px] flex-shrink-0 flex-grow basis-1/4'>
 					<Card
 						verticalSpace='l'
 						horizontalSpace='l'
@@ -72,7 +72,7 @@ function SettingsPage() {
 					<Card
 						verticalSpace='l'
 						horizontalSpace='l'
-						className='h-full w-full flex-1 !rounded-lg'
+						className='h-full !rounded-lg'
 						shadow={false}
 					>
 						<EditProfileForm profile={profile} />

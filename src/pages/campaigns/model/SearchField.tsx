@@ -1,10 +1,10 @@
+import { IconSearchStroked } from '@consta/icons/IconSearchStroked'
 import { TextField } from '@consta/uikit/TextField'
 import { useDebounce } from '@consta/uikit/useDebounce'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { useTheme } from '@/features/theme'
-import { IconSearchStroked } from '@consta/icons/IconSearchStroked'
 
 export function SearchField() {
 	const [searchParams, setSearchParams] = useSearchParams()
