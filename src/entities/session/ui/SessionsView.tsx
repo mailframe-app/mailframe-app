@@ -1,14 +1,14 @@
 import { Card } from '@consta/uikit/Card'
 
+import { useSessions } from '@/entities/session'
 import { RemoveAllProvider } from './RemoveAllProvider'
 import { SessionItem } from './SessionItem'
-import { useSessions } from '@/entities/session'
 
 export function Sessions() {
 	const sessions = useSessions()
 
 	return (
-		<Card className='w-full !rounded-2xl p-6'>
+		<Card shadow={false} verticalSpace='l' horizontalSpace='l' className='w-full !rounded-lg p-6 border border-[var(--color-bg-ghost)]'>
 			{sessions.map((session, index) => (
 				<SessionItem
 					key={session.id}

@@ -43,9 +43,10 @@ export const MfaStatus = () => {
 	return (
 		<div className='flex flex-col gap-4'>
 			<Card
-				verticalSpace='xl'
+				verticalSpace='l'
 				horizontalSpace='xl'
-				className='w-full !rounded-xl'
+				className='w-full !rounded-lg border border-[var(--color-bg-ghost)]'
+				shadow={false}
 			>
 				<div className='flex items-center justify-between'>
 					<div className='flex items-center'>
@@ -81,12 +82,14 @@ export const MfaStatus = () => {
 						<Button
 							label='Отключить'
 							view='secondary'
+							className='!border !border-[var(--color-bg-alert)] !text-[var(--color-bg-alert)]'
 							onClick={handleDisableClick}
 						/>
 					) : (
 						<Button
 							label='Включить'
-							view='secondary'
+							view='clear'
+							className='!border !border-[var(--color-bg-ghost)]'
 							loading={isLoading.generating}
 							onClick={handleSetupClick}
 						/>

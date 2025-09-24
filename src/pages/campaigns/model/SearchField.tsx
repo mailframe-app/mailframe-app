@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { useTheme } from '@/features/theme'
+import { IconSearchStroked } from '@consta/icons/IconSearchStroked'
 
 export function SearchField() {
 	const [searchParams, setSearchParams] = useSearchParams()
@@ -35,7 +36,8 @@ export function SearchField() {
 	return (
 		<TextField
 			value={value}
-			size='l'
+			size='m'
+			leftSide={IconSearchStroked}
 			onChange={val => setValue(val || '')}
 			placeholder='Поиск по названию'
 			className='custom-clear-icon textfield-no-border w-full'

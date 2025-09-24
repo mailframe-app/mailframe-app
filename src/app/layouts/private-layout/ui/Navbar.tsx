@@ -97,10 +97,10 @@ export function PrivateLayoutNavbar({
 				...(isMobile
 					? {}
 					: {
-							['width' as any]: open
-								? 'var(--navbar-animate-menu-draver-width)'
-								: 'var(--navbar-animate-menu-rail-width)'
-						})
+						['width' as any]: open
+							? 'var(--navbar-animate-menu-draver-width)'
+							: 'var(--navbar-animate-menu-rail-width)'
+					})
 			}}
 		>
 			{/* Мобильная версия */}
@@ -110,7 +110,7 @@ export function PrivateLayoutNavbar({
 						<BaseLogo size='xs' onlyIcon />
 						<div className='-mx-8 my-7 border-[var(--color-bg-border)]' />
 						<NavbarRail<AppNavbarItem>
-							className='!rounded-l'
+							className='!rounded-lg'
 							items={appMenuItems}
 							getItemLabel={() => undefined}
 							getItemTooltip={getItemLabel}
@@ -120,7 +120,7 @@ export function PrivateLayoutNavbar({
 						/>
 					</div>
 					<NavbarRail<AppNavbarItem>
-						className='!rounded-l'
+						className='!rounded-lg'
 						items={[logoutMenuItem]}
 						getItemLabel={() => undefined}
 						getItemTooltip={getItemLabel}
@@ -142,7 +142,7 @@ export function PrivateLayoutNavbar({
 								<BaseLogo size='xs' onlyIcon />
 								<div className='-mx-8 my-7 border-[var(--color-bg-border)]' />
 								<NavbarRail<AppNavbarItem>
-									className='!rounded-l'
+									className='!rounded-lg'
 									items={appMenuItems}
 									getItemLabel={() => undefined}
 									getItemTooltip={getItemLabel}
@@ -152,7 +152,7 @@ export function PrivateLayoutNavbar({
 								/>
 							</div>
 							<NavbarRail<AppNavbarItem>
-								className='!rounded-l'
+								className='!rounded-lg'
 								items={[logoutMenuItem]}
 								getItemLabel={() => undefined}
 								getItemTooltip={getItemLabel}
@@ -174,7 +174,7 @@ export function PrivateLayoutNavbar({
 								<BaseLogo size='xs' />
 								<div className='-mx-8 my-7 border-[var(--color-bg-border)]' />
 								<Navbar<AppNavbarItem>
-									className='!rounded-l'
+									className='!rounded-lg'
 									items={appMenuItems}
 									getItemLabel={getItemLabel}
 									getItemActive={getItemActive}
@@ -183,7 +183,7 @@ export function PrivateLayoutNavbar({
 								/>
 							</div>
 							<Navbar<AppNavbarItem>
-								className='!rounded-l pb-1'
+								className='!rounded-lg pb-1'
 								items={[logoutMenuItem]}
 								getItemLabel={getItemLabel}
 								getItemIcon={getItemIcon}

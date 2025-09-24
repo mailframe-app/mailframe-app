@@ -12,6 +12,7 @@ import { DataCell } from '@consta/table/DataCell'
 import type { TableColumn } from '@consta/table/Table'
 import { Table } from '@consta/table/Table'
 import { Button } from '@consta/uikit/Button'
+import { Card } from '@consta/uikit/Card'
 import { Layout } from '@consta/uikit/Layout'
 import { ResponsesEmptyPockets } from '@consta/uikit/ResponsesEmptyPockets'
 import { Text } from '@consta/uikit/Text'
@@ -31,19 +32,14 @@ import { AddMembersModal } from '@/features/contacts-groups/group-add-members'
 import { CloneGroupModal } from '@/features/contacts-groups/group-clone'
 import { DeleteGroupsModal } from '@/features/contacts-groups/group-delete'
 import { EditGroupModal } from '@/features/contacts-groups/group-edit'
-import {
-	ContactRowContent,
-	ExpandableEmailCell,
-	type TableRow,
-	isContactDto,
-	isContactInfoRow,
-	useExpandableContactRow
-} from '@/features/contacts/expandable-contact-row'
+import { DeleteContactsModal } from '@/features/contacts/contact-delete'
+import { EditContactModal } from '@/features/contacts/contact-edit'
 import { useTableUrlSync } from '@/features/table-url-sync'
 
 import { PRIVATE_ROUTES } from '@/shared/constants'
 import { formatDate, showCustomToast } from '@/shared/lib'
 import {
+	ActionsCol,
 	RightControlButtons,
 	SelectCol,
 	TablePagination,
@@ -53,8 +49,6 @@ import {
 } from '@/shared/ui'
 import { DeleteConfirmModal } from '@/shared/ui/Modals'
 
-import ActionsBar from './components/ActionsBar'
-import GroupMembersHeader from './ui/GroupMembers/GroupMembersHeader'
 import {
 	CONTACTS_DEFAULT_LIMIT,
 	CONTACTS_DEFAULT_PAGE,
@@ -71,6 +65,8 @@ import {
 	useRemoveMembersFromGroupMutation,
 	useUpdateField
 } from '@/entities/contacts'
+import ActionsBar from './components/ActionsBar'
+import GroupMembersHeader from './ui/GroupMembers/GroupMembersHeader'
 
 // useTableSelection hook (copied from ContactsTab)
 function useTableSelection<T extends { id: string }>(pageItems: T[]) {
@@ -231,6 +227,12 @@ function GroupMembersPage() {
 	const [isCopyOpen, setIsCopyOpen] = useState(false)
 	const [isExcludeOpen, setIsExcludeOpen] = useState(false)
 
+	// Single contact action modals
+	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+	const [contactToEdit, setContactToEdit] = useState<any>(null)
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+	const [contactToDelete, setContactToDelete] = useState<any>(null)
+
 	// Invalidate helpers
 	const invalidateContacts = useInvalidateContacts()
 	const invalidateGroups = useInvalidateGroups()
@@ -244,7 +246,7 @@ function GroupMembersPage() {
 	// Column width persistence
 	const keyToId = useMemo(() => {
 		const map = new Map<string, string>()
-		;(fieldsData?.fields || []).forEach((f: any) => map.set(f.key, f.id))
+			; (fieldsData?.fields || []).forEach((f: any) => map.set(f.key, f.id))
 		return map
 	}, [fieldsData])
 
@@ -272,33 +274,31 @@ function GroupMembersPage() {
 		}
 	})
 
-	// Expandable rows state
-	const { expandedRows, toggleRow, closeRow } = useExpandableContactRow()
-
-	// Get email value function
-	const getEmailValue = useCallback((contact: any): string => {
-		return contact.email || ''
+	// Handlers for single contact actions
+	const handleSingleEditClose = useCallback(() => {
+		setIsEditModalOpen(false)
+		setContactToEdit(null)
 	}, [])
 
+	const handleSingleEditSuccess = useCallback(() => {
+		invalidateContacts()
+		setIsEditModalOpen(false)
+		setContactToEdit(null)
+	}, [invalidateContacts])
+
+	const handleSingleDeleteClose = useCallback(() => {
+		setIsDeleteModalOpen(false)
+		setContactToDelete(null)
+	}, [])
+
+	const handleSingleDeleteSuccess = useCallback(() => {
+		invalidateContacts()
+		setIsDeleteModalOpen(false)
+		setContactToDelete(null)
+	}, [invalidateContacts])
+
 	// Create rows with info-rows for expanded contacts
-	const rows = useMemo(() => {
-		const result: TableRow[] = []
-
-		items.forEach(contact => {
-			result.push(contact)
-
-			// Add info-row after contact if expanded
-			if (expandedRows.includes(contact.id)) {
-				result.push({
-					isInfo: true,
-					contactId: contact.id,
-					contact
-				})
-			}
-		})
-
-		return result
-	}, [items, expandedRows])
+	const rows = useMemo(() => items, [items])
 
 	// Header creation function with sorting
 	const makeHeader = (label: string, keyName: string) => {
@@ -332,76 +332,76 @@ function GroupMembersPage() {
 	// Render by field type function
 	const renderByType =
 		(f: any) =>
-		({ row }: { row: any }) => {
-			const raw = row?.[f.key]
-			const t = f.fieldType as ContactFieldType
-			if (raw == null)
-				return (
-					<DataCell>
-						<Text size='m'>-</Text>
-					</DataCell>
-				)
-			switch (t) {
-				case 'DATE':
+			({ row }: { row: any }) => {
+				const raw = row?.[f.key]
+				const t = f.fieldType as ContactFieldType
+				if (raw == null)
 					return (
 						<DataCell>
-							<Text size='m'>{formatDate(raw)}</Text>
+							<Text size='m'>-</Text>
 						</DataCell>
 					)
-				case 'NUMBER': {
-					const num = Number(raw)
-					return (
-						<DataCell>
-							<Text size='m'>
-								{Number.isFinite(num)
-									? num.toLocaleString('ru-RU')
-									: String(raw)}
-							</Text>
-						</DataCell>
-					)
-				}
-				case 'URL':
-					return (
-						<DataCell>
-							<a
-								href={String(raw)}
-								target='_blank'
-								rel='noreferrer'
-								className='underline'
-							>
+				switch (t) {
+					case 'DATE':
+						return (
+							<DataCell>
+								<Text size='m'>{formatDate(raw)}</Text>
+							</DataCell>
+						)
+					case 'NUMBER': {
+						const num = Number(raw)
+						return (
+							<DataCell>
+								<Text size='m'>
+									{Number.isFinite(num)
+										? num.toLocaleString('ru-RU')
+										: String(raw)}
+								</Text>
+							</DataCell>
+						)
+					}
+					case 'URL':
+						return (
+							<DataCell>
+								<a
+									href={String(raw)}
+									target='_blank'
+									rel='noreferrer'
+									className='underline'
+								>
+									<Text size='m'>{String(raw)}</Text>
+								</a>
+							</DataCell>
+						)
+					case 'EMAIL':
+						return (
+							<DataCell>
+								<a href={`mailto:${String(raw)}`} className='underline'>
+									<Text size='m'>{String(raw)}</Text>
+								</a>
+							</DataCell>
+						)
+					case 'SELECT': {
+						const options = f?.fieldMetadata?.options || []
+						const val = String(raw)
+						const found = options.find((o: any) => o.value === val)
+						return (
+							<DataCell>
+								<Text size='m'>{found?.label ?? val}</Text>
+							</DataCell>
+						)
+					}
+					default:
+						return (
+							<DataCell>
 								<Text size='m'>{String(raw)}</Text>
-							</a>
-						</DataCell>
-					)
-				case 'EMAIL':
-					return (
-						<DataCell>
-							<a href={`mailto:${String(raw)}`} className='underline'>
-								<Text size='m'>{String(raw)}</Text>
-							</a>
-						</DataCell>
-					)
-				case 'SELECT': {
-					const options = f?.fieldMetadata?.options || []
-					const val = String(raw)
-					const found = options.find((o: any) => o.value === val)
-					return (
-						<DataCell>
-							<Text size='m'>{found?.label ?? val}</Text>
-						</DataCell>
-					)
+							</DataCell>
+						)
 				}
-				default:
-					return (
-						<DataCell>
-							<Text size='m'>{String(raw)}</Text>
-						</DataCell>
-					)
 			}
-		}
 
 	// Build columns
-	const columns: TableColumn<TableRow>[] = useMemo(() => {
+	const columns: TableColumn<any>[] = useMemo(() => {
 		if (!fieldsData?.fields) return []
 
 		// Column width clamp function
@@ -410,77 +410,19 @@ function GroupMembersPage() {
 			return Math.max(COL_WIDTH_MIN, Math.min(COL_WIDTH_MAX, n))
 		}
 
-		// SelectCol as first column - adapt for TableRow
-		const selectColBase = SelectCol<any>({
+		// SelectCol as first column
+		const selectCol = SelectCol<any>({
 			allOnPageSelected,
 			toggleAllOnPage,
 			selectedIds,
 			toggleOne
 		})
 
-		const selectCol: TableColumn<TableRow> = {
-			...selectColBase,
-			renderCell: ({ row }: { row: TableRow }) => {
-				// Hide checkbox for info-rows
-				if (isContactInfoRow(row)) {
-					return null
-				}
-
-				// For regular contacts - use original renderCell
-				if (selectColBase.renderCell) {
-					return selectColBase.renderCell({ row } as any)
-				}
-
-				return null
-			}
-		}
-
 		// Build user columns based on fields
-		const userColumns: TableColumn<TableRow>[] = (fieldsData.fields || [])
+		const userColumns: TableColumn<any>[] = (fieldsData.fields || [])
 			.filter(f => f.isVisible && f.key !== 'status')
 			.sort((a, b) => a.sortOrder - b.sortOrder)
 			.map(f => {
-				// Special handling for email column
-				if (f.fieldType === 'EMAIL') {
-					return {
-						title: f.name,
-						accessor: f.key as any,
-						width: clamp(f.columnWidth),
-						minWidth: COL_WIDTH_MIN,
-						maxWidth: COL_WIDTH_MAX,
-						renderHeaderCell: () => (
-							<div ref={registerHeaderRef(f.key)}>
-								{makeHeader(f.name, f.key)!(undefined as any)}
-							</div>
-						),
-						renderCell: ({ row }: { row: TableRow }) => {
-							if (isContactInfoRow(row)) {
-								return (
-									<ContactRowContent
-										contact={row.contact}
-										onClose={() => closeRow(row.contactId)}
-									/>
-								)
-							}
-
-							if (isContactDto(row)) {
-								return (
-									<ExpandableEmailCell
-										contact={row}
-										email={getEmailValue(row)}
-										isExpanded={expandedRows.includes(row.id)}
-										onToggle={toggleRow}
-									/>
-								)
-							}
-
-							return null
-						},
-						colSpan: ({ row }: { row: TableRow }) =>
-							isContactInfoRow(row) ? 'end' : 1
-					}
-				}
-
 				// Regular columns
 				return {
 					title: f.name,
@@ -497,18 +439,25 @@ function GroupMembersPage() {
 				}
 			})
 
-		return [selectCol, ...userColumns]
+		const actionsCol = ActionsCol<any>({
+			onEdit: row => {
+				setContactToEdit(row)
+				setIsEditModalOpen(true)
+			},
+			onDelete: row => {
+				setContactToDelete(row)
+				setIsDeleteModalOpen(true)
+			}
+		})
+
+		return [selectCol, ...userColumns, actionsCol]
 	}, [
 		fieldsData,
 		sortBy,
 		sortOrder,
 		allOnPageSelected,
 		selectedIds,
-		registerHeaderRef,
-		expandedRows,
-		toggleRow,
-		closeRow,
-		getEmailValue
+		registerHeaderRef
 	])
 
 	// Show skeleton condition
@@ -603,148 +552,150 @@ function GroupMembersPage() {
 			) : (
 				<>
 					{/* Actions Bar */}
-					<ActionsBar
-						placeholder='Поиск участников'
-						search={search}
-						onSearchChange={handleSearchChange}
-						isActionsOpen={isActionsOpen}
-						onToggleActions={() => setIsActionsOpen(prev => !prev)}
-						onCloseActions={() => setIsActionsOpen(false)}
-						actionsDisabled={selectedIds.size === 0}
-						items={[
-							{
-								key: 'updateField',
-								label: 'Редактировать поле',
-								leftIcon: IconEdit,
-								onClick: () => {
-									setIsUpdateFieldOpen(true)
-									setIsActionsOpen(false)
-								}
-							},
-							{
-								key: 'copyToGroup',
-								label: 'Копировать в группу',
-								leftIcon: IconCopy,
-								onClick: () => {
-									setIsCopyOpen(true)
-									setIsActionsOpen(false)
-								}
-							},
-							{
-								key: 'moveToGroup',
-								label: 'Переместить в группу',
-								leftIcon: IconAdd,
-								onClick: () => {
-									setIsMoveOpen(true)
-									setIsActionsOpen(false)
-								}
-							},
+					<Card
+						verticalSpace='l'
+						horizontalSpace='l'
+						className='!rounded-lg'
+						style={{
+							backgroundColor: 'var(--color-bg-default)'
+						}}
+						shadow={false}
+					>
+						<ActionsBar
+							placeholder='Поиск участников'
+							search={search}
+							onSearchChange={handleSearchChange}
+							isActionsOpen={isActionsOpen}
+							onToggleActions={() => setIsActionsOpen(prev => !prev)}
+							onCloseActions={() => setIsActionsOpen(false)}
+							actionsDisabled={selectedIds.size === 0}
+							items={[
+								{
+									key: 'updateField',
+									label: 'Редактировать поле',
+									leftIcon: IconEdit,
+									onClick: () => {
+										setIsUpdateFieldOpen(true)
+										setIsActionsOpen(false)
+									}
+								},
+								{
+									key: 'copyToGroup',
+									label: 'Копировать в группу',
+									leftIcon: IconCopy,
+									onClick: () => {
+										setIsCopyOpen(true)
+										setIsActionsOpen(false)
+									}
+								},
+								{
+									key: 'moveToGroup',
+									label: 'Переместить в группу',
+									leftIcon: IconAdd,
+									onClick: () => {
+										setIsMoveOpen(true)
+										setIsActionsOpen(false)
+									}
+								},
 
-							{
-								key: 'excludeFromGroup',
-								label: 'Исключить из группы',
-								status: 'alert',
-								leftIcon: IconRemove,
-								onClick: () => {
-									setIsExcludeOpen(true)
-									setIsActionsOpen(false)
+								{
+									key: 'excludeFromGroup',
+									label: 'Исключить из группы',
+									status: 'alert',
+									leftIcon: IconRemove,
+									onClick: () => {
+										setIsExcludeOpen(true)
+										setIsActionsOpen(false)
+									}
 								}
+							]}
+							rightExtras={
+								<div className='flex items-center gap-2'>
+									{selectedIds.size > 0 && (
+										<>
+											<Button
+												view='clear'
+												iconLeft={IconAllDone}
+												label={`${selectedIds.size}`}
+												title={`Выбрано участников: ${selectedIds.size}`}
+											/>
+											<Button
+												view='clear'
+												onlyIcon
+												iconSize='s'
+												iconLeft={IconRevert}
+												onClick={clearSelection}
+												title='Отменить выделение'
+											/>
+										</>
+									)}
+								</div>
 							}
-						]}
-						rightExtras={
-							<div className='flex items-center gap-2'>
-								{selectedIds.size > 0 && (
-									<>
-										<Button
-											view='clear'
-											iconLeft={IconAllDone}
-											label={`${selectedIds.size}`}
-											title={`Выбрано участников: ${selectedIds.size}`}
-										/>
-										<Button
-											view='clear'
-											onlyIcon
-											iconSize='s'
-											iconLeft={IconRevert}
-											onClick={clearSelection}
-											title='Отменить выделение'
-										/>
-									</>
-								)}
-							</div>
-						}
-					/>
+						/>
 
-					{/* Table */}
-					{showSkeleton ? (
-						<div className='w-full'>
-							<TableSkeleton
-								rows={10}
-								columns={
-									fieldsData?.fields?.filter(f => f.isVisible)?.length || 3
-								}
-								withSelectColumn={true}
-							/>
-						</div>
-					) : items.length === 0 ? (
-						<div className='flex w-full justify-center p-6 py-10'>
-							<ResponsesEmptyPockets
-								size='m'
-								title='По заданным условиям ничего не найдено'
-								description='Попробуйте изменить условия поиска'
-								actions={
-									<Button
-										size='m'
-										view='primary'
-										label='Сбросить фильтры'
-										onClick={() => {
-											setSearch('')
-											setPage(1)
-										}}
-									/>
-								}
-							/>
-						</div>
-					) : (
-						<TableWrapper>
-							<div onPointerDown={() => enable()}>
-								<Table
-									rows={rows as any}
-									columns={columns as any}
-									resizable='outside'
-									getRowKey={(row: TableRow) => {
-										if (isContactInfoRow(row)) {
-											return `${row.contactId}-info`
-										}
-										if (isContactDto(row)) {
-											return row.id
-										}
-										return 'unknown'
-									}}
-									headerZIndex={10}
-									stickyHeader={false}
-									rowHoverEffect
+						{/* Table */}
+						{showSkeleton ? (
+							<div className='w-full'>
+								<TableSkeleton
+									rows={10}
+									columns={
+										fieldsData?.fields?.filter(f => f.isVisible)?.length || 3
+									}
+									withSelectColumn={true}
 								/>
 							</div>
-						</TableWrapper>
-					)}
+						) : items.length === 0 ? (
+							<div className='flex w-full justify-center p-6 py-10'>
+								<ResponsesEmptyPockets
+									size='m'
+									title='По заданным условиям ничего не найдено'
+									description='Попробуйте изменить условия поиска'
+									actions={
+										<Button
+											size='m'
+											view='primary'
+											label='Сбросить фильтры'
+											onClick={() => {
+												setSearch('')
+												setPage(1)
+											}}
+										/>
+									}
+								/>
+							</div>
+						) : (
+							<TableWrapper>
+								<div onPointerDown={() => enable()}>
+									<Table
+										rows={rows as any}
+										columns={columns as any}
+										resizable='outside'
+										getRowKey={(row: any) => row.id}
+										headerZIndex={10}
+										stickyHeader={false}
+										rowHoverEffect
+									/>
+								</div>
+							</TableWrapper>
+						)}
 
-					{/* Pagination */}
-					{!showSkeleton && items.length > 0 && (
-						<TablePagination
-							total={total}
-							offset={offset}
-							step={limit}
-							onChange={(newOffset: number) => {
-								const newPage = Math.floor(newOffset / limit) + 1
-								setPage(newPage)
-							}}
-							onStepChange={(newStep: number) => {
-								setLimit(newStep)
-								setPage(1)
-							}}
-						/>
-					)}
+						{/* Pagination */}
+						{!showSkeleton && items.length > 0 && (
+							<TablePagination
+								total={total}
+								offset={offset}
+								step={limit}
+								onChange={(newOffset: number) => {
+									const newPage = Math.floor(newOffset / limit) + 1
+									setPage(newPage)
+								}}
+								onStepChange={(newStep: number) => {
+									setLimit(newStep)
+									setPage(1)
+								}}
+							/>
+						)}
+					</Card>
 				</>
 			)}
 
@@ -883,6 +834,25 @@ function GroupMembersPage() {
 				onClose={() => setIsAddOpen(false)}
 				groupId={groupId}
 			/>
+
+			{/* Single Contact Modals */}
+			{contactToEdit && (
+				<EditContactModal
+					isOpen={isEditModalOpen}
+					onClose={handleSingleEditClose}
+					contact={contactToEdit}
+					onUpdated={handleSingleEditSuccess}
+				/>
+			)}
+			{contactToDelete && (
+				<DeleteContactsModal
+					isOpen={isDeleteModalOpen}
+					onClose={handleSingleDeleteClose}
+					contactIds={[contactToDelete.id]}
+					contactTitle={contactToDelete.email}
+					onDeleted={handleSingleDeleteSuccess}
+				/>
+			)}
 		</Layout>
 	)
 }

@@ -15,14 +15,16 @@ export function RemoveAllProvider() {
 		onSuccess() {
 			modals.closeAll()
 			showCustomToast({
-				title: 'Вы успешно вышли из всех устройств',
+				title: 'Успешно',
+				description: 'Вы успешно вышли из всех устройств',
 				type: 'success'
 			})
 		},
 		onSettled: useInvalidateSessionsList(),
 		onError(error: ErrorResponse) {
 			showCustomToast({
-				title: error.message ?? 'Ошибка при отключении',
+				title: 'Ошибка при отключении',
+				description: error.message ?? 'Ошибка при отключении',
 				type: 'error'
 			})
 		}
@@ -46,7 +48,8 @@ export function RemoveAllProvider() {
 		<Button
 			onClick={handleRemoveAll}
 			loading={isPending}
-			view='ghost'
+			view='primary'
+			className='!bg-[var(--color-bg-alert)]'
 			size='s'
 			label='Выйти на всех устройствах'
 			title='Выйти на всех устройствах'

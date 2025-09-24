@@ -22,9 +22,10 @@ export const EmailVerificationCard = () => {
 
 	return (
 		<Card
-			verticalSpace='xl'
-			horizontalSpace='xl'
-			className='w-full !rounded-xl'
+			verticalSpace='l'
+			horizontalSpace='l'
+			className='w-full !rounded-lg border border-[var(--color-bg-ghost)]'
+			shadow={false}
 		>
 			<div className='flex items-center justify-between gap-4'>
 				<div className='flex items-center'>
@@ -57,7 +58,8 @@ export const EmailVerificationCard = () => {
 				{!isEmailVerified && (
 					<Button
 						label='Подтвердить'
-						view='secondary'
+						view='clear'
+						className='!border !border-[var(--color-bg-ghost)]'
 						onClick={handleSendVerification}
 						loading={sendVerification.isPending}
 					/>

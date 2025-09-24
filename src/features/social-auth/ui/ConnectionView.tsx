@@ -1,6 +1,5 @@
 import { Layout } from '@consta/uikit/Layout'
 import { Loader } from '@consta/uikit/Loader'
-import { Text } from '@consta/uikit/Text'
 
 import type { ExternalStatusResponse } from '../api'
 import type { Provider } from '../model/types'
@@ -34,13 +33,8 @@ export function ConnectionView({
 
 	return (
 		<>
-			<Layout direction='column'>
+			<Layout direction='column' className='mt-4'>
 				<div className='w-full'>
-					<Text view='secondary' size='s' weight='regular' className='mb-4'>
-						Подключите и управляйте своими аккаунтами с использованием сторонних
-						сервисов
-					</Text>
-
 					<div className='space-y-5'>
 						{providers.map(provider => (
 							<ProviderCard

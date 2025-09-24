@@ -20,18 +20,19 @@ function SmtpSettingsPage() {
 	return (
 		<Layout direction='column' flex={1}>
 			<Card
-				verticalSpace='2xl'
-				horizontalSpace='2xl'
-				className='flex h-full w-full flex-col !rounded-2xl bg-[var(--color-bg-default)]'
+				className='flex h-full w-full flex-col !rounded-lg'
+				shadow={false}
 			>
-				<Text size='2xl' weight='bold' view='primary' className='mb-8'>
-					Настройки почтового клиента
-				</Text>
 				{!isLoading && smtpSettings.length === 0 ? (
-					<Text view='secondary' className='mb-8'>
-						У вас пока нет настроек SMTP. Нажмите "Добавить", чтобы создать
-						новые настройки.
-					</Text>
+					<>
+						<Text size='m' weight='bold' view='primary' className='mb-8'>
+							Настройки почтового клиента
+						</Text>
+						<Text view='secondary' className='mb-8'>
+							У вас пока нет настроек SMTP. Нажмите "Добавить", чтобы создать
+							новые настройки.
+						</Text>
+					</>
 				) : (
 					<div className='mb-8 flex flex-col gap-4'>
 						{smtpSettings.map(settings => (

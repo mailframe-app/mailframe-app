@@ -27,9 +27,10 @@ export const SmtpSettingsCard = ({
 }: SmtpSettingsCardProps) => {
 	return (
 		<Card
-			verticalSpace='2xl'
-			horizontalSpace='2xl'
-			className='flex h-full w-full flex-col !rounded-2xl'
+			verticalSpace='l'
+			horizontalSpace='l'
+			className='flex h-full w-full flex-col !rounded-lg bg-[var(--color-bg-default)]'
+			shadow={false}
 		>
 			<div className='mb-4 flex items-center justify-between'>
 				<Text size='m' weight='semibold' view='primary'>
@@ -39,13 +40,12 @@ export const SmtpSettingsCard = ({
 					<div className='flex items-center'>
 						{/* Индикатор статуса */}
 						<div
-							className={`mr-2 h-3 w-3 rounded-full ${
-								settings.isValid === undefined
-									? 'bg-gray-300'
-									: settings.isValid
-										? 'bg-green-500'
-										: 'bg-red-500'
-							}`}
+							className={`mr-2 h-3 w-3 rounded-full ${settings.isValid === undefined
+								? 'bg-gray-300'
+								: settings.isValid
+									? 'bg-green-500'
+									: 'bg-red-500'
+								}`}
 							title={
 								settings.isValid === undefined
 									? 'Статус неизвестен'

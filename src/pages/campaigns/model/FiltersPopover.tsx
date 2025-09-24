@@ -90,7 +90,7 @@ export function FiltersPopover({ tabId }: { tabId: string }) {
 			<Button
 				label='Фильтры'
 				view='ghost'
-				size='l'
+				size='m'
 				iconSize='s'
 				iconLeft={IconFilter}
 				onClick={() => setIsPopoverVisible(!isPopoverVisible)}

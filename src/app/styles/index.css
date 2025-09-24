@@ -175,6 +175,10 @@
 	font-weight: 600 !important;
 }
 
+.che--NavbarItem .che--NavbarItem_form_default {
+	border-radius: 8px !important;
+}
+
 /* Consta Table: force themed text color in cells */
 .ct--TableCell,
 .ct--TableCell .Text {

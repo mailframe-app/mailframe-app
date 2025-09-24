@@ -12,27 +12,40 @@ function SecurityPage() {
 	return (
 		<Layout direction='column' className='w-full'>
 			<Card
-				verticalSpace='2xl'
-				horizontalSpace='2xl'
-				className='flex h-full w-full flex-col !rounded-2xl bg-[var(--color-bg-default)]'
+				verticalSpace='l'
+				horizontalSpace='l'
+				className='flex h-full w-full flex-col !rounded-lg bg-[var(--color-bg-default)]'
+				shadow={false}
 			>
-				<Text size='2xl' weight='bold' view='primary' className='mb-4'>
-					Безопасность
-				</Text>
-
 				<Layout direction='column' className='flex-col gap-4'>
-					<Text size='m' weight='bold' view='primary'>
-						Управление аккаунтом
-					</Text>
+					<div className='flex flex-col'>
+						<Text as='h2' view='primary' size='l' weight='semibold'>
+							Управление аккаунтом
+						</Text>
+						<Text view='secondary' size='s' weight='regular'>
+							Настройка безопасности вашего аккаунта
+						</Text>
+					</div>
 					<EmailVerificationCard />
 					<PasswordSecurityCard />
-					<Text size='m' weight='bold' view='primary' className='mt-4'>
-						Многофакторная аутентификация
-					</Text>
+					<div className='flex flex-col mt-4'>
+						<Text as='h2' view='primary' size='l' weight='semibold'>
+							Многофакторная аутентификация
+						</Text>
+						<Text view='secondary' size='s' weight='regular'>
+							Двухфакторная аутентификация — это дополнительный уровень защиты для
+							вашего аккаунта
+						</Text>
+					</div>
 					<MfaStatus />
-					<Text size='m' weight='bold' view='primary' className='mt-4'>
-						Активные подключения
-					</Text>
+					<div className='flex flex-col mt-4'>
+						<Text as='h2' view='primary' size='l' weight='semibold'>
+							Активные подключения
+						</Text>
+						<Text view='secondary' size='s' weight='regular'>
+							Список активных подключений к вашему аккаунту
+						</Text>
+					</div>
 					<Sessions />
 				</Layout>
 			</Card>

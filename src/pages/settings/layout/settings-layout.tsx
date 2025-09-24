@@ -86,7 +86,6 @@ export function SettingsLayout() {
 						label={item.label}
 						view={activeTab?.id === item.id ? 'primary' : 'clear'}
 						size='m'
-						// iconLeft={item.icon}
 						onClick={() => handleChange(item)}
 						className={activeTab?.id === item.id ? '' : ''}
 						style={{

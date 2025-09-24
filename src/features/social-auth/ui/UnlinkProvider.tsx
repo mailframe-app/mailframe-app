@@ -30,7 +30,8 @@ export function UnlinkProvider({ provider }: UnlinkProviderProps) {
 	return (
 		<Button
 			label='Отключить'
-			view='ghost'
+			view='secondary'
+			className='!border !border-[var(--color-bg-alert)] !text-[var(--color-bg-alert)]'
 			onClick={handleUnlink}
 			loading={isPending}
 		/>
