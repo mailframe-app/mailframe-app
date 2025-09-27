@@ -60,7 +60,7 @@ export const ComponentItem: React.FC<ComponentItemProps> = ({
 				if (!el) return
 				connectors.create(ref, buildFinalElement(el))
 			}}
-			className='group relative flex h-27 w-27 cursor-pointer flex-col items-center justify-between rounded-xl border border-gray-200 bg-white p-2 text-[14px] transition hover:shadow'
+			className='group relative flex h-27 w-27 cursor-pointer flex-col items-center justify-between rounded-xl border border-[var(--color-bg-ghost)] bg-[var(--color-bg-default)] p-2 text-[14px] transition hover:shadow'
 			onClick={onClick}
 			title={title}
 			onDragEnd={e => {
@@ -107,9 +107,9 @@ export const ComponentItem: React.FC<ComponentItemProps> = ({
 		>
 			<div className='flex flex-1 flex-col items-center justify-center'>
 				<div className='flex h-6 w-6 items-center justify-center'>
-					<Icon size='m' className='text-[var(--primary)]' />
+					<Icon size='m' className='text-[var(--color-typo-primary)]' />
 				</div>
-				<Text size='s' weight='regular' align='center'>
+				<Text size='s' weight='regular' align='center' view='primary'>
 					{title}
 				</Text>
 			</div>
@@ -120,7 +120,7 @@ export const ComponentItem: React.FC<ComponentItemProps> = ({
 				>
 					<IconDraggable
 						size='s'
-						className='rotate-90 transform text-gray-300'
+						className='rotate-90 transform text-[var(--color-typo-secondary)]'
 						style={{ width: DRAG_ICON_PX, height: DRAG_ICON_PX, fontSize: DRAG_ICON_PX }}
 						aria-hidden
 					/>

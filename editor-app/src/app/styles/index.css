@@ -51,7 +51,8 @@
 }
 
 .editor-canvas {
-	@apply flex-1 overflow-auto bg-gray-100 p-4;
+	@apply flex-1 overflow-auto p-4;
+	background-color: var(--color-bg-secondary);
 }
 
 .editor-properties {

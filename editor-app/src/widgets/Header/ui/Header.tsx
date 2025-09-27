@@ -8,20 +8,15 @@ import { AutosaveIndicator } from '@/entities/EditorTemplate'
 
 export const Header = () => {
 	return (
-		<header className='flex w-full items-center justify-between border-b border-gray-200 bg-white px-8 py-5 shadow-sm'>
+		<header className='flex w-full items-center justify-between bg-[var(--color-bg-default)] px-8 py-5'>
 			{/* Левая часть */}
 			<div className='flex min-w-0 items-center gap-13'>
 				<Button
-					view='secondary'
+					view='clear'
 					iconLeft={IconBackward}
-					size='s'
-					className='rounded-full border border-gray-200'
-					style={{
-						boxShadow: '0px 2px 8px 0px rgba(0,32,51,0.16)',
-						border: '1px solid #E5E6EB',
-						width: '40px',
-						height: '40px'
-					}}
+					size='m'
+					iconSize='s'
+					className='cursor-pointer !border !border-[var(--color-bg-ghost)]'
 					onClick={() => (window.location.href = '/templates')}
 				/>
 				<EditableTitle />

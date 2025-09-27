@@ -1,4 +1,4 @@
-import { IconFunnel } from '@consta/icons/IconFunnel'
+import { IconFilter } from '@consta/icons/IconFilter'
 import { IconRevert } from '@consta/icons/IconRevert'
 import { Button } from '@consta/uikit/Button'
 import { Popover } from '@consta/uikit/Popover'
@@ -8,6 +8,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
+import { useTheme } from '@/features/theme'
+
 import { DEFAULT_SORT_BY, DEFAULT_SORT_ORDER } from './constants'
 import { SORT_BY_ITEMS, SORT_ORDER_ITEMS } from './select-options'
 import { tagsListQuery } from '@/entities/template-tags'
@@ -16,6 +18,7 @@ export function FiltersPopover() {
 	const anchorRef = useRef<HTMLButtonElement>(null)
 	const [isPopoverVisible, setIsPopoverVisible] = useState(false)
 	const [searchParams, setSearchParams] = useSearchParams()
+	const { theme } = useTheme()
 	const { data: allTags, isLoading: tagsLoading } = useQuery(
 		tagsListQuery({ type: 'templates' })
 	)
@@ -63,12 +66,24 @@ export function FiltersPopover() {
 		<>
 			<Button
 				label='Фильтры'
-				view={isFiltered ? 'primary' : 'ghost'}
-				onlyIcon
+				view='ghost'
+				size='m'
 				iconSize='s'
-				iconLeft={IconFunnel}
+				iconLeft={IconFilter}
 				onClick={() => setIsPopoverVisible(!isPopoverVisible)}
 				ref={anchorRef}
+				style={
+					{
+						'--button-bg-color':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)',
+						'--button-bg-color-disable':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 			{isPopoverVisible && (
 				//@ts-ignore

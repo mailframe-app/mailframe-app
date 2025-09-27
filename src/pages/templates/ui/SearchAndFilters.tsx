@@ -7,7 +7,7 @@ interface SearchAndFiltersProps {
 
 export function SearchAndFilters({ tabId }: SearchAndFiltersProps) {
 	return (
-		<div className='my-8 flex items-center gap-x-4'>
+		<div className='mb-6 flex items-center gap-x-4'>
 			<SearchField />
 			{tabId === 'my-templates' && <FiltersPopover />}
 		</div>

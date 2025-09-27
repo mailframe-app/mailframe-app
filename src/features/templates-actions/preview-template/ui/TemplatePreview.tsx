@@ -55,12 +55,14 @@ export function TemplatePreview({ template, onClose }: TemplatePreviewProps) {
 			})
 			setInitialTags(value || []) // Обновляем исходное состояние
 			showCustomToast({
-				title: 'Теги успешно сохранены',
+				title: 'Успешно',
+				description: 'Теги успешно сохранены',
 				type: 'success'
 			})
 		} catch (error) {
 			showCustomToast({
-				title: 'Ошибка при сохранении тегов',
+				title: 'Ошибка',
+				description: 'Произошла ошибка при сохранении тегов',
 				type: 'error'
 			})
 		} finally {

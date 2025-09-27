@@ -31,13 +31,15 @@ export function useEditableTemplateName({
 					name: localName
 				})
 				showCustomToast({
-					title: 'Название шаблона обновлено',
+					title: 'Успешно',
+					description: 'Название шаблона обновлено',
 					type: 'success'
 				})
 				onNameUpdate(updatedTemplate.name)
 			} catch (error) {
 				showCustomToast({
-					title: 'Ошибка при обновлении названия',
+					title: 'Ошибка',
+					description: 'Произошла ошибка при обновлении названия',
 					type: 'error'
 				})
 				setLocalName(initialName) // Revert on error

@@ -13,7 +13,7 @@ export const Sidebar: React.FC = () => {
 	const [activeTab, setActiveTab] = useState<SidebarTab>(SIDEBAR_TABS[0])
 
 	return (
-		<div className='flex h-full flex-col items-center border-gray-100 bg-white'>
+		<div className='flex h-full flex-col items-center bg-[var(--color-bg-default)]'>
 			<SidebarTabs activeTab={activeTab} onTabChange={setActiveTab} tabs={SIDEBAR_TABS} />
 
 			{activeTab.value === 'content' ? (
@@ -23,7 +23,7 @@ export const Sidebar: React.FC = () => {
 					<ModulesLibrary />
 				</div>
 			) : (
-				<div className='flex h-full flex-col items-center justify-center text-gray-400'>
+				<div className='flex h-full flex-col items-center justify-center text-[var(--color-typo-secondary)]'>
 					<Text size='s'>Неизвестная вкладка</Text>
 				</div>
 			)}

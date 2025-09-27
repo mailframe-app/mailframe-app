@@ -70,7 +70,7 @@ export const PropertiesPanel: React.FC = () => {
 	return (
 		<div
 			className={cn(
-				'editor-properties flex h-full flex-col items-center border-gray-100 bg-white',
+				'editor-properties flex h-full flex-col items-center border-none !bg-[var(--color-bg-default)]',
 				selected?.isWide ? 'w-[720px]' : 'w-[320px]'
 			)}
 		>
@@ -84,7 +84,7 @@ export const PropertiesPanel: React.FC = () => {
 					{selected ? (
 						<div className='w-full p-4'>
 							<div className='mb-6 flex items-center justify-between'>
-								<Text size='l' weight='medium'>
+								<Text size='l' weight='medium' view='primary'>
 									{isCanvas ? 'Дизайн' : selected.name}
 								</Text>
 								{!isCanvas && (
@@ -132,13 +132,13 @@ export const PropertiesPanel: React.FC = () => {
 					) : (
 						<div className='p-4'>
 							<div className='py-16 text-center'>
-								<div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100'>
+								<div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg !bg-[var(--color-bg-ghost)]'>
 									{/* ... */}
 								</div>
-								<Text size='m' weight='medium' className='mb-2 block'>
+								<Text size='m' weight='medium' className='mb-2 block' view='primary'>
 									Выберите элемент
 								</Text>
-								<Text size='s' view='secondary'>
+								<Text size='s' view='primary'>
 									Кликните на элемент в области редактирования, чтобы настроить его свойства
 								</Text>
 							</div>
@@ -150,7 +150,7 @@ export const PropertiesPanel: React.FC = () => {
 					<VariablesTab onMappingChange={updateVariableMapping} isWide={selected?.isWide} />
 				</div>
 			) : (
-				<div className='flex h-full flex-col items-center justify-center text-gray-400'>
+				<div className='flex h-full flex-col items-center justify-center text-[var(--color-typo-secondary)]'>
 					<Text size='s'>Неизвестная вкладка</Text>
 				</div>
 			)}

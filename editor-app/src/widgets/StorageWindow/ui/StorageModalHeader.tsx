@@ -7,8 +7,8 @@ import { useState } from 'react'
 
 import { BulkInlineActions, EmptyTrashModal, StorageSearch } from '@/features/Storage'
 
-import { StorageBreadcrumbs } from './StorageBreadcrumbs'
 import { useStorageStore } from '@/entities/Storage'
+import { StorageBreadcrumbs } from './StorageBreadcrumbs'
 
 interface StorageModalHeaderProps {
 	onClose: () => void
@@ -23,16 +23,14 @@ export const StorageModalHeader = ({ onClose }: StorageModalHeaderProps) => {
 
 	return (
 		<>
-			<header className='flex w-full items-center justify-between border-b border-gray-200 bg-white px-8 py-5 shadow-sm'>
+			<header className='flex w-full items-center justify-between bg-[var(--color-bg-default)] px-8 py-5'>
 				<div className='flex min-w-0 items-center gap-4'>
 					<Button
 						view='secondary'
 						iconLeft={IconClose}
 						size='s'
-						className='rounded-full border border-gray-200'
+						className='rounded-full border border-[var(--color-bg-ghost)]'
 						style={{
-							boxShadow: '0px 2px 8px 0px rgba(0,32,51,0.16)',
-							border: '1px solid #E5E6EB',
 							width: '40px',
 							height: '40px'
 						}}
