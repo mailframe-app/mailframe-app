@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
+import { useTheme } from '@/features/theme'
+
 import { PUBLIC_ROUTES } from '@/shared/constants'
 import { TextFieldForm } from '@/shared/ui'
 
@@ -39,7 +41,7 @@ export type LoginFormType = z.infer<typeof LoginFormSchema>
 
 export function LoginForm() {
 	const { login, isLoginPending } = useAuth()
-
+	const { theme } = useTheme()
 	const { handleSubmit, control, formState } = useForm<LoginFormType>({
 		resolver: zodResolver(LoginFormSchema)
 	})
@@ -55,6 +57,15 @@ export function LoginForm() {
 					control={control}
 					autoFocus
 					size='l'
+					className='textfield-no-border'
+					style={
+						{
+							'--color-control-bg-default':
+								theme === 'presetGpnDefault'
+									? '#F8FAFC'
+									: 'var(--color-bg-stripe)'
+						} as React.CSSProperties
+					}
 				/>
 			</div>
 			<div className='relative'>
@@ -66,6 +77,15 @@ export function LoginForm() {
 					control={control}
 					clearable={false}
 					size='l'
+					className='textfield-no-border'
+					style={
+						{
+							'--color-control-bg-default':
+								theme === 'presetGpnDefault'
+									? '#F8FAFC'
+									: 'var(--color-bg-stripe)'
+						} as React.CSSProperties
+					}
 				/>
 				<Link to={PUBLIC_ROUTES.FORGOT_PASSWORD}>
 					<Text

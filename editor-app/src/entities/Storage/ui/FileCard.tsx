@@ -35,8 +35,11 @@ export const FileCard = React.forwardRef<HTMLButtonElement, FileCardProps>(
 
 		return (
 			<div
-				className={`flex h-full flex-col rounded-md border p-2 transition-all ${isSelected ? 'border-blue-500' : 'border-[var(--color-bg-ghost)] hover:border-[var(--color-bg-ghost)]'
-					}`}
+				className={`flex h-full flex-col rounded-md border p-2 transition-all ${
+					isSelected
+						? 'border-blue-500'
+						: 'border-[var(--color-bg-ghost)] hover:border-[var(--color-bg-ghost)]'
+				}`}
 				onClick={handleClick}
 				onMouseEnter={() => setIsHovered(true)}
 				onMouseLeave={() => setIsHovered(false)}

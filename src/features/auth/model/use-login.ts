@@ -66,7 +66,8 @@ export function useLoginMutations({
 				setSessionToken(data.token)
 
 				showCustomToast({
-					title: 'Вход выполнен успешно!',
+					title: 'Успешно!',
+					description: 'Вы вошли в систему.',
 					type: 'success'
 				})
 				navigate(PRIVATE_ROUTES.DASHBOARD, { replace: true })
@@ -89,7 +90,8 @@ export function useLoginMutations({
 				setSessionToken(data.token)
 
 				showCustomToast({
-					title: 'Вход выполнен успешно!',
+					title: 'Успешно!',
+					description: 'Вы вошли в систему.',
 					type: 'success'
 				})
 				navigate(PRIVATE_ROUTES.DASHBOARD, { replace: true })

@@ -11,13 +11,13 @@ import {
 
 import type { SelectedFileData } from '@/shared/types'
 
+import { StorageModalSkeleton } from './StorageModalSkeleton'
 import {
 	type StorageFile,
 	type StorageFolder,
 	useStorageNavigation,
 	useStorageStore
 } from '@/entities/Storage'
-import { StorageModalSkeleton } from './StorageModalSkeleton'
 
 export const StorageModalContent = () => {
 	const {
@@ -89,7 +89,9 @@ export const StorageModalContent = () => {
 				) : isEmpty ? (
 					<div className='flex h-full items-center justify-center p-8'>
 						<div className='text-center'>
-							<Text size='l' view='primary'>Здесь ничего нет</Text>
+							<Text size='l' view='primary'>
+								Здесь ничего нет
+							</Text>
 						</div>
 					</div>
 				) : (

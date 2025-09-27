@@ -6,6 +6,8 @@ import { Text } from '@consta/uikit/Text'
 import { TextField } from '@consta/uikit/TextField'
 import { useState } from 'react'
 
+import { useTheme } from '@/features/theme'
+
 import { showCustomToast } from '@/shared/lib/toaster'
 
 import { useAuth } from '../model/auth-context'
@@ -19,6 +21,7 @@ export const MfaForm = () => {
 		isVerifyingTotp,
 		isVerifyingRecovery
 	} = useAuth()
+	const { theme } = useTheme()
 	const [activeTab, setActiveTab] = useState<'totp' | 'recovery'>(
 		methods.includes('totp') ? 'totp' : 'recovery'
 	)
@@ -76,16 +79,25 @@ export const MfaForm = () => {
 						type='text'
 						placeholder='XXXXXX'
 						maxLength={6}
+						size='l'
 						value={totpCode}
 						onClear={() => setTotpCode('')}
 						withClearButton
 						onChange={v => setTotpCode(v ?? '')}
-						className='custom-textfield custom-clear-icon mb-4 w-full'
+						className='custom-textfield custom-clear-icon textfield-no-border mb-4 w-full'
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
+						}
 					/>
 					<Button
 						label='Подтвердить'
 						view='primary'
-						size='m'
+						size='l'
 						width='full'
 						onClick={handleVerifyTotp}
 						loading={isVerifyingTotp}
@@ -103,13 +115,22 @@ export const MfaForm = () => {
 						value={recoveryCode}
 						onClear={() => setRecoveryCode('')}
 						withClearButton
+						size='l'
 						onChange={v => setRecoveryCode(v ?? '')}
-						className='custom-textfield custom-clear-icon mb-4 w-full'
+						className='custom-textfield custom-clear-icon textfield-no-border mb-4 w-full'
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
+						}
 					/>
 					<Button
 						label='Подтвердить'
 						view='primary'
-						size='m'
+						size='l'
 						width='full'
 						onClick={handleVerifyRecovery}
 						loading={isVerifyingRecovery}
@@ -119,9 +140,9 @@ export const MfaForm = () => {
 			<Button
 				label='Отмена'
 				view='clear'
-				size='m'
+				size='l'
 				onClick={resetMfa}
-				className='mt-4 !border !border-[var(--color-control-bg-border-default)]'
+				className='mt-4 !border !border-[var(--color-control-bg-ghost)]'
 			/>
 		</div>
 	)

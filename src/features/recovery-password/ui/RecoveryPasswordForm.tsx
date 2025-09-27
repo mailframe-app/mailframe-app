@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
+import { useTheme } from '@/features/theme'
+
 import { PUBLIC_ROUTES } from '@/shared/constants'
 import { TextFieldForm } from '@/shared/ui'
 
@@ -45,6 +47,7 @@ export type RecoveryPasswordFormType = z.infer<
 >
 
 export function RecoveryPasswordForm() {
+	const { theme } = useTheme()
 	const { handleSubmit, control, formState } =
 		useForm<RecoveryPasswordFormType>({
 			resolver: zodResolver(RecoveryPasswordFormSchema)
@@ -66,6 +69,15 @@ export function RecoveryPasswordForm() {
 				control={control}
 				autoFocus
 				clearable={false}
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 			<TextFieldForm<RecoveryPasswordFormType>
 				name='confirmPassword'
@@ -75,24 +87,33 @@ export function RecoveryPasswordForm() {
 				placeholder='Повторите пароль'
 				control={control}
 				clearable={false}
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 
 			<Button
 				type='submit'
-				size='m'
+				size='l'
 				width='full'
 				// disabled={!formState.isValid}
 				view={formState.isValid ? 'primary' : 'ghost'}
 				label='Продолжить'
 				loading={isPending}
-				className='mb-4'
+				className='mt-4 mb-4'
 			/>
 			<Button
 				label='Назад'
 				width='full'
-				size='m'
+				size='l'
 				view='clear'
-				className='!border !border-[var(--color-control-bg-border-default)]'
+				className='!border !border-[var(--color-control-bg-ghost)]'
 				onClick={() => navigate(PUBLIC_ROUTES.LOGIN)}
 			/>
 		</form>

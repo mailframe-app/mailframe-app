@@ -3,6 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { useTheme } from '@/features/theme'
+
 import { TextFieldForm } from '@/shared/ui'
 
 import { useRegister } from '../model/use-register'
@@ -65,6 +67,7 @@ const RegisterFormSchema = z
 export type RegisterFormType = z.infer<typeof RegisterFormSchema>
 
 export function RegisterForm() {
+	const { theme } = useTheme()
 	const { handleSubmit, control, formState } = useForm<RegisterFormType>({
 		resolver: zodResolver(RegisterFormSchema)
 	})
@@ -83,6 +86,15 @@ export function RegisterForm() {
 				control={control}
 				autoFocus
 				size='l'
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 			<TextFieldForm<RegisterFormType>
 				name='email'
@@ -91,6 +103,15 @@ export function RegisterForm() {
 				placeholder='Введите почту'
 				control={control}
 				size='l'
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 
 			<TextFieldForm<RegisterFormType>
@@ -101,6 +122,15 @@ export function RegisterForm() {
 				control={control}
 				clearable={false}
 				size='l'
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 			<TextFieldForm<RegisterFormType>
 				name='confirmPassword'
@@ -110,6 +140,15 @@ export function RegisterForm() {
 				control={control}
 				clearable={false}
 				size='l'
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 
 			<Button

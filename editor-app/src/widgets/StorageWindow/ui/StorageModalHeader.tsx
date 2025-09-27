@@ -7,8 +7,8 @@ import { useState } from 'react'
 
 import { BulkInlineActions, EmptyTrashModal, StorageSearch } from '@/features/Storage'
 
-import { useStorageStore } from '@/entities/Storage'
 import { StorageBreadcrumbs } from './StorageBreadcrumbs'
+import { useStorageStore } from '@/entities/Storage'
 
 interface StorageModalHeaderProps {
 	onClose: () => void
