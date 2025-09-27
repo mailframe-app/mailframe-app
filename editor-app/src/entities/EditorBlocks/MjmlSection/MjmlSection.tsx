@@ -1,4 +1,5 @@
-import { useNode } from '@craftjs/core'
+import { Element, useEditor, useNode } from '@craftjs/core'
+import React, { useEffect } from 'react'
 
 import { MjmlBlock } from '../MjmlBlock'
 
@@ -21,10 +22,25 @@ export const MjmlSection = ({
 	bgPosition = 'center'
 }: MjmlSectionProps) => {
 	const {
+		id,
+		childNodes,
 		connectors: { connect }
-	} = useNode()
+	} = useNode(node => ({
+		id: node.id,
+		childNodes: node.data.nodes || []
+	}))
 
-	// никакой компенсации: используем gap "как есть"
+	const { actions, query } = useEditor()
+
+	useEffect(() => {
+		if (childNodes.length === 0) {
+			const BlockComp = MjmlBlock as React.ElementType
+			const blockEl = <Element is={BlockComp} canvas />
+			const blockNode = query.createNode(blockEl)
+			actions.add(blockNode, id)
+		}
+	}, [childNodes.length, actions, query, id])
+
 	const effectiveGap = Number(gap)
 
 	return (
@@ -75,9 +91,7 @@ MjmlSection.craft = {
 		bgPosition: 'center'
 	},
 	name: 'Сетки',
-	related: {
-		settings: MjmlSectionSettings
-	},
+	related: { settings: MjmlSectionSettings },
 	rules: {
 		canMoveIn: (incoming: unknown | unknown[]) => {
 			type RuleNode = { data?: { type?: unknown; displayName?: string } }
