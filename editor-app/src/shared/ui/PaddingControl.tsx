@@ -42,13 +42,13 @@ export const PaddingsControl: React.FC<PaddingsControlProps> = ({ value, onChang
 
 	return (
 		<div className='space-y-3'>
-			<CUIText size='s' weight='light' className='truncate text-gray-500'>
+			<CUIText size='s' weight='light' view='primary' className='truncate text-gray-500'>
 				Отступы
 			</CUIText>
 			<div className='grid w-full grid-cols-2 gap-x-4 gap-y-2 text-xs'>
 				{SIDES.map(({ side, label }) => (
 					<div className='flex flex-col items-start gap-2' key={side}>
-						<CUIText size='s' weight='light' className='w-full text-gray-500'>
+						<CUIText size='s' weight='light' view='primary' className='w-full text-gray-500'>
 							{label}
 						</CUIText>
 						<StepperField

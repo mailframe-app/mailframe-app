@@ -97,7 +97,7 @@ export const ColorControl: React.FC<ColorControlProps> = ({
 	return (
 		<div className={className}>
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='mb-2 text-gray-500'>
+				<CUIText size='s' weight='light' view='primary' className='mb-2 text-gray-500'>
 					{label}
 				</CUIText>
 

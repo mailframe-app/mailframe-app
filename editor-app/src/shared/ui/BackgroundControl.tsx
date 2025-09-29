@@ -77,7 +77,7 @@ export const BackgroundControl: React.FC<BackgroundControlProps> = ({
 	return (
 		<div className={className}>
 			<div className='flex items-center justify-between'>
-				<Text size='s' weight='light' className='mb-2 text-gray-500'>
+				<Text size='s' weight='light' view='primary' className='mb-2 text-gray-500'>
 					{label}
 				</Text>
 

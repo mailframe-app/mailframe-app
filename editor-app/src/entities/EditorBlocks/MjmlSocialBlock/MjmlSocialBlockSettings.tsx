@@ -281,7 +281,7 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 		<div className='space-y-4'>
 			{/* Добавить соцсеть */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='text-gray-500'>
+				<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
 					Добавить соцсеть
 				</CUIText>
 				<Button view='ghost' size='s' iconLeft={IconAdd} onClick={handleAdd} />
@@ -314,7 +314,12 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 				<>
 					{/* URL */}
 					<div className='flex items-center justify-between'>
-						<CUIText size='s' weight='light' className='w-[80px] truncate text-gray-500'>
+						<CUIText
+							size='s'
+							view='primary'
+							weight='light'
+							className='w-[80px] truncate text-gray-500'
+						>
 							URL <span className='text-red-500'>*</span>
 						</CUIText>
 						<TextField
@@ -337,7 +342,12 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 
 					{/* ALT */}
 					<div className='flex items-center justify-between'>
-						<CUIText size='s' weight='light' className='w-[80px] truncate text-gray-500'>
+						<CUIText
+							size='s'
+							view='primary'
+							weight='light'
+							className='w-[80px] truncate text-gray-500'
+						>
 							Alt текст
 						</CUIText>
 						<TextField
@@ -357,7 +367,7 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 
 					{/* Иконка */}
 					<div className='space-y-2'>
-						<CUIText size='s' weight='light' className='text-gray-500'>
+						<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
 							Иконка
 						</CUIText>
 						{renderIconSection()}
@@ -378,10 +388,10 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 			{/* Размер иконки */}
 			<div className='flex items-center justify-between'>
 				<div className='flex>'>
-					<CUIText size='s' weight='light' className='text-gray-500'>
+					<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
 						Размер иконки
 					</CUIText>
-					<CUIText size='xs' view='secondary' className='whitespace-nowrap'>
+					<CUIText size='xs' view='primary' className='whitespace-nowrap'>
 						от {MIN_ICON_SIZE} до {MAX_ICON_SIZE}
 					</CUIText>
 				</div>
@@ -403,7 +413,7 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 
 			{/* Отступы между иконками */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='text-gray-500'>
+				<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
 					Отступы между иконками
 				</CUIText>
 				<StepperField
@@ -422,7 +432,7 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 
 			{/* Выравнивание */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='text-gray-500'>
+				<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
 					Выравнивание
 				</CUIText>
 				<AlignButtons

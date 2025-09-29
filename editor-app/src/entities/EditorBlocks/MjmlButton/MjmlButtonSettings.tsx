@@ -32,7 +32,12 @@ export const MjmlButtonSettings: React.FC = () => {
 		<div className='space-y-4'>
 			{/* Текст кнопки */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='w-[150px] truncate text-gray-500'>
+				<CUIText
+					size='s'
+					weight='light'
+					view='primary'
+					className='w-[150px] truncate text-gray-500'
+				>
 					Текст кнопки
 				</CUIText>
 				<TextField
@@ -46,7 +51,7 @@ export const MjmlButtonSettings: React.FC = () => {
 
 			{/* URL */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='w-[80px] truncate text-gray-500'>
+				<CUIText size='s' view='primary' weight='light' className='w-[80px] truncate text-gray-500'>
 					URL <span className='text-red-500'>*</span>
 				</CUIText>
 				<TextField
@@ -97,12 +102,17 @@ export const MjmlButtonSettings: React.FC = () => {
 
 			{/* Размер кнопки */}
 			<div className='space-y-3'>
-				<CUIText size='s' weight='light' className='w-[160px] truncate text-gray-500'>
+				<CUIText
+					size='s'
+					weight='light'
+					view='primary'
+					className='w-[160px] truncate text-gray-500'
+				>
 					Размер кнопки
 				</CUIText>
 				<div className='flex items-center justify-between'>
 					<div className='flex flex-col items-start gap-2'>
-						<CUIText size='xs' weight='light' className='truncate text-gray-500'>
+						<CUIText size='s' view='primary' weight='light' className='truncate text-gray-500'>
 							Ширина
 						</CUIText>
 						<StepperField
@@ -115,7 +125,7 @@ export const MjmlButtonSettings: React.FC = () => {
 						/>
 					</div>
 					<div className='flex flex-col items-start gap-2'>
-						<CUIText size='xs' weight='light' className='truncate text-gray-500'>
+						<CUIText size='s' view='primary' weight='light' className='truncate text-gray-500'>
 							Высота
 						</CUIText>
 						<StepperField
@@ -132,7 +142,7 @@ export const MjmlButtonSettings: React.FC = () => {
 
 			{/* Выравнивание */}
 			<div className='flex justify-between gap-2'>
-				<CUIText size='s' weight='light' className='truncate text-gray-500'>
+				<CUIText size='s' view='primary' weight='light' className='truncate text-gray-500'>
 					Выравнивание
 				</CUIText>
 				<AlignButtons
