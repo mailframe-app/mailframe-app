@@ -65,7 +65,7 @@ export const RadiusField: React.FC<RadiusFieldProps> = ({
 
 	return (
 		<div className={`flex items-center justify-between ${className ?? ''}`}>
-			<CUIText size='s' weight='light' className='w-[160px] truncate text-gray-500'>
+			<CUIText size='s' weight='light' view='primary' className='w-[160px] truncate text-gray-500'>
 				{label}
 			</CUIText>
 			<StepperField

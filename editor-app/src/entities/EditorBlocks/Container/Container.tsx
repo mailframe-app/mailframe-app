@@ -29,7 +29,10 @@ export const Container: UserComponent<ContainerProps> = ({
 
 	const { actions, query } = useEditor()
 
-	const resolvedBackground = background && background !== 'transparent' ? background : '#ffffff'
+	const resolvedBackground =
+		background && background !== 'transparent'
+			? background
+			: 'rgb(255, 255, 255, 0.9)' /* переменная resolvedBackground не оказывает влияние на цвет канваса, пробовала заменять цвета, не подхватывает */
 
 	let resolvedPaddingObj: PaddingObject
 	if (typeof padding === 'object' && padding !== null) {
@@ -87,7 +90,8 @@ export const Container: UserComponent<ContainerProps> = ({
 			data-craft-component='Container'
 			data-craft-canvas='true'
 			style={{
-				background: resolvedBackground,
+				background:
+					resolvedBackground /* если здесь выставить цвет вместо переменной, то работает */,
 				borderRadius,
 				padding: resolvedPadding,
 				width: emailWidth,

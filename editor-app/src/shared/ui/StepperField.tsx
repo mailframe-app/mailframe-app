@@ -44,7 +44,7 @@ export const StepperField: React.FC<StepperFieldProps> = ({
 	return (
 		<div className={`flex flex-col items-start ${className || ''}`}>
 			{label && (
-				<Text view='secondary' size='xs' className='mb-1'>
+				<Text view='primary' size='xs' className='mb-1'>
 					{label}
 				</Text>
 			)}

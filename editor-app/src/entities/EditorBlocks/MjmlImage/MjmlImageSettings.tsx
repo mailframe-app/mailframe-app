@@ -134,7 +134,7 @@ export const MjmlImageSettings: React.FC<MjmlImageSettingsProps> = ({
 
 			{/* URL (disabled, для копирования/просмотра) */}
 			<div className='mb-3'>
-				<Text size='s' weight='light' className='mb-2 block text-gray-500' required>
+				<Text size='s' view='primary' weight='light' className='mb-2 block text-gray-500' required>
 					URL
 				</Text>
 				<TextField
@@ -149,7 +149,7 @@ export const MjmlImageSettings: React.FC<MjmlImageSettingsProps> = ({
 
 			{/* Размеры */}
 			<div className='mb-3'>
-				<Text size='s' weight='light' className='mb-2 block text-gray-500'>
+				<Text size='s' view='primary' weight='light' className='mb-2 block text-gray-500'>
 					Размер картинки
 				</Text>
 				<div className='flex justify-between'>
@@ -187,7 +187,7 @@ export const MjmlImageSettings: React.FC<MjmlImageSettingsProps> = ({
 
 			{/* Выравнивание */}
 			<div className='mb-3 flex items-center justify-between'>
-				<Text size='s' weight='light' className='mb-2 block text-gray-500'>
+				<Text size='s' view='primary' weight='light' className='mb-2 block text-gray-500'>
 					Выравнивание
 				</Text>{' '}
 				<AlignButtons
