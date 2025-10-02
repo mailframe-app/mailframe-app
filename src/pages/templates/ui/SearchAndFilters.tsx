@@ -5,7 +5,7 @@ interface SearchAndFiltersProps {
 	tabId: string
 }
 
-export function SearchAndFilters({ tabId }: SearchAndFiltersProps) {
+export function SearchAndFilters({ }: SearchAndFiltersProps) {
 	return (
 		<div className='mb-6 flex items-center gap-x-4'>
 			<SearchField />
