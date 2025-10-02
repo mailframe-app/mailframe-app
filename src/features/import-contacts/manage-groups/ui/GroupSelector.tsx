@@ -1,6 +1,8 @@
 import { Select } from '@consta/uikit/SelectCanary'
 import React from 'react'
 
+import { useTheme } from '@/features/theme'
+
 import type { GroupResponseDto } from '@/entities/contacts'
 
 export type CreateGroupOption = { id: 'CREATE_NEW_GROUP'; name: string }
@@ -26,6 +28,8 @@ export const GroupSelector: React.FC<GroupSelectorProps> = ({
 	isLoading,
 	searchValue
 }) => {
+	const { theme } = useTheme()
+
 	return (
 		<Select
 			clearButton
@@ -47,6 +51,15 @@ export const GroupSelector: React.FC<GroupSelectorProps> = ({
 			isLoading={isLoading}
 			placeholder='Выберите или создайте группу'
 			labelForEmptyItems={searchValue ? 'Новая группа' : 'Список групп пуст'}
+			style={
+				{
+					border: 'none',
+					backgroundColor:
+						theme === 'presetGpnDefault' ? '#F8FAFC' : 'var(--color-bg-stripe)',
+					'--color-control-bg-default':
+						theme === 'presetGpnDefault' ? '#F8FAFC' : 'var(--color-bg-stripe)'
+				} as React.CSSProperties
+			}
 		/>
 	)
 }

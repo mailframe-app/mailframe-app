@@ -25,6 +25,7 @@ import {
 	GroupSelector,
 	useGroupManagement
 } from '@/features/import-contacts/manage-groups'
+import { useTheme } from '@/features/theme'
 
 import { showCustomToast } from '@/shared/lib/toaster'
 
@@ -62,7 +63,7 @@ const Pill: React.FC<PillProps> = ({ id, label, removable, onRemove }) => {
 	const style: React.CSSProperties = {
 		transform: CSS.Transform.toString(transform),
 		transition,
-		background: 'var(--color-bg-default)'
+		background: 'transparent'
 	}
 	const status: any = 'success'
 	return (
@@ -253,10 +254,12 @@ function ManualCreateForm() {
 		onChange: setSelectedGroup
 	})
 
+	const { theme } = useTheme()
+
 	return (
 		<div className='flex w-full max-w-[980px] flex-col gap-6'>
 			<div>
-				<Text size='l' weight='bold' view='primary'>
+				<Text size='m' weight='semibold' view='primary'>
 					Поля
 				</Text>
 				<Text size='s' view='secondary' className='mt-2'>
@@ -272,7 +275,18 @@ function ManualCreateForm() {
 					выбранной вами последовательности.
 				</Text>
 				<div className='mt-3 flex items-center gap-2'>
-					<div className='flex-grow rounded border border-[var(--color-bg-border)] p-1'>
+					<div
+						className='flex-grow rounded p-1'
+						style={
+							{
+								border: 'none',
+								backgroundColor:
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
+						}
+					>
 						<DndContext
 							sensors={sensors}
 							collisionDetection={closestCenter}
@@ -320,7 +334,7 @@ function ManualCreateForm() {
 			</div>
 
 			<div>
-				<Text size='l' weight='bold' view='primary'>
+				<Text size='m' weight='semibold' view='primary'>
 					Добавление контактов
 				</Text>
 				<Text size='s' view='secondary' className='mt-2'>
@@ -337,26 +351,37 @@ function ManualCreateForm() {
 						}
 						value={input}
 						onChange={v => setInput((v as string) || '')}
+						className='textfield-no-border'
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
+						}
 					/>
 				</div>
 			</div>
 
 			<div>
-				<Text size='l' weight='bold' view='primary'>
+				<Text size='m' weight='semibold' view='primary'>
 					Группа
 				</Text>
-				<div className='mt-3 max-w-[420px]'>
-					<GroupSelector {...groupSelectorProps} />
-				</div>
-			</div>
+				<div className='flex justify-between'>
+					<div className='mt-3 min-w-[420px]'>
+						<GroupSelector {...groupSelectorProps} />
+					</div>
 
-			<div className='mt-2 flex justify-end'>
-				<Button
-					view='primary'
-					label='Создать контакты'
-					onClick={handleSubmit}
-					disabled={!input.trim()}
-				/>
+					<div className='mt-2 flex justify-end'>
+						<Button
+							view='primary'
+							label='Создать контакты'
+							onClick={handleSubmit}
+							disabled={!input.trim()}
+						/>
+					</div>
+				</div>
 			</div>
 		</div>
 	)

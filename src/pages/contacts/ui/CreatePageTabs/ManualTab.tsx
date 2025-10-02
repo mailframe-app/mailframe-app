@@ -1,10 +1,20 @@
+import { Card } from '@consta/uikit/Card'
+
 import ManualCreateForm from '@/features/contacts-bulk/manual-create/ui/ManualCreateForm'
 
 function ManualTab() {
 	return (
-		<div className='mt-6 flex w-full flex-col gap-6'>
+		<Card
+			verticalSpace='l'
+			horizontalSpace='l'
+			className='!rounded-lg'
+			style={{
+				backgroundColor: 'var(--color-bg-default)'
+			}}
+			shadow={false}
+		>
 			<ManualCreateForm />
-		</div>
+		</Card>
 	)
 }
 

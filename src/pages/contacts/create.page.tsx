@@ -1,7 +1,6 @@
 import { IconBackward } from '@consta/icons/IconBackward'
 import { Button } from '@consta/uikit/Button'
 import { Layout } from '@consta/uikit/Layout'
-import { Tabs } from '@consta/uikit/Tabs'
 import { Text } from '@consta/uikit/Text'
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -62,7 +61,7 @@ function CreateContactsPage() {
 						label='Назад'
 						iconLeft={IconBackward}
 						onClick={() => navigate(PRIVATE_ROUTES.CONTACTS)}
-						className='cursor-pointer !border !border-[var(--color-control-bg-border-default)]'
+						className='cursor-pointer !border !border-[var(--color-bg-ghost)]'
 					/>
 					{activeTab.id === 'manual' ? (
 						<Button
@@ -79,18 +78,32 @@ function CreateContactsPage() {
 					)}
 				</div>
 			</div>
-			<div className='children-border-b-0 w-full'>
-				<Tabs
-					items={tabs}
-					value={activeTab}
-					onChange={(v: Tab) => {
-						setActiveTab(v)
-						const params = new URLSearchParams(location.search)
-						params.set('tab', v.id)
-						navigate({ search: params.toString() }, { replace: true })
-					}}
-					view='clear'
-				/>
+			<div className='mb-2 flex gap-2'>
+				{tabs.map(tab => (
+					<Button
+						key={tab.id}
+						label={tab.label}
+						view={activeTab.id === tab.id ? 'primary' : 'clear'}
+						size='m'
+						onClick={() => {
+							setActiveTab(tab)
+							const params = new URLSearchParams(location.search)
+							params.set('tab', tab.id)
+							navigate({ search: params.toString() }, { replace: true })
+						}}
+						className={activeTab.id === tab.id ? '' : ''}
+						style={{
+							background:
+								activeTab.id === tab.id ? 'var(--color-bg-default)' : '',
+							color:
+								activeTab.id === tab.id
+									? 'var(--color-control-typo-secondary)'
+									: '',
+							borderRadius: '10px',
+							fontWeight: activeTab.id === tab.id ? '500' : '400'
+						}}
+					/>
+				))}
 			</div>
 
 			{activeTab.id === 'manual' && <ManualTab />}

@@ -122,7 +122,12 @@ export const ImagePreviewWithActions: React.FC<ImagePreviewWithActionsProps> = (
 			{/* Отображение метаданных файла */}
 			{!showSkeleton && fileDetails && (
 				<div className='mb-2'>
-					<Text view='primary' size='s' weight='light' className='text-xs text-[var(--color-typo-secondary)]'>
+					<Text
+						view='primary'
+						size='s'
+						weight='light'
+						className='text-xs text-[var(--color-typo-secondary)]'
+					>
 						Параметры изображения
 					</Text>
 					{fileDetails.name && (
