@@ -4,14 +4,19 @@ import { IconCancel } from '@consta/icons/IconCancel'
 import { DataCell } from '@consta/table/DataCell'
 import { Table } from '@consta/table/Table'
 import { Badge } from '@consta/uikit/Badge'
+import { Card } from '@consta/uikit/Card'
 import { ResponsesEmptyPockets } from '@consta/uikit/ResponsesEmptyPockets'
 import { Text } from '@consta/uikit/Text'
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { formatDate } from '@/shared/lib/formatDate'
-import { TableSkeleton } from '@/shared/ui/Skeletons'
-import { TablePagination, TableWrapper, buildHeader } from '@/shared/ui/Table'
+import {
+	TablePagination,
+	TableSkeleton,
+	TableWrapper,
+	buildHeader
+} from '@/shared/ui'
 
 import { useCampaignLogs } from '@/entities/campaigns'
 import type {
@@ -170,7 +175,12 @@ export function CampaignRecipientsTab({ campaignId }: Props) {
 	}
 
 	return (
-		<div>
+		<Card
+			verticalSpace='l'
+			horizontalSpace='l'
+			shadow={false}
+			className='flex h-full w-full flex-col !rounded-lg bg-[var(--color-bg-default)]'
+		>
 			<TableWrapper>
 				<Table
 					rows={data.items}
@@ -189,6 +199,6 @@ export function CampaignRecipientsTab({ campaignId }: Props) {
 					/>
 				</div>
 			)}
-		</div>
+		</Card>
 	)
 }

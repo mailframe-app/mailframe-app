@@ -22,11 +22,19 @@ export function useRecoveryPassword() {
 			})
 		},
 		onSuccess: response => {
-			showCustomToast({ title: response.message, type: 'success' })
+			showCustomToast({
+				title: 'Успешно!',
+				type: 'success',
+				description: response.message
+			})
 			navigate(PUBLIC_ROUTES.LOGIN)
 		},
 		onError: (error: ErrorResponse) => {
-			showCustomToast({ title: error.message, type: 'error' })
+			showCustomToast({
+				title: 'Ошибка',
+				type: 'error',
+				description: error.message
+			})
 		}
 	})
 

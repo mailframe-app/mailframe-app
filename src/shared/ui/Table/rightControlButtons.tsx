@@ -19,7 +19,7 @@ export function RightControlButtons({
 				onlyIcon
 				iconLeft={sortIcon}
 				style={{
-					color: 'var(--color-bg-link)!important'
+					color: 'var(--color-bg-primary)!important'
 				}}
 				onClick={onSortClick}
 			/>

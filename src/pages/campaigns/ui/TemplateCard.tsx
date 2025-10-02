@@ -53,10 +53,18 @@ export function TemplateCard({ campaign }: TemplateCardProps) {
 	}
 
 	return (
-		<Card className='w-full px-8 py-9' style={{ borderRadius: 12 }}>
+		<Card
+			verticalSpace='l'
+			horizontalSpace='l'
+			className='w-full !rounded-lg'
+			style={{
+				backgroundColor: 'var(--color-bg-default)'
+			}}
+			shadow={false}
+		>
 			<div className='flex items-start gap-6'>
 				<div className='flex-1'>
-					<div className='mb-3 flex items-center justify-between'>
+					<div className='flex items-center justify-between'>
 						<Text
 							as='h3'
 							size='xl'
@@ -85,7 +93,7 @@ export function TemplateCard({ campaign }: TemplateCardProps) {
 						)}
 					</div>
 
-					<Text as='p' size='m' view='secondary' className='mb-8'>
+					<Text as='p' size='m' view='secondary' className='mb-16'>
 						{isLoading
 							? 'Загрузка названия...'
 							: campaign.templateId && templatePreview?.name
@@ -95,13 +103,13 @@ export function TemplateCard({ campaign }: TemplateCardProps) {
 
 					<Layout className='gap-4'>
 						<Button
-							size='l'
+							size='m'
 							label='Создать'
 							view='secondary'
 							onClick={handleCreate}
 						/>
 						<Button
-							size='l'
+							size='m'
 							label={campaign.templateId ? 'Изменить' : 'Выбрать'}
 							view='primary'
 							onClick={openSelectTemplateModal}

@@ -22,7 +22,7 @@ export function SessionItem({
 
 	return (
 		<div
-			className='flex items-center justify-between gap-4 border-b border-gray-200 py-4 last:border-b-0'
+			className='flex items-center justify-between gap-4 border-b border-[var(--color-bg-ghost)] py-4 last:border-b-0 last:pb-0'
 			key={session.id}
 		>
 			<div className='flex items-center gap-x-4'>

@@ -115,15 +115,17 @@ export const useUploadAvatarMutation = () => {
 		mutationFn: (file: File) => uploadAvatar(file),
 		onSuccess: () => {
 			showCustomToast({
-				title: 'Изображение профиля успешно обновлено',
-				type: 'success'
+				title: 'Успешно',
+				type: 'success',
+				description: 'Изображение профиля успешно обновлено'
 			})
 			invalidateProfile()
 		},
 		onError: (error: any) => {
 			showCustomToast({
-				title: error?.message || 'Ошибка при загрузке аватара',
-				type: 'error'
+				title: 'Ошибка',
+				type: 'error',
+				description: error?.message || 'Ошибка при загрузке аватара'
 			})
 		}
 	})

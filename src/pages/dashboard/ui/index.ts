@@ -1,4 +1,4 @@
 export { ActionButtons } from './ActionButtons'
-export { CardLink } from './CardLink'
+export { CardLink } from './card'
 export { GreetingHeader } from './GreetingHeader'
 export { ResentCompanies } from './ResentCompanies'

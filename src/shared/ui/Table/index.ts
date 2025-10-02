@@ -1,3 +1,4 @@
+export * from './ActionsCol'
 export * from './buildHeader'
 export * from './HeaderCell'
 export * from './Pagination'

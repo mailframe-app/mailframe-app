@@ -7,12 +7,16 @@ interface CampaignGridProps {
 
 export function CampaignGrid({ campaigns }: CampaignGridProps) {
 	return (
-		<div className='flex flex-col'>
-			{campaigns.map(campaign => (
-				<div key={campaign.id}>
-					<CampaignCardWithMenu campaign={campaign} />
+		<div className='overflow-x-auto'>
+			<div className='inline-block min-w-full align-middle'>
+				<div className='flex flex-col gap-y-2'>
+					{campaigns.map(campaign => (
+						<div key={campaign.id}>
+							<CampaignCardWithMenu campaign={campaign} />
+						</div>
+					))}
 				</div>
-			))}
+			</div>
 		</div>
 	)
 }

@@ -1,6 +1,7 @@
 import { IconBackward } from '@consta/icons/IconBackward'
 import { IconEdit } from '@consta/icons/IconEdit'
 import { IconKebab } from '@consta/icons/IconKebab'
+import { IconSendMessage } from '@consta/icons/IconSendMessage'
 import { IconTrash } from '@consta/icons/IconTrash'
 import { Button } from '@consta/uikit/Button'
 import { Card } from '@consta/uikit/Card'
@@ -14,7 +15,7 @@ import { useDeleteCampaignConfirm } from '@/features/campaign/delete-campaign'
 import { useRenameCampaignModal } from '@/features/campaign/rename-campaign'
 
 import { PRIVATE_ROUTES } from '@/shared/constants'
-import { showCustomToast } from '@/shared/lib'
+import { formatDate, showCustomToast } from '@/shared/lib'
 
 import { InfoCard } from './ui/InfoCard'
 import { SendingCard } from './ui/SendingCard'
@@ -103,14 +104,16 @@ function ScheduleCampaignPage() {
 				// Отправляем сейчас
 				await startCampaignMutation.mutateAsync({ id: campaign.id })
 				showCustomToast({
-					title: `Рассылка "${campaign.name}" поставлена в очередь на отправку`,
+					description: `Рассылка "${campaign.name}" поставлена в очередь на отправку`,
+					title: `Успешно`,
 					type: 'success'
 				})
 			} else {
 				// Проверяем, выбрано ли время
 				if (!datetime) {
 					showCustomToast({
-						title: 'Выберите дату и время отправки',
+						title: 'Ошибка',
+						description: 'Выберите дату и время отправки',
 						type: 'error'
 					})
 					return
@@ -125,7 +128,8 @@ function ScheduleCampaignPage() {
 				})
 
 				showCustomToast({
-					title: `Рассылка "${campaign.name}" запланирована`,
+					description: `Рассылка "${campaign.name}" запланирована`,
+					title: `Успешно`,
 					type: 'success'
 				})
 			}
@@ -134,7 +138,8 @@ function ScheduleCampaignPage() {
 			navigate(PRIVATE_ROUTES.CAMPANIES)
 		} catch (error) {
 			showCustomToast({
-				title: 'Произошла ошибка при отправке рассылки',
+				title: 'Ошибка',
+				description: 'Произошла ошибка при отправке рассылки',
 				type: 'error'
 			})
 			console.error('Ошибка отправки рассылки:', error)
@@ -143,39 +148,62 @@ function ScheduleCampaignPage() {
 
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='flex items-center justify-between gap-2 py-3'>
+			<div className='mb-7 flex items-center justify-between gap-2'>
 				<div className='flex items-center gap-4'>
 					<Button
+						view='clear'
 						onlyIcon
-						view='ghost'
 						iconLeft={IconBackward}
 						onClick={handleGoBack}
-						className='cursor-pointer'
+						className='cursor-pointer !border !border-[var(--color-control-bg-ghost)]'
 					/>
-					<Text
-						size='3xl'
-						weight='bold'
-						as='h1'
-						view='primary'
-						className='overflow-hidden text-ellipsis whitespace-nowrap'
-					>
-						{campaign.name}
-					</Text>
+					<div className='flex flex-col'>
+						<div className='flex items-center gap-2'>
+							<Text
+								as='h1'
+								view='primary'
+								size='xl'
+								weight='semibold'
+								className='leading-6'
+							>
+								{campaign.name}
+							</Text>
+						</div>
+						<Text
+							as='p'
+							view='secondary'
+							size='s'
+							className='!hidden sm:!block'
+						>
+							Обновлено: {formatDate(campaign.updatedAt)}
+						</Text>
+					</div>
 				</div>
 				<div className='flex items-center gap-2'>
 					<Button
 						ref={menuAnchorRef}
-						view='ghost'
+						view='clear'
+						onlyIcon
 						iconLeft={IconKebab}
 						onClick={() => setIsMenuOpen(!isMenuOpen)}
+						className='!hidden cursor-pointer !border !border-[var(--color-control-bg-ghost)] sm:!inline-flex'
 					/>
 					<Button
 						view='primary'
 						label={sendOption === 'now' ? 'Отправить сейчас' : 'Запланировать'}
-						className='w-[200px]'
+						className='!hidden w-[200px] sm:!block'
 						onClick={handleSend}
 						loading={isSubmitting}
 						disabled={sendOption === 'scheduled' && !datetime}
+					/>
+					<Button
+						view='primary'
+						onlyIcon
+						iconLeft={IconSendMessage}
+						onClick={handleSend}
+						loading={isSubmitting}
+						disabled={sendOption === 'scheduled' && !datetime}
+						className='!inline-flex sm:!hidden'
 					/>
 				</div>
 			</div>
@@ -189,9 +217,14 @@ function ScheduleCampaignPage() {
 				direction='downStartRight'
 			/>
 
-			<Layout direction='column' className='flex flex-col gap-8 pt-8'>
-				<Layout direction='column'>
-					<Text as='h3' view='primary' size='xl' weight='bold' className='mb-8'>
+			<Layout direction='column' className='flex flex-col gap-6'>
+				<Card
+					className='flex-1 !rounded-lg !bg-[var(--color-bg-default)]'
+					verticalSpace='l'
+					horizontalSpace='l'
+					shadow={false}
+				>
+					<Text as='h2' view='primary' size='xl' weight='semibold'>
 						Отправка рассылки
 					</Text>
 					<SendingCard
@@ -201,54 +234,61 @@ function ScheduleCampaignPage() {
 						onSendOptionChange={handleSendOptionChange}
 						onDatetimeChange={setDatetime}
 					/>
-				</Layout>
+				</Card>
 
-				<Layout direction='column'>
-					<Text as='h3' view='primary' size='xl' weight='bold' className='mb-8'>
+				<Card
+					className='flex-1 !rounded-lg !bg-[var(--color-bg-default)]'
+					verticalSpace='l'
+					horizontalSpace='l'
+					shadow={false}
+				>
+					<Text as='h2' view='primary' size='xl' weight='semibold'>
 						Проверка данных
 					</Text>
 					<InfoCard campaign={campaign} />
-				</Layout>
+				</Card>
 
 				{templatePreview?.variableMapping &&
 					Object.keys(templatePreview.variableMapping).length > 0 && (
-						<Layout direction='column'>
-							<Text
-								as='h3'
-								view='primary'
-								size='xl'
-								weight='bold'
-								className='mb-8'
-							>
+						<Card
+							className='flex-1 !rounded-lg !bg-[var(--color-bg-default)]'
+							verticalSpace='l'
+							horizontalSpace='l'
+							shadow={false}
+						>
+							<Text as='h2' view='primary' size='xl' weight='semibold'>
 								Переменные в шаблоне
 							</Text>
 							<VariableMappingCard mapping={templatePreview.variableMapping} />
-						</Layout>
+						</Card>
 					)}
 
 				{templatePreview?.previewUrl && (
-					<Layout direction='column' className='mb-8'>
+					<Card
+						className='flex-1 !rounded-lg !bg-[var(--color-bg-default)]'
+						verticalSpace='l'
+						horizontalSpace='l'
+						shadow={false}
+					>
 						<Text
-							as='h3'
+							as='h2'
 							view='primary'
 							size='xl'
-							weight='bold'
-							className='mb-8'
+							weight='semibold'
+							className='mb-4'
 						>
 							Содержание письма
 						</Text>
-						<Card verticalSpace='m' horizontalSpace='m' className='!rounded-lg'>
-							<img
-								src={templatePreview.previewUrl}
-								alt='Выбранный шаблон'
-								className='mx-auto max-w-full rounded-lg object-contain'
-								style={{
-									boxShadow:
-										'0 4px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05)'
-								}}
-							/>
-						</Card>
-					</Layout>
+						<img
+							src={templatePreview.previewUrl}
+							alt='Выбранный шаблон'
+							className='mx-auto max-w-full rounded-lg object-contain'
+							style={{
+								boxShadow:
+									'0 4px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05)'
+							}}
+						/>
+					</Card>
 				)}
 			</Layout>
 		</Layout>

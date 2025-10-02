@@ -47,7 +47,7 @@ export function CalendarPopover({
 	return (
 		// @ts-ignore - Popover has type issues in this version of Consta UI Kit
 		<Popover
-			direction='downStartLeft'
+			direction='upStartLeft'
 			spareDirection='upStartLeft'
 			offset='2xs'
 			onClickOutside={onClose}

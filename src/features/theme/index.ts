@@ -1,4 +1,5 @@
 export { getTheme } from './lib/getTheme'
 export { useTheme } from './lib/useTheme'
 export type { Theme } from './lib/useTheme'
+export { MobileThemeToggle } from './ui/MobileThemeToggle'
 export { ThemeToggle } from './ui/ThemeToggle'

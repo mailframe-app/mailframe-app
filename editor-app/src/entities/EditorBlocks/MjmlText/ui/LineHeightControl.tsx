@@ -38,7 +38,7 @@ export const LineHeightControl: React.FC<TProps> = ({
 
 	return (
 		<div className='flex items-center justify-between'>
-			<CUIText size='s' weight='light' className='mb-1 text-gray-500'>
+			<CUIText size='s' weight='light' className='mb-1' view='primary'>
 				{label}
 			</CUIText>
 			<StepperField

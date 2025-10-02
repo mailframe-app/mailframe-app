@@ -4,8 +4,10 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
+import { useTheme } from '@/features/theme'
+
 import { PUBLIC_ROUTES } from '@/shared/constants'
-import { TextFieldForm } from '@/shared/ui/TextFieldForm'
+import { TextFieldForm } from '@/shared/ui'
 
 import { useRecoveryPassword } from '../model/use-recovery-password'
 
@@ -45,6 +47,7 @@ export type RecoveryPasswordFormType = z.infer<
 >
 
 export function RecoveryPasswordForm() {
+	const { theme } = useTheme()
 	const { handleSubmit, control, formState } =
 		useForm<RecoveryPasswordFormType>({
 			resolver: zodResolver(RecoveryPasswordFormSchema)
@@ -53,23 +56,46 @@ export function RecoveryPasswordForm() {
 	const { recoveryPassword, isPending } = useRecoveryPassword()
 	const navigate = useNavigate()
 	return (
-		<form onSubmit={handleSubmit(data => recoveryPassword(data))}>
+		<form
+			onSubmit={handleSubmit(data => recoveryPassword(data))}
+			className='w-full'
+		>
 			<TextFieldForm<RecoveryPasswordFormType>
 				name='password'
 				type='password'
 				label='Пароль'
+				size='l'
 				placeholder='Введите пароль'
 				control={control}
 				autoFocus
 				clearable={false}
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 			<TextFieldForm<RecoveryPasswordFormType>
 				name='confirmPassword'
 				type='password'
 				label='Повторите пароль'
+				size='l'
 				placeholder='Повторите пароль'
 				control={control}
 				clearable={false}
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 
 			<Button
@@ -80,13 +106,14 @@ export function RecoveryPasswordForm() {
 				view={formState.isValid ? 'primary' : 'ghost'}
 				label='Продолжить'
 				loading={isPending}
-				className='mb-4'
+				className='mt-4 mb-4'
 			/>
 			<Button
 				label='Назад'
 				width='full'
 				size='l'
-				view='secondary'
+				view='clear'
+				className='!border !border-[var(--color-control-bg-ghost)]'
 				onClick={() => navigate(PUBLIC_ROUTES.LOGIN)}
 			/>
 		</form>

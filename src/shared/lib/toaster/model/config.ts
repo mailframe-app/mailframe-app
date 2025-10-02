@@ -3,13 +3,6 @@ import type { ToasterProps } from 'sonner'
 export const toasterConfig: ToasterProps = {
 	position: 'bottom-right',
 	closeButton: true,
-	icons: {
-		success: null,
-		error: null,
-		loading: null,
-		warning: null,
-		info: null
-	},
 	toastOptions: {
 		style: {
 			color: 'white',

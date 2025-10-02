@@ -1,4 +1,8 @@
+import { IconAlert } from '@consta/icons/IconAlert'
 import { IconClose } from '@consta/icons/IconClose'
+import { IconInfoCircle } from '@consta/icons/IconInfoCircle'
+import { IconThumbUp } from '@consta/icons/IconThumbUp'
+import { IconWarning } from '@consta/icons/IconWarning'
 import { Button } from '@consta/uikit/Button'
 import { toast } from 'sonner'
 
@@ -17,16 +21,27 @@ const typeToClassName: Record<CustomToastType, string> = {
 	error: 'custom-toast-error'
 }
 
+const typeToIcon: Record<CustomToastType, React.ReactNode> = {
+	success: <IconThumbUp />,
+	error: <IconAlert />,
+	info: <IconInfoCircle />,
+	warning: <IconWarning />
+}
+
 export function showCustomToast({
 	title,
 	description,
 	type = 'info'
 }: showCustomToastProps) {
 	const className = typeToClassName[type]
+	const icon = typeToIcon[type]
 
 	toast.custom(
 		t => (
 			<div className='custom-toast-content-wrapper'>
+				<span className='custom-toast-icon' aria-hidden>
+					{icon}
+				</span>
 				<div className='custom-toast-text-content'>
 					<div className='custom-toast-title'>{title}</div>
 					{description && (
@@ -46,7 +61,7 @@ export function showCustomToast({
 			</div>
 		),
 		{
-			className
+			className: `${className} custom-toast`
 		}
 	)
 }

@@ -1,3 +1,4 @@
+import { formatISO, subDays } from 'date-fns'
 import { type LoaderFunctionArgs, redirect } from 'react-router-dom'
 
 import { externalStatusQuery } from '@/features/social-auth'
@@ -7,6 +8,7 @@ import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '@/shared/constants'
 import { toastWithRedirect } from '@/shared/lib'
 import { getSessionToken } from '@/shared/lib/cookie'
 
+import { summaryQuery, timeseriesQuery } from '@/entities/analytics'
 import { campaignDetailQuery, campaignsListQuery } from '@/entities/campaigns'
 import { contactFieldsQuery } from '@/entities/contacts'
 import { smtpQuery } from '@/entities/mail-settings'
@@ -30,6 +32,7 @@ export async function privateRouteLoader(): Promise<Response | null> {
 	return null
 }
 
+// Проверка токена для публичных страниц
 export async function publicRouteLoader(): Promise<Response | null> {
 	const token = getSessionToken()
 
@@ -40,6 +43,7 @@ export async function publicRouteLoader(): Promise<Response | null> {
 	return null
 }
 
+// Проверка кода верификации электронной почты
 export async function verifyEmailLoader({
 	params
 }: LoaderFunctionArgs): Promise<Response> {
@@ -98,7 +102,7 @@ export async function smtpSettingsRouteLoader(): Promise<null> {
 	return null
 }
 
-// Предзагрузка для страницы соц. сетей
+// Предзагрузка для страницы интеграций
 export async function socialAuthRouteLoader(): Promise<null> {
 	await queryClient.prefetchQuery({
 		...externalStatusQuery()
@@ -114,18 +118,38 @@ export async function sessionsRouteLoader(): Promise<null> {
 	return null
 }
 
-// Предзагрузка для страницы dashboard - последние рассылки
+// Предзагрузка для страницы dashboard - последние рассылки и аналитика
 export async function dashboardRouteLoader(): Promise<null> {
+	const dateRange = [subDays(new Date(), 30), new Date()]
+	const params = {
+		from:
+			formatISO(dateRange[0], { representation: 'date' }) + 'T00:00:00.000Z',
+		to: formatISO(dateRange[1], { representation: 'date' }) + 'T23:59:59.999Z'
+	}
+
 	await Promise.all([
-		// Предзагрузка рассылок
+		// Последние рассылки
 		queryClient.prefetchQuery({
 			...campaignsListQuery({
 				limit: 3,
 				sortBy: 'updatedAt',
 				sortOrder: 'desc'
 			})
-		})
-		// Календарь загружается напрямую в компоненте DashboardCalendar
+		}),
+		// Сводная статистика
+		queryClient.prefetchQuery({
+			...summaryQuery(params)
+		}),
+		// Временные ряды для всех метрик
+		...['sent', 'opened', 'clicked'].map(metric =>
+			queryClient.prefetchQuery({
+				...timeseriesQuery({
+					metric: metric as any,
+					bucket: 'day',
+					...params
+				})
+			})
+		)
 	])
 
 	return null

@@ -51,7 +51,8 @@
 }
 
 .editor-canvas {
-	@apply flex-1 overflow-auto bg-gray-100 p-4;
+	@apply flex-1 overflow-auto p-4;
+	background-color: var(--color-bg-secondary);
 }
 
 .editor-properties {
@@ -77,9 +78,13 @@
 
 .editor-drop-indicator {
 	position: relative;
-	background-color: transparent !important;
-	height: 8px;
+	height: 4px;
 	z-index: 100;
+	--drop-color: var(--accent); /* по умолчанию — success */
+}
+
+.editor-drop-indicator[style*='var(--red)'] {
+	--drop-color: var(--red);
 }
 
 .editor-drop-indicator::before {
@@ -92,8 +97,7 @@
 	font-size: 12px;
 	font-weight: 500;
 	white-space: nowrap;
-	/* Стили для "таблетки" */
-	background-color: var(--accent);
+	background-color: var(--drop-color);
 	padding: 4px 12px;
 	border-radius: 16px;
 	z-index: 1;
@@ -107,7 +111,7 @@
 	width: 100%;
 	height: 2px;
 	transform: translateY(-50%);
-	background-color: var(--accent);
+	background-color: var(--drop-color);
 	z-index: 0;
 }
 
@@ -145,7 +149,7 @@
 /* Background for Input */
 
 .consta-gray-placeholder .TextField-InputContainer {
-	background-color: #ecf1f4 !important;
+	background-color: transparent;
 	opacity: 1;
 }
 

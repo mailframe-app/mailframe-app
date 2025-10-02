@@ -1,12 +1,14 @@
 import { Card } from '@consta/uikit/Card'
 import { DateTime } from '@consta/uikit/DateTime'
+import { Text } from '@consta/uikit/Text'
 import { useEffect, useRef } from 'react'
 
 import { useCalendar } from '../model/useCalendar'
 
 import { CalendarPopover } from './CalendarPopover'
+import './DashboardCalendar.css'
 
-export const DashboardCalendar = () => {
+export const DashboardCalendar = ({ className }: { className?: string }) => {
 	const {
 		selectedDate,
 		eventsForSelectedDate,
@@ -55,22 +57,25 @@ export const DashboardCalendar = () => {
 	}, [visibleDate, handleRangeChange])
 
 	return (
-		<div ref={anchorRef}>
-			<Card
-				verticalSpace='xl'
-				horizontalSpace='l'
-				className='m-auto !rounded-lg'
-				ref={calendarRef}
-			>
-				<DateTime
-					type='date'
-					view='classic'
-					value={selectedDate}
-					events={markedDates}
-					onChange={handleDateChange}
-					currentVisibleDate={visibleDate}
-				/>
-			</Card>
+		<Card
+			verticalSpace='l'
+			horizontalSpace='l'
+			className={`mx-auto w-full max-w-[320px] !rounded-lg bg-[var(--color-bg-default)] ${className}`}
+			ref={calendarRef}
+			shadow={false}
+		>
+			<Text as='h2' view='primary' size='xl' weight='semibold' className='mb-2'>
+				Календарь
+			</Text>
+			<DateTime
+				type='date'
+				view='classic'
+				value={selectedDate}
+				events={markedDates}
+				onChange={handleDateChange}
+				currentVisibleDate={visibleDate}
+				className='mx-auto'
+			/>
 
 			<CalendarPopover
 				events={eventsForSelectedDate}
@@ -80,6 +85,6 @@ export const DashboardCalendar = () => {
 				isVisible={isPopoverVisible}
 				onClose={closePopover}
 			/>
-		</div>
+		</Card>
 	)
 }

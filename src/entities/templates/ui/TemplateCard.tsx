@@ -1,3 +1,4 @@
+import { IconFavoriteFilled } from '@consta/icons/IconFavoriteFilled'
 import { Card } from '@consta/uikit/Card'
 import { Text } from '@consta/uikit/Text'
 
@@ -58,9 +59,17 @@ export function TemplateCard({ template }: TemplateCardProps) {
 				className='rounded-b-lg p-4'
 				style={{ background: 'var(--color-bg-default)' }}
 			>
-				<Text view='primary' className='mb-2 block truncate' size='s'>
-					{template.name}
-				</Text>
+				<div className='mb-2 flex items-center gap-2'>
+					<Text view='primary' className='flex-1 truncate' size='s'>
+						{template.name}
+					</Text>
+					{template.isFavorite && (
+						<IconFavoriteFilled
+							size='s'
+							style={{ color: '#FF6B35', flexShrink: 0 }}
+						/>
+					)}
+				</div>
 				<div className='flex justify-between'>
 					<Text view='secondary' size='s'>
 						{date}

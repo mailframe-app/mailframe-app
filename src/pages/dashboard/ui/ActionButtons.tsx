@@ -1,54 +1,71 @@
-import { Layout } from '@consta/uikit/Layout'
-import { useState } from 'react'
+import { memo, useCallback, useMemo } from 'react'
 
-import { PRIVATE_ROUTES } from '@/shared/constants'
+import { dashboardCards } from '../model/dashboardCards'
+import { useActionButtons } from '../model/useActionButtons'
+import { CardId } from '../types'
 
-import contacts from '../assets/contacts.png'
-import dot from '../assets/dot.png'
-import template from '../assets/template.png'
+import { CardLink } from './card'
+import { ActionsCreateModal } from '@/widgets/CreateContactsModal'
 
-import { CardLink } from './CardLink'
+const ActionButtons = memo(() => {
+	const {
+		hoveredCard,
+		setHoveredCard,
+		isContactsModalOpen,
+		setIsContactsModalOpen,
+		handleContactsButtonClick,
+		handleTemplateButtonClick,
+		handleCampaignButtonClick
+	} = useActionButtons()
 
-const ActionButtons = () => {
-	const [hoveredCard, setHoveredCard] = useState<number>(1)
-	return (
-		<Layout direction='row' className='mb-8 gap-4'>
-			<CardLink
-				key={1}
-				title='Контакты'
-				isHovered={hoveredCard === 1}
-				onHover={() => setHoveredCard(1)}
-				text='Добавить'
-				description='Загрузка контактов вручную или импорт, а&nbsp;также работа с&nbsp;группами и&nbsp;фильтрами'
-				imageUrl={contacts}
-				url={PRIVATE_ROUTES.CONTACTS}
-				position='image-bottom'
-			/>
-
-			<CardLink
-				key={2}
-				title='Шаблоны'
-				isHovered={hoveredCard === 2}
-				onHover={() => setHoveredCard(2)}
-				text='Создать'
-				description='Разработайте или выберите готовый шаблон письма из&nbsp;библиотеки'
-				imageUrl={template}
-				position='image-top'
-				url={PRIVATE_ROUTES.TEMPLATES}
-			/>
-			<CardLink
-				key={3}
-				title='Рассылка'
-				isHovered={hoveredCard === 3}
-				onHover={() => setHoveredCard(3)}
-				text='Создать'
-				description='Определите тему, выберите список контактов и&nbsp;настройте параметры'
-				imageUrl={dot}
-				position='image-top'
-				url={PRIVATE_ROUTES.CAMPANIES}
-			/>
-		</Layout>
+	// Создаем мемоизированный объект с обработчиками для каждой карточки
+	const buttonHandlers = useMemo(
+		() =>
+			({
+				[CardId.CONTACTS]: handleContactsButtonClick,
+				[CardId.TEMPLATES]: handleTemplateButtonClick,
+				[CardId.CAMPAIGNS]: handleCampaignButtonClick
+			}) as Record<number, () => void>,
+		[
+			handleContactsButtonClick,
+			handleTemplateButtonClick,
+			handleCampaignButtonClick
+		]
 	)
-}
+
+	// Получаем обработчик для конкретной карточки
+	const getButtonHandler = useCallback(
+		(id: number) => buttonHandlers[id],
+		[buttonHandlers]
+	)
+
+	return (
+		<>
+			<ActionsCreateModal
+				isOpen={isContactsModalOpen}
+				onClose={() => setIsContactsModalOpen(false)}
+			/>
+			<div className='mb-6 flex w-full flex-col justify-between gap-2 md:flex-row md:gap-0'>
+				{dashboardCards.map(card => (
+					<CardLink
+						key={card.id}
+						title={card.title}
+						isHovered={hoveredCard === card.id}
+						onHover={() => setHoveredCard(card.id)}
+						text={card.text}
+						description={card.description}
+						imageUrl={card.imageUrl}
+						url={card.url}
+						position={card.position}
+						className={card.className}
+						onButtonClick={getButtonHandler(card.id)}
+					/>
+				))}
+			</div>
+		</>
+	)
+})
+
+ActionButtons.displayName = 'ActionButtons'
 
 export { ActionButtons }

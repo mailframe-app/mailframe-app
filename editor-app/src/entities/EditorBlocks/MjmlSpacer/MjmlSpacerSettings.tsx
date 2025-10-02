@@ -114,7 +114,7 @@ export const MjmlSpacerSettings: React.FC = () => {
 			<>
 				{/* Ширина линии (используем thickness как width) */}
 				<div className='flex items-center justify-between'>
-					<CUIText size='s' weight='light' className='text-gray-500'>
+					<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
 						Толщина
 					</CUIText>
 					<StepperField
@@ -133,7 +133,7 @@ export const MjmlSpacerSettings: React.FC = () => {
 				</div>
 				{/* Ширина линии */}
 				<div className='flex items-center justify-between'>
-					<CUIText size='s' weight='light' className='text-gray-500'>
+					<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
 						Ширина
 					</CUIText>
 					<StepperField
@@ -153,7 +153,7 @@ export const MjmlSpacerSettings: React.FC = () => {
 
 				{/* Тип линии */}
 				<div className='flex items-center justify-between'>
-					<CUIText size='s' weight='light' className='text-gray-500'>
+					<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
 						Тип линии
 					</CUIText>
 					<div className='flex gap-3.5'>
@@ -213,7 +213,7 @@ export const MjmlSpacerSettings: React.FC = () => {
 
 				{/* Выравнивание */}
 				<div className='flex items-center justify-between'>
-					<CUIText size='s' weight='light' className='text-gray-500'>
+					<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
 						Выравнивание
 					</CUIText>
 					<AlignButtons

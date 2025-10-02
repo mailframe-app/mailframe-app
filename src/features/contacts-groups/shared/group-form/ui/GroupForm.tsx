@@ -3,7 +3,7 @@ import { Text } from '@consta/uikit/Text'
 import { TextField } from '@consta/uikit/TextField'
 import { useEffect, useState } from 'react'
 
-import ModalShell from '@/shared/ui/Modals/ModalShell'
+import { ModalShell } from '@/shared/ui/Modals'
 
 import { GroupFormSchema, type GroupFormValues } from '../model/schema'
 

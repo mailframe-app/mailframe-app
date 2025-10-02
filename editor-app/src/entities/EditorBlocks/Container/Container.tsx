@@ -1,6 +1,9 @@
 import type { UserComponent } from '@craftjs/core'
-import { useNode } from '@craftjs/core'
-import { Upload } from 'lucide-react'
+import { Element, useEditor, useNode } from '@craftjs/core'
+import { Plus, Upload } from 'lucide-react'
+
+import { MjmlBlock } from '../MjmlBlock'
+import { MjmlSection } from '../MjmlSection'
 
 import type { ContainerProps, PaddingObject } from './Container.types'
 
@@ -20,10 +23,16 @@ export const Container: UserComponent<ContainerProps> = ({
 	hasBgImage
 }) => {
 	const {
+		id,
 		connectors: { connect, drag }
-	} = useNode()
+	} = useNode(node => ({ id: node.id }))
 
-	const resolvedBackground = background && background !== 'transparent' ? background : '#ffffff'
+	const { actions, query } = useEditor()
+
+	const resolvedBackground =
+		background && background !== 'transparent'
+			? background
+			: 'rgb(255, 255, 255, 0.9)' /* переменная resolvedBackground не оказывает влияние на цвет канваса, пробовала заменять цвета, не подхватывает */
 
 	let resolvedPaddingObj: PaddingObject
 	if (typeof padding === 'object' && padding !== null) {
@@ -35,8 +44,43 @@ export const Container: UserComponent<ContainerProps> = ({
 	}
 
 	const resolvedPadding = getPaddingString(resolvedPaddingObj)
-
 	const isEmpty = !children || (Array.isArray(children) && children.length === 0)
+
+	const handleAddSection = () => {
+		const tree = query
+			.parseReactElement(
+				<Element is={MjmlSection} canvas>
+					<Element is={MjmlBlock} canvas />
+				</Element>
+			)
+			.toNodeTree()
+		actions.addNodeTree(tree, id)
+	}
+
+	const AddSectionButton = (
+		<button
+			type='button'
+			onClick={handleAddSection}
+			title='Добавить сетку'
+			style={{
+				width: 40,
+				height: 40,
+				borderRadius: '9999px',
+				border: 'none',
+				outline: 'none',
+				background: 'var(--accent)',
+				color: '#fff',
+				display: 'inline-flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				cursor: 'pointer',
+				boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
+			}}
+			aria-label='Добавить сетку'
+		>
+			<Plus size={20} />
+		</button>
+	)
 
 	return (
 		<div
@@ -46,7 +90,8 @@ export const Container: UserComponent<ContainerProps> = ({
 			data-craft-component='Container'
 			data-craft-canvas='true'
 			style={{
-				background: resolvedBackground,
+				background:
+					resolvedBackground /* если здесь выставить цвет вместо переменной, то работает */,
 				borderRadius,
 				padding: resolvedPadding,
 				width: emailWidth,
@@ -79,7 +124,7 @@ export const Container: UserComponent<ContainerProps> = ({
 						right: 0,
 						top: '50%',
 						transform: 'translateY(-50%)',
-						pointerEvents: 'none',
+						pointerEvents: 'auto',
 						userSelect: 'none',
 						display: 'flex',
 						flexDirection: 'column',
@@ -90,10 +135,26 @@ export const Container: UserComponent<ContainerProps> = ({
 					}}
 				>
 					<Upload size={16} />
-					Перетащите сюда элемент <br /> или готовый блок из левого меню
+					<span style={{ pointerEvents: 'none' }}>
+						Для начала работы перетащите <br /> сюда элемент Сетки или нажмите
+					</span>
+					{AddSectionButton}
 				</div>
 			) : (
-				children
+				<>
+					{children}
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							padding: '16px 0 8px',
+							pointerEvents: 'auto',
+							userSelect: 'none'
+						}}
+					>
+						{AddSectionButton}
+					</div>
+				</>
 			)}
 		</div>
 	)
@@ -110,6 +171,14 @@ Container.craft = {
 	},
 	name: 'Container',
 	rules: {
-		canMoveIn: () => true
+		canMoveIn: (incoming: unknown | unknown[]) => {
+			type RuleNode = { data?: { type?: unknown; displayName?: string } }
+			const isSection = (n: RuleNode) =>
+				n?.data?.type === MjmlSection || n?.data?.displayName === 'Сетки'
+			const items: RuleNode[] = Array.isArray(incoming)
+				? (incoming as RuleNode[])
+				: [incoming as RuleNode]
+			return items.every(isSection)
+		}
 	}
 }

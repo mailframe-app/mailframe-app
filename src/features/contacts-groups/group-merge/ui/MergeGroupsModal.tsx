@@ -6,7 +6,7 @@ import { Text } from '@consta/uikit/Text'
 import { useDebounce } from '@consta/uikit/useDebounce'
 import { useMemo, useState } from 'react'
 
-import ModalShell from '@/shared/ui/Modals/ModalShell'
+import { ModalShell } from '@/shared/ui/Modals'
 
 import { useMergeGroups } from '../model/useMergeGroups'
 

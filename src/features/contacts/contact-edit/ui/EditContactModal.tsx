@@ -1,88 +1,90 @@
 import { Button } from '@consta/uikit/Button'
-import { Text } from '@consta/uikit/Text'
-import { TextField } from '@consta/uikit/TextField'
-import { useEffect, useMemo, useState } from 'react'
+import { Grid, GridItem } from '@consta/uikit/Grid'
+import { useState } from 'react'
 
-import { showCustomToast } from '@/shared/lib/toaster'
 import ModalShell from '@/shared/ui/Modals/ModalShell'
 
-import { ContactStatus, useUpdateContactMutation } from '@/entities/contacts'
+import { useContactRowEdit } from '../model/useContactRowEdit'
+
+import { ContactEditForm } from './ContactEditForm'
+import { ContactEmailStats } from './ContactEmailStats'
+import { ContactGroupsManager } from './ContactGroupsManager'
+import type { ContactListItemDto, GroupResponseDto } from '@/entities/contacts'
 
 export type EditContactModalProps = {
 	isOpen: boolean
 	onClose: () => void
-	contactId: string | null
-	initial: {
-		email: string
-		status: ContactStatus
-		fields: Record<string, string>
-	}
-	visibleFields?: { key: string; name: string }[]
+	contact: ContactListItemDto
 	onUpdated?: () => void
 }
 
 export function EditContactModal({
 	isOpen,
 	onClose,
-	contactId,
-	initial,
-	visibleFields,
+	contact,
 	onUpdated
 }: EditContactModalProps) {
-	const [email, setEmail] = useState(initial.email)
-	const [status, setStatus] = useState<ContactStatus>(initial.status)
-	const [fields, setFields] = useState<Record<string, string>>(initial.fields)
-	useEffect(() => {
-		setEmail(initial.email)
-		setStatus(initial.status)
-		setFields(initial.fields)
-	}, [initial])
+	// Состояние выбранных групп - инициализируем из contact.groups
+	const [selectedGroups, setSelectedGroups] = useState<GroupResponseDto[]>(
+		((contact as any).groups || []).map((group: any) => ({
+			id: group.id,
+			name: group.name,
+			color: group.color || undefined,
+			description: undefined,
+			createdAt: '',
+			updatedAt: '',
+			stats: { contactsCount: 0, lastUpdated: '' }
+		}))
+	)
 
-	const mutation = useUpdateContactMutation()
+	// Hook управления редактированием
+	const {
+		formData,
+		handleChange,
+		handleSave,
+		handleCancel,
+		isDirty,
+		isLoading
+	} = useContactRowEdit(
+		contact,
+		true, // всегда в режиме редактирования
+		() => {
+			onUpdated?.()
+			onClose()
+		},
+		selectedGroups
+	)
 
-	const fieldsToRender = useMemo(() => {
-		if (visibleFields && visibleFields.length > 0) return visibleFields
-		return Object.keys(fields).map(k => ({ key: k, name: k }))
-	}, [visibleFields, fields])
+	// Обработчик сохранения с закрытием модального окна
+	const handleSaveAndClose = async () => {
+		try {
+			await handleSave()
+			// handleSave уже вызывает onUpdated и onClose через useContactRowEdit
+		} catch (error) {
+			// Ошибка уже обработана в handleSave
+		}
+	}
+
+	// Обработчик отмены с закрытием модального окна
+	const handleCancelAndClose = () => {
+		handleCancel()
+		// handleCancel уже вызывает onClose через useContactRowEdit
+	}
 
 	const footer = (
 		<div className='flex justify-end gap-2'>
 			<Button
 				view='ghost'
 				label='Отмена'
-				onClick={onClose}
-				disabled={mutation.isPending}
+				onClick={handleCancelAndClose}
+				disabled={isLoading}
 			/>
 			<Button
 				view='primary'
 				label='Сохранить'
-				loading={mutation.isPending}
-				onClick={() => {
-					if (!contactId) return
-					const payload = {
-						email,
-						status,
-						fields: Object.entries(fields)
-							.filter(([, v]) => typeof v === 'string')
-							.map(([fieldKey, value]) => ({ fieldKey, value }))
-					}
-					mutation.mutate({ id: contactId, payload } as any, {
-						onSuccess: () => {
-							showCustomToast({
-								title: 'Контакт обновлён',
-								type: 'success'
-							})
-							onUpdated?.()
-							onClose()
-						},
-						onError: (e: any) =>
-							showCustomToast({
-								title: 'Ошибка обновления контакта',
-								description: e?.message || 'Не удалось обновить контакт',
-								type: 'error'
-							})
-					})
-				}}
+				loading={isLoading}
+				disabled={!isDirty}
+				onClick={handleSaveAndClose}
 			/>
 		</div>
 	)
@@ -94,53 +96,36 @@ export function EditContactModal({
 			title='Редактировать контакт'
 			footer={footer}
 		>
-			<div className='grid grid-cols-1 gap-3'>
-				<div>
-					<Text size='s' view='secondary' className='mb-1'>
-						Email
-					</Text>
-					<TextField
-						size='m'
-						value={email}
-						onChange={v => setEmail((v as string) || '')}
+			<Grid cols={12} gap='m'>
+				{/* Левая колонка: Форма редактирования */}
+				<GridItem col={6}>
+					<ContactEditForm
+						contact={contact}
+						formData={formData}
+						onChange={handleChange}
 					/>
-				</div>
-				<div>
-					<Text size='s' view='secondary' className='mb-1'>
-						Статус
-					</Text>
-					<select
-						className='w-full rounded border border-gray-300 p-2'
-						value={status}
-						onChange={e =>
-							setStatus(e.target.value as unknown as ContactStatus)
-						}
+				</GridItem>
+
+				{/* Правая колонка: Группы и статистика */}
+				<GridItem col={6}>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: 'var(--space-m)'
+						}}
 					>
-						{Object.keys(ContactStatus).map(k => (
-							<option key={k} value={(ContactStatus as any)[k]}>
-								{k}
-							</option>
-						))}
-					</select>
-				</div>
-				{fieldsToRender.map(({ key, name }) => (
-					<div key={key}>
-						<Text size='s' view='secondary' className='mb-1'>
-							{name}
-						</Text>
-						<TextField
-							size='m'
-							value={fields[key] || ''}
-							onChange={v =>
-								setFields(prev => ({
-									...prev,
-									[key]: (v as string) || ''
-								}))
-							}
+						{/* ContactGroupsManager - управление группами */}
+						<ContactGroupsManager
+							contactId={contact.id}
+							currentGroups={selectedGroups}
+							onChange={setSelectedGroups}
 						/>
+						{/* ContactEmailStats - статистика email */}
+						<ContactEmailStats contactId={contact.id} />
 					</div>
-				))}
-			</div>
+				</GridItem>
+			</Grid>
 		</ModalShell>
 	)
 }

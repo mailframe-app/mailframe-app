@@ -11,13 +11,7 @@ interface BlockOverlayProps {
 	onClick: (e: React.MouseEvent) => void
 }
 
-export const BlockOverlay = ({
-	isHover,
-	isActive,
-	isDragging,
-	overlayRef,
-	onClick
-}: BlockOverlayProps) => {
+export const BlockOverlay = ({ isHover, isActive, overlayRef }: BlockOverlayProps) => {
 	const overlayClass = `
 		fixed z-[5] transition-all duration-200
 		${isHover && !isActive ? 'block-hover-overlay' : ''}
@@ -28,9 +22,8 @@ export const BlockOverlay = ({
 		<div
 			ref={overlayRef}
 			className={overlayClass}
-			onClick={onClick}
 			style={{
-				pointerEvents: isDragging ? 'none' : undefined,
+				pointerEvents: 'none',
 				border: isActive
 					? '2px solid var(--accent)'
 					: isHover

@@ -15,7 +15,7 @@ export function CampaignCardSkeleton({
 		<Card
 			verticalSpace='m'
 			horizontalSpace='m'
-			className={`campaign-card ${variant === 'short' ? 'campaign-card--short' : ''}`}
+			className={`campaign-card !border !border-[var(--color-bg-ghost)] ${variant === 'short' ? 'campaign-card--short' : ''}`}
 		>
 			<Layout>
 				<Layout direction='column' className='campaign-card__info'>

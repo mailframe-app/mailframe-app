@@ -32,7 +32,8 @@ export function useEditableCampaignName({
 					payload: { name: localName }
 				})
 				showCustomToast({
-					title: 'Название рассылки обновлено',
+					description: 'Название рассылки обновлено',
+					title: 'Успешно',
 					type: 'success'
 				})
 				if (updatedCampaign) {
@@ -40,7 +41,8 @@ export function useEditableCampaignName({
 				}
 			} catch (error) {
 				showCustomToast({
-					title: 'Ошибка при обновлении названия',
+					title: 'Ошибка',
+					description: 'Ошибка при обновлении названия',
 					type: 'error'
 				})
 				setLocalName(initialName) // Revert on error

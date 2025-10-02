@@ -1,4 +1,3 @@
-import { Card } from '@consta/uikit/Card'
 import { Text } from '@consta/uikit/Text'
 
 type VariableMapping = Record<string, { default: string; fieldKey: string }>
@@ -11,11 +10,7 @@ export const VariableMappingCard = ({ mapping }: VariableMappingCardProps) => {
 	const variables = Object.entries(mapping)
 
 	return (
-		<Card
-			verticalSpace='m'
-			horizontalSpace='xl'
-			className='w-[100%] !rounded-lg'
-		>
+		<div className='p-4'>
 			<div className='info-row relative mb-3 flex items-center pb-3'>
 				<Text
 					className='w-1/3 font-mono'
@@ -53,6 +48,6 @@ export const VariableMappingCard = ({ mapping }: VariableMappingCardProps) => {
 					</Text>
 				</div>
 			))}
-		</Card>
+		</div>
 	)
 }

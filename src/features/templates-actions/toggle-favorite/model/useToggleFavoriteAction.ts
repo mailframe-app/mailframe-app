@@ -9,14 +9,16 @@ export function useToggleFavoriteAction() {
 		try {
 			const data = await toggleFavorite(templateId)
 			showCustomToast({
-				title: data.isFavorite
+				description: data.isFavorite
 					? 'Шаблон добавлен в избранное'
 					: 'Шаблон был удален из избранного',
+				title: 'Успешно',
 				type: 'success'
 			})
 		} catch (error) {
 			showCustomToast({
-				title: 'Произошла ошибка при изменении статуса избранного.',
+				title: 'Ошибка',
+				description: 'Произошла ошибка при изменении статуса избранного.',
 				type: 'error'
 			})
 		}

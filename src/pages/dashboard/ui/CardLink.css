@@ -1,9 +1,0 @@
-@media (min-width: 2000px) {
-	.card-container {
-		min-width: 31% !important;
-	}
-
-	.card-container.hovered {
-		min-width: 36% !important;
-	}
-}

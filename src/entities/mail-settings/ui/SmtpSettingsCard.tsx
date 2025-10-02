@@ -6,6 +6,8 @@ import { Switch } from '@consta/uikit/Switch'
 import { Text } from '@consta/uikit/Text'
 import { TextField } from '@consta/uikit/TextField'
 
+import { useTheme } from '@/features/theme'
+
 import type { SmtpSettingsResponse } from '../api'
 
 interface SmtpSettingsCardProps {
@@ -25,11 +27,13 @@ export const SmtpSettingsCard = ({
 	headerActions,
 	onFieldChange
 }: SmtpSettingsCardProps) => {
+	const { theme } = useTheme()
 	return (
 		<Card
-			verticalSpace='2xl'
-			horizontalSpace='2xl'
-			className='flex h-full w-full flex-col !rounded-2xl'
+			verticalSpace='l'
+			horizontalSpace='l'
+			className='flex h-full w-full flex-col !rounded-lg bg-[var(--color-bg-default)]'
+			shadow={false}
 		>
 			<div className='mb-4 flex items-center justify-between'>
 				<Text size='m' weight='semibold' view='primary'>
@@ -90,11 +94,19 @@ export const SmtpSettingsCard = ({
 						value={settings.smtpHost}
 						readOnly={!isEditing}
 						size='m'
-						className='w-full'
+						className='textfield-no-border w-full'
 						onChange={
 							isEditing && onFieldChange
 								? value => onFieldChange('smtpHost', value || '')
 								: undefined
+						}
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
 						}
 					/>
 				</div>
@@ -106,12 +118,20 @@ export const SmtpSettingsCard = ({
 						value={String(settings.smtpPort)}
 						readOnly={!isEditing}
 						size='m'
-						className='w-full'
+						className='textfield-no-border w-full'
 						type='number'
 						onChange={
 							isEditing && onFieldChange
 								? value => onFieldChange('smtpPort', Number(value) || 0)
 								: undefined
+						}
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
 						}
 					/>
 				</div>
@@ -137,11 +157,19 @@ export const SmtpSettingsCard = ({
 						value={settings.smtpUser}
 						readOnly={!isEditing}
 						size='m'
-						className='w-full'
+						className='textfield-no-border w-full'
 						onChange={
 							isEditing && onFieldChange
 								? value => onFieldChange('smtpUser', value || '')
 								: undefined
+						}
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
 						}
 					/>
 				</div>
@@ -157,11 +185,19 @@ export const SmtpSettingsCard = ({
 						readOnly={!isEditing}
 						size='m'
 						type='password'
-						className='w-full'
+						className='textfield-no-border w-full'
 						onChange={
 							isEditing && onFieldChange
 								? value => onFieldChange('smtpPassword', value || '')
 								: undefined
+						}
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
 						}
 					/>
 				</div>
@@ -182,11 +218,19 @@ export const SmtpSettingsCard = ({
 						value={settings.smtpFromEmail}
 						readOnly={!isEditing}
 						size='m'
-						className='w-full'
+						className='textfield-no-border w-full'
 						onChange={
 							isEditing && onFieldChange
 								? value => onFieldChange('smtpFromEmail', value || '')
 								: undefined
+						}
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
 						}
 					/>
 				</div>
@@ -198,11 +242,19 @@ export const SmtpSettingsCard = ({
 						value={settings.smtpFromName}
 						readOnly={!isEditing}
 						size='m'
-						className='w-full'
+						className='textfield-no-border w-full'
 						onChange={
 							isEditing && onFieldChange
 								? value => onFieldChange('smtpFromName', value || '')
 								: undefined
+						}
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
 						}
 					/>
 				</div>

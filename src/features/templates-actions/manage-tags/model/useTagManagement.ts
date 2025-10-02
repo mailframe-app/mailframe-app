@@ -49,12 +49,14 @@ export function useTagManagement({ initialTags = [] }: UseTagManagementParams) {
 			setSelectedTags(prev => [...(prev || []), newTag])
 			setSearchValue('')
 			showCustomToast({
-				title: `Тег "${newTag.name}" успешно создан и добавлен`,
+				title: 'Успешно',
+				description: `Тег "${newTag.name}" успешно создан и добавлен`,
 				type: 'success'
 			})
 		} catch (error) {
 			showCustomToast({
-				title: 'Ошибка при создании тега',
+				title: 'Ошибка',
+				description: 'Произошла ошибка при создании тега',
 				type: 'error'
 			})
 		}

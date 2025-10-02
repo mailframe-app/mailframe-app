@@ -76,13 +76,16 @@ export const useMfa = () => {
 			onSuccess: () => {
 				queryClient.invalidateQueries({ queryKey: ['mfa'] })
 				showCustomToast({
-					title: 'Двухфакторная аутентификация успешно отключена',
+					description: 'Двухфакторная аутентификация успешно отключена',
+					title: 'Успешно!',
 					type: 'success'
 				})
 			},
 			onError: (error: ErrorResponse) => {
 				showCustomToast({
-					title: error.message || 'Не удалось отключить TOTP аутентификацию',
+					description:
+						error.message || 'Не удалось отключить TOTP аутентификацию',
+					title: 'Ошибка!',
 					type: 'error'
 				})
 			}
@@ -93,7 +96,8 @@ export const useMfa = () => {
 		mutationFn: regenerateRecoveryCodes,
 		onSuccess: () => {
 			showCustomToast({
-				title: 'Коды восстановления успешно обновлены',
+				description: 'Коды восстановления успешно обновлены',
+				title: 'Успешно!',
 				type: 'success'
 			})
 			queryClient.invalidateQueries({
@@ -102,7 +106,8 @@ export const useMfa = () => {
 		},
 		onError: (error: ErrorResponse) => {
 			showCustomToast({
-				title: error.message || 'Не удалось обновить коды восстановления',
+				description: error.message || 'Не удалось обновить коды восстановления',
+				title: 'Ошибка!',
 				type: 'error'
 			})
 		}
@@ -115,7 +120,8 @@ export const useMfa = () => {
 			return result
 		} catch (error) {
 			showCustomToast({
-				title: 'Ошибка при генерации секрета',
+				description: 'Ошибка при генерации секрета',
+				title: 'Ошибка!',
 				type: 'error'
 			})
 			throw error
@@ -126,7 +132,8 @@ export const useMfa = () => {
 	const handleActivateTotp = async (pin: string, secret: string) => {
 		if (!secret) {
 			showCustomToast({
-				title: 'Сначала необходимо сгенерировать секрет TOTP',
+				description: 'Сначала необходимо сгенерировать секрет TOTP',
+				title: 'Ошибка!',
 				type: 'error'
 			})
 			return

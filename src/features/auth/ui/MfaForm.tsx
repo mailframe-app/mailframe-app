@@ -6,6 +6,8 @@ import { Text } from '@consta/uikit/Text'
 import { TextField } from '@consta/uikit/TextField'
 import { useState } from 'react'
 
+import { useTheme } from '@/features/theme'
+
 import { showCustomToast } from '@/shared/lib/toaster'
 
 import { useAuth } from '../model/auth-context'
@@ -19,6 +21,7 @@ export const MfaForm = () => {
 		isVerifyingTotp,
 		isVerifyingRecovery
 	} = useAuth()
+	const { theme } = useTheme()
 	const [activeTab, setActiveTab] = useState<'totp' | 'recovery'>(
 		methods.includes('totp') ? 'totp' : 'recovery'
 	)
@@ -33,7 +36,8 @@ export const MfaForm = () => {
 	const handleVerifyTotp = async () => {
 		if (!totpCode || totpCode.length !== 6 || !/^\d+$/.test(totpCode)) {
 			showCustomToast({
-				title: 'Код должен содержать 6 цифр',
+				title: 'Ошибка',
+				description: 'Код должен содержать 6 цифр',
 				type: 'error'
 			})
 			return
@@ -45,7 +49,8 @@ export const MfaForm = () => {
 	const handleVerifyRecovery = async () => {
 		if (!recoveryCode) {
 			showCustomToast({
-				title: 'Введите код восстановления',
+				description: 'Введите код восстановления',
+				title: 'Ошибка',
 				type: 'error'
 			})
 			return
@@ -63,7 +68,7 @@ export const MfaForm = () => {
 				items={mfaTabs}
 				getItemLabel={item => item.label}
 				getItemIcon={item => item.image}
-				className='mb-4'
+				className='mb-4 items-center justify-center'
 			/>
 			{activeTab === 'totp' && (
 				<>
@@ -74,11 +79,20 @@ export const MfaForm = () => {
 						type='text'
 						placeholder='XXXXXX'
 						maxLength={6}
+						size='l'
 						value={totpCode}
 						onClear={() => setTotpCode('')}
 						withClearButton
 						onChange={v => setTotpCode(v ?? '')}
-						className='custom-textfield custom-clear-icon mb-4 w-full'
+						className='custom-textfield custom-clear-icon textfield-no-border mb-4 w-full'
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
+						}
 					/>
 					<Button
 						label='Подтвердить'
@@ -101,8 +115,17 @@ export const MfaForm = () => {
 						value={recoveryCode}
 						onClear={() => setRecoveryCode('')}
 						withClearButton
+						size='l'
 						onChange={v => setRecoveryCode(v ?? '')}
-						className='custom-textfield custom-clear-icon mb-4 w-full'
+						className='custom-textfield custom-clear-icon textfield-no-border mb-4 w-full'
+						style={
+							{
+								'--color-control-bg-default':
+									theme === 'presetGpnDefault'
+										? '#F8FAFC'
+										: 'var(--color-bg-stripe)'
+							} as React.CSSProperties
+						}
 					/>
 					<Button
 						label='Подтвердить'
@@ -116,10 +139,10 @@ export const MfaForm = () => {
 			)}
 			<Button
 				label='Отмена'
-				view='ghost'
+				view='clear'
 				size='l'
 				onClick={resetMfa}
-				className='mt-4'
+				className='mt-4 !border !border-[var(--color-control-bg-ghost)]'
 			/>
 		</div>
 	)

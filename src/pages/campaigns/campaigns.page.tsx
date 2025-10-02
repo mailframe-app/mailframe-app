@@ -1,16 +1,18 @@
 import { IconAdd } from '@consta/icons/IconAdd'
 import { Button } from '@consta/uikit/Button'
+import { Card } from '@consta/uikit/Card'
 import { Layout } from '@consta/uikit/Layout'
 import { ResponsesEmptyPockets } from '@consta/uikit/ResponsesEmptyPockets'
-import { Tabs } from '@consta/uikit/Tabs'
+import { Select } from '@consta/uikit/Select'
 import { Text } from '@consta/uikit/Text'
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { useCreateCampaignModal } from '@/features/campaign/create-campaign'
 
-import { TablePagination } from '@/shared/ui/Table'
+import { TablePagination } from '@/shared/ui'
 
+import { USE_MOCK_DATA, getFilteredMockData } from './model/screenshot-data'
 import { CampaignGrid } from './ui/CampaignGrid'
 import { CampaignGridSkeleton } from './ui/CampaignGridSkeleton'
 import { SearchAndFilters } from './ui/SearchAndFilters'
@@ -141,17 +143,45 @@ function CampaignsPage() {
 		sortBy !== 'createdAt' ||
 		sortOrder !== 'desc'
 
-	const { data, isLoading, isError } = useCampaigns({
-		status: activeTab.status ?? statuses,
-		search: search || undefined,
-		sortBy,
-		sortOrder,
-		page,
-		limit
-	})
+	// Использование mock данных для скриншота
+	const isMockMode = USE_MOCK_DATA
 
-	const handleTabChange = (tab: Tab) => {
-		setSearchParams({ tab: tab.id })
+	let data: ReturnType<typeof getFilteredMockData> | undefined = undefined
+	let isLoading = false
+	let isError = false
+
+	if (isMockMode) {
+		// Mock данные для скриншота
+		data = getFilteredMockData({
+			activeTab,
+			statuses,
+			search,
+			sortBy,
+			sortOrder,
+			page,
+			limit
+		})
+		isLoading = false
+		isError = false
+	} else {
+		// Рабочий код с реальными данными
+		const queryResult = useCampaigns({
+			status: activeTab.status ?? statuses,
+			search: search || undefined,
+			sortBy,
+			sortOrder,
+			page,
+			limit
+		})
+		data = queryResult.data ?? undefined
+		isLoading = queryResult.isLoading
+		isError = queryResult.isError
+	}
+
+	const handleTabChange = (tab: Tab | null) => {
+		if (tab) {
+			setSearchParams({ tab: tab.id })
+		}
 	}
 
 	const handleClearSearch = () => {
@@ -180,10 +210,21 @@ function CampaignsPage() {
 
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='mb-8 flex items-center justify-between'>
-				<Text view='primary' size='3xl' weight='bold'>
-					Рассылки
-				</Text>
+			<div className='mb-7 flex items-center justify-between'>
+				<div className='flex flex-col'>
+					<Text
+						as='h1'
+						view='primary'
+						size='xl'
+						weight='semibold'
+						className='leading-6'
+					>
+						Рассылки
+					</Text>
+					<Text as='p' view='secondary' size='s'>
+						Создавайте и управляйте рассылками.
+					</Text>
+				</div>
 				<Button
 					label='Создать рассылку'
 					view='primary'
@@ -191,41 +232,71 @@ function CampaignsPage() {
 					onClick={openCreateCampaignModal}
 				/>
 			</div>
-
-			<div className='w-full'>
-				<Tabs
-					view='clear'
+			{/* Desktop */}
+			<div className='mb-2 hidden gap-2 xl:flex'>
+				{items.map(tab => (
+					<Button
+						key={tab.id}
+						label={tab.label}
+						view={activeTab.id === tab.id ? 'primary' : 'clear'}
+						size='m'
+						onClick={() => handleTabChange(tab)}
+						className={activeTab.id === tab.id ? '' : ''}
+						style={{
+							background:
+								activeTab.id === tab.id ? 'var(--color-bg-default)' : '',
+							color:
+								activeTab.id === tab.id
+									? 'var(--color-control-typo-secondary)'
+									: '',
+							borderRadius: '10px',
+							fontWeight: activeTab.id === tab.id ? '500' : '400'
+						}}
+					/>
+				))}
+			</div>
+			{/* Mobile */}
+			<div className='mb-4 xl:hidden'>
+				<Select
+					size='l'
+					placeholder='Выберите категорию'
+					items={items}
 					value={activeTab}
 					onChange={handleTabChange}
-					items={items}
-					getItemLabel={(item: Tab) => item.label}
-					getItemKey={(item: Tab) => item.id}
-					className='custom-tab'
+					getItemKey={item => item.id}
+					getItemLabel={item => item.label}
+					className='select-no-border'
 				/>
 			</div>
-			<SearchAndFilters tabId={activeTab.id} />
+			<Card
+				verticalSpace='l'
+				horizontalSpace='l'
+				shadow={false}
+				className='flex h-full w-full flex-col !rounded-lg bg-[var(--color-bg-default)]'
+			>
+				<SearchAndFilters tabId={activeTab.id} />
+				<CampaignsView
+					data={data}
+					isLoading={isLoading}
+					isError={isError}
+					limit={limit}
+					onClearSearch={handleClearSearch}
+					hasFilters={hasFilters}
+					onCreateCampaign={openCreateCampaignModal}
+				/>
 
-			<CampaignsView
-				data={data}
-				isLoading={isLoading}
-				isError={isError}
-				limit={limit}
-				onClearSearch={handleClearSearch}
-				hasFilters={hasFilters}
-				onCreateCampaign={openCreateCampaignModal}
-			/>
-
-			{data && data.total > 0 && (
-				<div className='mt-8'>
-					<TablePagination
-						total={data.total}
-						offset={(page - 1) * limit}
-						step={limit}
-						onChange={handlePageChange}
-						onStepChange={handleStepChange}
-					/>
-				</div>
-			)}
+				{data && data.total > 0 && (
+					<div className=''>
+						<TablePagination
+							total={data.total}
+							offset={(page - 1) * limit}
+							step={limit}
+							onChange={handlePageChange}
+							onStepChange={handleStepChange}
+						/>
+					</div>
+				)}
+			</Card>
 		</Layout>
 	)
 }

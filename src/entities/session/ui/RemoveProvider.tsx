@@ -20,14 +20,16 @@ export function RemoveProvider({ id }: RevokeSessionProps) {
 		onSuccess() {
 			modals.closeAll()
 			showCustomToast({
-				title: 'Сессия успешно завершена',
+				description: 'Сессия успешно завершена',
+				title: 'Успешно',
 				type: 'success'
 			})
 		},
 		onSettled: useInvalidateSessionsList(),
 		onError(error: ErrorResponse) {
 			showCustomToast({
-				title: error.message ?? 'Ошибка при удалении сессии',
+				description: error.message ?? 'Ошибка при удалении сессии',
+				title: 'Ошибка при удалении сессии',
 				type: 'error'
 			})
 		}
@@ -49,7 +51,8 @@ export function RemoveProvider({ id }: RevokeSessionProps) {
 
 	return (
 		<Button
-			view='ghost'
+			view='clear'
+			className='!border !border-[var(--color-bg-ghost)]'
 			onClick={handleRemove}
 			loading={isPending}
 			onlyIcon

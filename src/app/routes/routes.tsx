@@ -2,7 +2,7 @@ import { createBrowserRouter, redirect } from 'react-router-dom'
 
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '@/shared/constants'
 
-import { AppLayout, PrivateLayout } from '../layouts'
+import { AppLayout, OpenLayout, PrivateLayout } from '../layouts'
 import { AppLoader } from '../loaders'
 import { AppProvider } from '../providers'
 
@@ -108,6 +108,7 @@ export const router = createBrowserRouter([
 				]
 			},
 			{
+				element: <OpenLayout />,
 				loader: publicRouteLoader,
 				children: [
 					{

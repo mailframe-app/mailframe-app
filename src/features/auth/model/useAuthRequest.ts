@@ -53,15 +53,17 @@ export function useAuthRequest<
 				})
 			} else {
 				showCustomToast({
-					title: 'Произошла неизвестная ошибка при обработке ответа.',
+					description: 'Произошла неизвестная ошибка при обработке ответа.',
+					title: 'Ошибка при обработке ответа.',
 					type: 'error'
 				})
 			}
 		} catch (error: unknown) {
 			console.error('Request execution failed:', error)
 			showCustomToast({
-				title:
+				description:
 					'Не удалось связаться с сервером или произошла непредвиденная ошибка. Пожалуйста, попробуйте позже.',
+				title: 'Ошибка при обработке ответа.',
 				type: 'error'
 			})
 		} finally {

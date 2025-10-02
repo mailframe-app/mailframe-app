@@ -44,11 +44,11 @@ export const StepperField: React.FC<StepperFieldProps> = ({
 	return (
 		<div className={`flex flex-col items-start ${className || ''}`}>
 			{label && (
-				<Text view='secondary' size='xs' className='mb-1'>
+				<Text view='primary' size='xs' className='mb-1'>
 					{label}
 				</Text>
 			)}
-			<div className='flex items-center rounded-[6px] border border-gray-100'>
+			<div className='flex items-center rounded-[6px] border border-[var(--color-bg-stripe)]'>
 				<Button
 					size='s'
 					label='−'
@@ -64,7 +64,14 @@ export const StepperField: React.FC<StepperFieldProps> = ({
 					onKeyDown={onKeyDown}
 					disabled={disabled}
 					placeholder={placeholder}
-					style={{ width: '56px', textAlign: 'center' }}
+					style={{
+						width: '56px',
+						textAlign: 'center',
+						color: 'var(--color-typo-primary)',
+						backgroundColor: 'transparent',
+						border: 'none',
+						outline: 'none'
+					}}
 					className='stepper-input-center'
 				/>
 				<Button

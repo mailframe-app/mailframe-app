@@ -3,6 +3,7 @@ import { Layout } from '@consta/uikit/Layout'
 import { AuthProvider, LoginForm, MfaForm, useAuth } from '@/features/auth'
 import { SocialAuth } from '@/features/social-auth'
 
+import { PUBLIC_ROUTES } from '@/shared/constants'
 import { AuthFormWrapper } from '@/shared/ui'
 
 function LoginPageContent() {
@@ -22,9 +23,16 @@ function LoginPageContent() {
 			) : (
 				<>
 					<AuthFormWrapper
-						children={<SocialAuth />}
+						children={
+							<SocialAuth
+								description='Нет аккаунта?'
+								linkText='Зарегистрироваться'
+								linkTo={PUBLIC_ROUTES.REGISTER}
+							/>
+						}
 						form={<LoginForm />}
-						title='Вход в систему'
+						title='Добро пожаловать в Mailframe'
+						description='Войдите в систему, чтобы продолжить'
 					/>
 				</>
 			)}

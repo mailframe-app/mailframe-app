@@ -2,8 +2,8 @@
 
 /* scrollbar */
 ::-webkit-scrollbar {
-	height: 8px !important;
-	width: 8px !important;
+	height: 0px !important;
+	width: 0px !important;
 }
 
 ::-webkit-scrollbar-track,
@@ -20,33 +20,25 @@
 	background: var(--color-scroll-thumb-hover) !important;
 }
 
-/* mix focus */
-@layer utilities {
-	.children-border-b-0 > * {
-		border-bottom: 0 !important;
-		height: 100% !important;
-	}
-
-	.children-height-full > * {
-		height: 100vh !important;
-	}
-
-	/* Force high z-index overlays */
-	.overlay-topmost {
-		z-index: 2147483647 !important;
-	}
+/* TextGradient */
+.TextGradientDark {
+	background: linear-gradient(135deg, #fff, #a4a6b3 46%, #fff);
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
 }
 
-.MixFocus {
-	--mix-focus-color-one: transparent !important;
-	--mix-focus-color-two: transparent !important;
-	--mix-focus-animation: none !important;
-	box-shadow: none !important;
-	outline: none !important;
+.TextGradientLight {
+	background: linear-gradient(135deg, #191a1d, #747689 46%, #191a1d);
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
 }
 
 /* scrollbar with insets */
-.scroll-inset {
+/* .scroll-inset {
 	--inset-top: 32px;
 	--inset-bottom: 32px;
 	position: relative;
@@ -84,11 +76,38 @@
 	background: transparent !important;
 	margin-top: var(--inset-top) !important;
 	margin-bottom: var(--inset-bottom) !important;
+} */
+
+/* mix focus */
+@layer utilities {
+	.children-border-b-0 > * {
+		border-bottom: 0 !important;
+		height: 100% !important;
+	}
+
+	.children-height-full > * {
+		height: 100vh !important;
+	}
+
+	/* Force high z-index overlays */
+	.overlay-topmost {
+		z-index: 2147483647 !important;
+	}
+}
+
+.MixFocus {
+	--mix-focus-color-one: transparent !important;
+	--mix-focus-color-two: transparent !important;
+	--mix-focus-animation: none !important;
+	box-shadow: none !important;
+	outline: none !important;
 }
 
 /* custom textfield */
 
 .custom-textfield label {
+	font-weight: 500 !important;
+	color: var(--color-typo-primary) !important;
 	font-size: 14px;
 	line-height: 16px;
 	margin-bottom: 4px;
@@ -109,67 +128,6 @@
 	color: #a6b1b8;
 	mask: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 4L4 12M4 4L12 12' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
 		no-repeat center;
-}
-
-/* custom button */
-.button {
-	cursor: pointer;
-	width: 40px;
-	height: 40px;
-	padding: 12px;
-	background-color: #ffffff;
-	border: none;
-	border-radius: 4px;
-	color: #4391c5;
-	font-size: 16px;
-	box-shadow:
-		0px 2px 8px 0px #00203329,
-		0px 2px 2px 0px #00203305;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 16px;
-	z-index: 1;
-	transition: color 0.3s ease-in;
-}
-.button svg {
-	transition: color 0.3s ease-in;
-}
-.button:hover {
-	color: #57b8f9;
-}
-
-.button-hovered {
-	width: auto;
-}
-
-/* dashboard  */
-.image-bottom {
-	bottom: 0;
-}
-.image-top {
-	top: 0;
-	width: 103px;
-	height: 103px;
-}
-
-.elipse {
-	transition:
-		opacity 0.5s ease-in,
-		transform 0.3s ease-in;
-}
-
-.full-text {
-	width: 310px;
-}
-
-.ellipsis-text {
-	width: 135px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
 }
 
 @layer components {
@@ -217,15 +175,39 @@
 	font-weight: 600 !important;
 }
 
+.che--NavbarItem .che--NavbarItem_form_default {
+	border-radius: 8px !important;
+}
+
 /* Consta Table: force themed text color in cells */
 .ct--TableCell,
 .ct--TableCell .Text {
 	color: var(--color-typo-primary) !important;
 }
 
-/* .ListItem.ListItem_active:hover {
-	border-radius: 16px;
-} */
+/* Убрать границы у фиксированных колонок */
+.ct--TableRowCell_pinned.ct--TableCell_borderRight,
+.ct--TableHeader-Cell_pinned.ct--TableCell_borderRight {
+	border-right: none !important;
+}
+
+.ct--TableRowCell_pinned.ct--TableCell_borderLeft,
+.ct--TableHeader-Cell_pinned.ct--TableCell_borderLeft {
+	border-left: none !important;
+}
+
+/* Изменить цвет границ таблицы на светлый */
+.ct--TableCell_borderLeft {
+	border-left: 1px solid var(--color-bg-ghost) !important;
+}
+
+.ct--TableCell_borderTop {
+	border-top: 1px solid var(--color-bg-ghost) !important;
+}
+
+.ct--TableBody-Separator {
+	border-top: 1px solid var(--color-bg-ghost) !important;
+}
 
 .ListItem_active {
 	background-color: transparent !important;
@@ -243,4 +225,50 @@
 	left: -16px;
 	right: -16px;
 	background-color: #b8cad5;
+}
+
+/* custom app colors */
+:root {
+	--color-bg-contact: #588aef;
+}
+
+/* Settings tab button shadow */
+.tab-shadow {
+	box-shadow:
+		0px 1px 4px 0px #00203329,
+		0px 2px 2px 0px #00203305 !important;
+}
+
+/* Custom TextField with no border */
+.textfield-no-border .TextField-InputContainer {
+	border: none !important;
+}
+
+/* Custom ChoiceGroup with no border */
+.choice-group-no-border {
+	border: none !important;
+	box-shadow: none !important;
+}
+
+.choice-group-no-border .ChoiceGroup-Label {
+	border: none !important;
+}
+
+/* Custom Select with no border */
+.select-no-border .Select-Control {
+	border: none !important;
+	box-shadow: none !important;
+}
+
+/* Center select dropdown icon */
+.select-no-border .Select-Indicators,
+.select-no-border .Select-IndicatorsDropdown {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+}
+
+.select-no-border .Select-DropdownIndicatorIcon {
+	display: flex !important;
+	align-items: center !important;
 }

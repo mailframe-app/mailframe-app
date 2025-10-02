@@ -35,14 +35,16 @@ export const FolderCard = React.forwardRef<HTMLButtonElement, FolderCardProps>(
 		return (
 			<div
 				className={`flex h-full flex-col rounded-md border p-2 transition-all ${
-					isSelected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+					isSelected
+						? 'border-blue-500'
+						: 'border-[var(--color-bg-ghost)] hover:border-[var(--color-bg-ghost)]'
 				}`}
 				onClick={handleClick}
 				onMouseEnter={() => setIsHovered(true)}
 				onMouseLeave={() => setIsHovered(false)}
 			>
 				{/* Иконка папки */}
-				<div className='relative mb-2 flex h-[120px] items-center justify-center overflow-hidden rounded bg-gray-50'>
+				<div className='relative mb-2 flex h-[120px] items-center justify-center overflow-hidden rounded !bg-[var(--color-bg-secondary)]'>
 					<img src={folderIcon} alt='Folder' width={64} height={64} />
 
 					{/* Элементы управления (только меню вне bulk-режима) */}
@@ -63,7 +65,7 @@ export const FolderCard = React.forwardRef<HTMLButtonElement, FolderCardProps>(
 
 				{/* Информация о папке */}
 				<div className='flex flex-1 flex-col'>
-					<Text size='s' truncate className='font-medium'>
+					<Text size='s' truncate className='font-medium' view='primary'>
 						{folder.name}
 					</Text>
 

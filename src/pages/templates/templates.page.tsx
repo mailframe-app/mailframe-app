@@ -1,8 +1,8 @@
 import { IconAdd } from '@consta/icons/IconAdd'
 import { Button } from '@consta/uikit/Button'
+import { Card } from '@consta/uikit/Card'
 import { Layout } from '@consta/uikit/Layout'
 import { ResponsesEmptyPockets } from '@consta/uikit/ResponsesEmptyPockets'
-import { Tabs } from '@consta/uikit/Tabs'
 import { Text } from '@consta/uikit/Text'
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -59,6 +59,7 @@ function TemplatesView({
 
 	const favoriteTemplates = data?.favoriteTemplates || []
 	const regularTemplates = data?.templates || []
+	const allTemplates = [...favoriteTemplates, ...regularTemplates]
 
 	if (isError) {
 		return (
@@ -68,7 +69,7 @@ function TemplatesView({
 		)
 	}
 
-	if (favoriteTemplates.length === 0 && regularTemplates.length === 0) {
+	if (allTemplates.length === 0) {
 		if (tabId === 'my-templates') {
 			return (
 				<div className='flex w-full justify-center py-10'>
@@ -110,38 +111,16 @@ function TemplatesView({
 	}
 
 	return (
-		<>
-			{favoriteTemplates.length > 0 && (
-				<div className='mb-8'>
-					<Text view='primary' size='xl' weight='semibold' className='mb-4'>
-						Избранные
-					</Text>
-					{tabId === 'library' ? (
-						<NamedTemplateGrid templates={favoriteTemplates} tabId={tabId} />
-					) : (
-						<TemplateGrid
-							templates={favoriteTemplates}
-							tabId={tabId as 'library' | 'my-templates'}
-						/>
-					)}
-				</div>
+		<div>
+			{tabId === 'library' ? (
+				<NamedTemplateGrid templates={allTemplates} tabId={tabId} />
+			) : (
+				<TemplateGrid
+					templates={allTemplates}
+					tabId={tabId as 'library' | 'my-templates'}
+				/>
 			)}
-			{regularTemplates.length > 0 && (
-				<div>
-					<Text view='primary' size='xl' weight='semibold' className='mb-4'>
-						{tabId === 'my-templates' ? 'Мои шаблоны' : 'Библиотека'}
-					</Text>
-					{tabId === 'library' ? (
-						<NamedTemplateGrid templates={regularTemplates} tabId={tabId} />
-					) : (
-						<TemplateGrid
-							templates={regularTemplates}
-							tabId={tabId as 'library' | 'my-templates'}
-						/>
-					)}
-				</div>
-			)}
-		</>
+		</div>
 	)
 }
 
@@ -184,10 +163,21 @@ function TemplatesPage() {
 
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='mb-8 flex items-center justify-between'>
-				<Text view='primary' size='3xl' weight='bold'>
-					Шаблоны
-				</Text>
+			<div className='mb-7 flex items-center justify-between'>
+				<div className='flex flex-col'>
+					<Text
+						as='h1'
+						view='primary'
+						size='xl'
+						weight='semibold'
+						className='leading-6'
+					>
+						Шаблоны
+					</Text>
+					<Text as='p' view='secondary' size='s'>
+						Создавайте и управляйте шаблонами писем.
+					</Text>
+				</div>
 				<Button
 					label='Создать шаблон'
 					view='primary'
@@ -196,25 +186,43 @@ function TemplatesPage() {
 				/>
 			</div>
 
-			<div className='w-full'>
-				<Tabs
-					view='clear'
-					value={activeTab}
-					onChange={handleTabChange}
-					items={items}
-					getItemLabel={(item: Tab) => item.label}
-					getItemKey={(item: Tab) => item.id}
-					className='custom-tab'
-				/>
+			<div className='mb-2 flex gap-2'>
+				{items.map(item => (
+					<Button
+						key={item.id}
+						label={item.label}
+						view={activeTab.id === item.id ? 'primary' : 'clear'}
+						size='m'
+						onClick={() => handleTabChange(item)}
+						className={activeTab.id === item.id ? '' : ''}
+						style={{
+							background:
+								activeTab.id === item.id ? 'var(--color-bg-default)' : '',
+							color:
+								activeTab.id === item.id
+									? 'var(--color-control-typo-secondary)'
+									: '',
+							borderRadius: '10px',
+							fontWeight: activeTab.id === item.id ? '500' : '400'
+						}}
+					/>
+				))}
 			</div>
-			<SearchAndFilters tabId={activeTab.id} />
+			<Card
+				verticalSpace='l'
+				horizontalSpace='l'
+				className='!rounded-lg bg-[var(--color-bg-default)]'
+				shadow={false}
+			>
+				<SearchAndFilters tabId={activeTab.id} />
 
-			<TemplatesView
-				tabId={activeTab.id}
-				data={data}
-				isError={isError}
-				isLoading={isLoading}
-			/>
+				<TemplatesView
+					tabId={activeTab.id}
+					data={data}
+					isError={isError}
+					isLoading={isLoading}
+				/>
+			</Card>
 		</Layout>
 	)
 }

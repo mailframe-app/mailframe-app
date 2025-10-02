@@ -9,12 +9,14 @@ export function useDuplicateTemplateAction() {
 		try {
 			await duplicateTemplate(templateId)
 			showCustomToast({
-				title: 'Шаблон успешно скопирован!',
+				description: 'Шаблон успешно скопирован!',
+				title: 'Успешно',
 				type: 'success'
 			})
 		} catch (error) {
 			showCustomToast({
-				title: 'Произошла ошибка при копировании шаблона.',
+				title: 'Ошибка',
+				description: 'Произошла ошибка при копировании шаблона.',
 				type: 'error'
 			})
 		}

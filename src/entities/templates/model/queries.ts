@@ -93,13 +93,15 @@ export const useDeleteTemplate = () => {
 		try {
 			await deleteTemplate(id)
 			showCustomToast({
-				title: 'Шаблон успешно удален!',
+				description: 'Шаблон успешно удален!',
+				title: 'Успешно',
 				type: 'success'
 			})
 			invalidateTemplates()
 		} catch (error) {
 			showCustomToast({
-				title: 'Произошла ошибка при удалении шаблона.',
+				title: 'Ошибка',
+				description: 'Произошла ошибка при удалении шаблона.',
 				type: 'error'
 			})
 			throw error

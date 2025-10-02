@@ -4,7 +4,9 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
-import { TextFieldForm } from '@/shared/ui/TextFieldForm'
+import { useTheme } from '@/features/theme'
+
+import { TextFieldForm } from '@/shared/ui'
 
 import type { SendPasswordRecoveryRequest } from '../api'
 
@@ -34,6 +36,7 @@ export function ForgotPasswordForm({
 	onSubmit,
 	isPending
 }: ForgotPasswordFormProps) {
+	const { theme } = useTheme()
 	const { handleSubmit, control, formState } = useForm<ForgotPasswordFormType>({
 		resolver: zodResolver(ForgotPasswordFormSchema)
 	})
@@ -43,14 +46,24 @@ export function ForgotPasswordForm({
 	}
 
 	return (
-		<form onSubmit={handleSubmit(handleFormSubmit)}>
+		<form onSubmit={handleSubmit(handleFormSubmit)} className='w-full'>
 			<TextFieldForm<ForgotPasswordFormType>
 				name='email'
 				type='email'
 				label='Email'
+				size='l'
 				placeholder='Введите почту'
 				control={control}
 				autoFocus
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 
 			<Button
@@ -67,7 +80,8 @@ export function ForgotPasswordForm({
 				label='Назад'
 				width='full'
 				size='l'
-				view='secondary'
+				view='clear'
+				className='!border !border-[var(--color-control-bg-ghost)]'
 				onClick={() => navigate(-1)}
 			/>
 		</form>

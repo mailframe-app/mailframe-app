@@ -14,7 +14,11 @@ export function useRecoveryRequest() {
 		mutationKey: ['recovery password request'],
 		mutationFn: sendPasswordRecovery,
 		onError: (error: ErrorResponse) => {
-			showCustomToast({ title: error.message, type: 'error' })
+			showCustomToast({
+				description: error.message,
+				title: 'Не удалось отправить письмо',
+				type: 'error'
+			})
 		}
 	})
 

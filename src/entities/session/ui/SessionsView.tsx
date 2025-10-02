@@ -8,7 +8,12 @@ export function Sessions() {
 	const sessions = useSessions()
 
 	return (
-		<Card className='w-full !rounded-2xl p-6'>
+		<Card
+			shadow={false}
+			verticalSpace='l'
+			horizontalSpace='l'
+			className='w-full !rounded-lg border border-[var(--color-bg-ghost)] p-6'
+		>
 			{sessions.map((session, index) => (
 				<SessionItem
 					key={session.id}

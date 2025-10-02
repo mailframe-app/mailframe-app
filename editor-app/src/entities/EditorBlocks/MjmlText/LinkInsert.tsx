@@ -3,6 +3,8 @@ import { Text as CUIText } from '@consta/uikit/Text'
 import { TextField } from '@consta/uikit/TextField'
 import React, { useEffect, useState } from 'react'
 
+import { useTheme } from '@/features/theme'
+
 interface LinkInsertProps {
 	text?: string
 	onTextUpdate?: (text: string) => void
@@ -34,6 +36,7 @@ function buildMarkdownLink({
 }
 
 export const LinkInsert: React.FC<LinkInsertProps> = ({ text = '', onTextUpdate }) => {
+	const { theme } = useTheme()
 	const parsed = parseMarkdownLink(text)
 	const [open, setOpen] = useState(!!parsed)
 	const [url, setUrl] = useState(parsed?.url ?? '')
@@ -63,7 +66,7 @@ export const LinkInsert: React.FC<LinkInsertProps> = ({ text = '', onTextUpdate 
 	return (
 		<div className='space-y-2'>
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='text-gray-500'>
+				<CUIText size='s' weight='light' view='primary'>
 					Ссылка
 				</CUIText>
 				<Checkbox
@@ -76,15 +79,21 @@ export const LinkInsert: React.FC<LinkInsertProps> = ({ text = '', onTextUpdate 
 			{open && (
 				<div className='space-y-2 pt-2'>
 					<div className='flex items-center justify-between'>
-						<CUIText size='s' weight='light' className='w-[80px] truncate text-gray-500'>
+						<CUIText size='s' weight='light' className='w-[80px] truncate' view='primary'>
 							URL <span className='text-red-500'>*</span>
 						</CUIText>
 						<TextField
 							value={url}
 							onChange={value => setUrl(value ?? '')}
 							size='s'
-							view='clear'
-							className='rounded-lg bg-[#F3F5F7] pl-[15px]'
+							view='default'
+							className='rounded-lg pl-[15px]'
+							style={
+								{
+									'--color-control-bg-default':
+										theme === 'presetGpnDefault' ? '#F8FAFC' : 'var(--color-bg-secondary)!important'
+								} as React.CSSProperties
+							}
 							placeholder='Введите ссылку'
 						/>
 					</div>

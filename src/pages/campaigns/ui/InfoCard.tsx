@@ -1,4 +1,3 @@
-import { Card } from '@consta/uikit/Card'
 import { Text } from '@consta/uikit/Text'
 import { useMemo } from 'react'
 
@@ -34,11 +33,7 @@ export const InfoCard = ({ campaign }: InfoCardProps) => {
 	const recipient = group?.name || 'Выбранная группа контактов'
 
 	return (
-		<Card
-			verticalSpace='m'
-			horizontalSpace='xl'
-			className='w-[100%] !rounded-lg'
-		>
+		<div className='p-4'>
 			<div className='info-row relative mb-3 flex items-center pb-3'>
 				<Text size='m' view='primary' weight='semibold' className='mr-20 w-50'>
 					Название рассылки
@@ -82,6 +77,6 @@ export const InfoCard = ({ campaign }: InfoCardProps) => {
 					{subject || ''}
 				</Text>
 			</div>
-		</Card>
+		</div>
 	)
 }

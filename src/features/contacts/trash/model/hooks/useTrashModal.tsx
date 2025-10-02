@@ -11,7 +11,7 @@ export function useTrashModal() {
 			description:
 				'Здесь отображаются удаленные контакты, которые можно восстановить или удалить окончательно.',
 			content: <TrashModalContent onClose={() => modals.close(modalId)} />,
-			containerClassName: 'w-[800px] max-w-[95vw]',
+			containerClassName: 'w-[800px] max-w-[80vw]',
 			hasOverlay: true,
 			closeButton: true
 		})

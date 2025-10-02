@@ -112,7 +112,8 @@ export function useDeleteCampaignMutation() {
 		mutationFn: ({ id }) => deleteCampaign(id),
 		onSuccess: async (_, { name }) => {
 			showCustomToast({
-				title: `Рассылка "${name}" успешно удалена`,
+				description: `Рассылка "${name}" успешно удалена`,
+				title: `Успешно`,
 				type: 'success'
 			})
 			await queryClient.invalidateQueries({ queryKey: campaignsKeys.all })

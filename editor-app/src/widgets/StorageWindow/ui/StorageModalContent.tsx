@@ -89,7 +89,9 @@ export const StorageModalContent = () => {
 				) : isEmpty ? (
 					<div className='flex h-full items-center justify-center p-8'>
 						<div className='text-center'>
-							<Text size='l'>Здесь ничего нет</Text>
+							<Text size='l' view='primary'>
+								Здесь ничего нет
+							</Text>
 						</div>
 					</div>
 				) : (

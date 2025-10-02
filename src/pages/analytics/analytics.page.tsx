@@ -1,94 +1,53 @@
-import { DatePicker } from '@consta/uikit/DatePicker'
 import { Layout } from '@consta/uikit/Layout'
 import { Text } from '@consta/uikit/Text'
-import { subDays } from 'date-fns'
-import { useState } from 'react'
 
-import { ErrorsTopWidget } from './ui/ErrorsTopWidget'
-import { SummaryWidget } from './ui/SummaryWidget'
-import { TimeseriesWidget } from './ui/TimeseriesWidget'
+import { useAnalyticsState } from './model/hooks'
+import { AnalyticsPeriodSelector } from './ui/components/AnalyticsPeriodSelector'
+import { DateRangeDisplay } from './ui/components/DateRangeDisplay'
+import { ErrorsTopWidget, FunnelWidget, TimeseriesWidget } from './ui/widgets'
 
 function AnalyticsPage() {
-	const [dateRange, setDateRange] = useState<[Date, Date] | null>([
-		subDays(new Date(), 30),
-		new Date()
-	])
-
-	const handleDateChange = (value: Date | null, index: 0 | 1) => {
-		const newRange: [Date | null, Date | null] = dateRange
-			? [...dateRange]
-			: [null, null]
-		newRange[index] = value
-
-		if (newRange[0] && newRange[1]) {
-			setDateRange(newRange as [Date, Date])
-		} else {
-			setDateRange(null)
-		}
-	}
+	const { dateRange, period, updateDateRange } = useAnalyticsState()
 
 	return (
 		<Layout direction='column' className='w-full'>
-			<div className='mb-4'>
-				<Text view='primary' size='3xl' weight='bold'>
-					Аналитика
-				</Text>
-			</div>
-			<div className='mb-8'>
-				<Text as='p' size='s' view='secondary' className='mb-2'>
-					Выбрать период
-				</Text>
-				<Layout direction='row' className='gap-4'>
-					<div className='w-40'>
-						<DatePicker
-							type='date'
-							value={dateRange?.[0]}
-							onChange={v => handleDateChange(v, 0)}
-							placeholder='ДД.ММ.ГГГГ'
-						/>
-					</div>
-					<div className='w-40'>
-						<DatePicker
-							type='date'
-							value={dateRange?.[1]}
-							onChange={v => handleDateChange(v, 1)}
-							placeholder='ДД.ММ.ГГГГ'
-						/>
-					</div>
-				</Layout>
-			</div>
-			<Text as='h3' view='primary' size='xl' weight='semibold' className='mb-8'>
-				Показатели рассылок
-			</Text>
-			<SummaryWidget dateRange={dateRange} />
-			<Text as='h3' view='primary' size='xl' weight='semibold' className='my-8'>
-				График активности подписчиков
-			</Text>
-			<TimeseriesWidget dateRange={dateRange} />
-			{/* <Text
-						as='h3'
+			<div className='mb-7 flex flex-col items-center justify-between gap-4 md:flex-row md:gap-0'>
+				<div className='flex flex-col text-left'>
+					<Text
+						as='h1'
 						view='primary'
 						size='xl'
 						weight='semibold'
-						className='my-8'
+						className='leading-6'
 					>
-						Воронка конверсии
+						Аналитика
 					</Text>
+					<Text as='p' view='secondary' size='s'>
+						Выберите период и посмотрите статистику рассылок.
+					</Text>
+				</div>
+				<AnalyticsPeriodSelector
+					period={period}
+					onPeriodChange={updateDateRange}
+				/>
+			</div>
+
+			<div className='mb-6 !rounded-lg bg-[var(--color-bg-default)] p-6'>
+				<DateRangeDisplay dateRange={dateRange} />
+			</div>
+
+			<TimeseriesWidget
+				dateRange={dateRange}
+				bucket={period === 'День' ? 'day' : undefined}
+			/>
+			<div className='mb-6' />
 			<FunnelWidget dateRange={dateRange} />
-			<Text
-						as='h3'
-						view='primary'
-						size='xl'
-						weight='semibold'
-						className='my-8'
-					>
-						Распределение вовлеченности
-					</Text>
-			<EngagementWidget /> */}
-			<Text as='h3' view='primary' size='xl' weight='semibold' className='my-8'>
-				Ошибки доставки
-			</Text>
+
+			<div className='mb-6' />
 			<ErrorsTopWidget dateRange={dateRange} />
+			{/* 
+			<SummaryWidget dateRange={dateRange} />
+			<EngagementWidget /> */}
 		</Layout>
 	)
 }

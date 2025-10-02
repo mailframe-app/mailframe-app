@@ -56,8 +56,7 @@ export const ChangeAvatar = ({ profile }: ChangeAvatarProps) => {
 				}`}
 				style={{
 					background: 'var(--color-bg-default)',
-					boxShadow: '0px 2px 8px 0px rgba(0,32,51,0.16)',
-					border: '1px solid #E5E6EB',
+					border: '1px solid var(--color-bg-ghost)',
 					width: '40px',
 					height: '40px',
 					borderRadius: '50%'

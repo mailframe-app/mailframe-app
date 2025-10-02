@@ -30,7 +30,7 @@ export const SortableSocialItem: React.FC<Props> = ({ item, active, onSelect, on
 			ref={setNodeRef}
 			style={style}
 			className={`flex items-center gap-2 px-2 py-1 ${
-				active ? 'border-[var(--accent)]' : 'border-gray-200'
+				active ? 'border-[var(--accent)]' : 'border-[var(--color-bg-stripe)]'
 			}`}
 		>
 			<button
@@ -39,6 +39,7 @@ export const SortableSocialItem: React.FC<Props> = ({ item, active, onSelect, on
 				{...listeners}
 				aria-label='Переместить'
 				title='Переместить'
+				style={{ color: 'var(--color-typo-primary)' }}
 			>
 				<IconDraggable size='s' />
 			</button>
@@ -52,6 +53,7 @@ export const SortableSocialItem: React.FC<Props> = ({ item, active, onSelect, on
 
 			<button
 				className='flex-1 text-left text-sm'
+				style={{ color: 'var(--color-typo-primary)' }}
 				onClick={onSelect}
 				title='Выбрать для редактирования'
 			>

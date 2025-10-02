@@ -2,6 +2,8 @@ import { useNode } from '@craftjs/core'
 import { Upload } from 'lucide-react'
 import React, { useLayoutEffect, useRef, useState } from 'react'
 
+import { MjmlSection } from '../MjmlSection'
+
 import type { MjmlBlockProps } from './MjmlBlock.types'
 import { MjmlBlockSettings } from './MjmlBlockSettings'
 
@@ -221,6 +223,8 @@ export const MjmlBlock = ({
 	)
 }
 
+MjmlBlock.displayName = 'MjmlBlock'
+
 MjmlBlock.craft = {
 	props: {
 		background: 'transparent',
@@ -243,6 +247,23 @@ MjmlBlock.craft = {
 	name: 'Блок',
 	related: { settings: MjmlBlockSettings },
 	rules: {
-		canMoveIn: () => true
+		canMoveIn: (incoming: unknown | unknown[]) => {
+			type RuleNode = { data?: { type?: unknown; displayName?: string } }
+			const isForbidden = (n: RuleNode) => {
+				const dn = n?.data?.displayName
+				const t = n?.data?.type
+				return (
+					dn === 'Блок' ||
+					t === MjmlBlock ||
+					dn === 'Сетки' ||
+					t === MjmlSection ||
+					dn === 'Container'
+				)
+			}
+			const items: RuleNode[] = Array.isArray(incoming)
+				? (incoming as RuleNode[])
+				: [incoming as RuleNode]
+			return items.every(n => !isForbidden(n))
+		}
 	}
 }

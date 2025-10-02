@@ -1,4 +1,3 @@
-import { Card } from '@consta/uikit/Card'
 import { DatePicker } from '@consta/uikit/DatePicker'
 import { Layout } from '@consta/uikit/Layout'
 import { Radio } from '@consta/uikit/Radio'
@@ -19,34 +18,32 @@ export const SendingCard: React.FC<SendingCardProps> = ({
 	onDatetimeChange
 }) => {
 	return (
-		<Card
-			className='custom-card'
-			style={{ padding: '24px', borderRadius: '12px' }}
+		<Layout
+			direction='column'
+			className='items-start justify-start gap-4 px-4 pt-4'
 		>
-			<Layout direction='column' className='items-start justify-start gap-4'>
-				<Radio
-					label='Отправить сейчас'
-					checked={sendOption === 'now'}
-					onChange={() => onSendOptionChange('now')}
-				/>
+			<Radio
+				label='Отправить сейчас'
+				checked={sendOption === 'now'}
+				onChange={() => onSendOptionChange('now')}
+			/>
 
-				<Radio
-					label='Отправить в заданное время'
-					checked={sendOption === 'scheduled'}
-					onChange={() => onSendOptionChange('scheduled')}
-				/>
+			<Radio
+				label='Отправить в заданное время'
+				checked={sendOption === 'scheduled'}
+				onChange={() => onSendOptionChange('scheduled')}
+			/>
 
-				{sendOption === 'scheduled' && (
-					<Layout direction='column' className='gap-4'>
-						<DatePicker
-							label='Дата и время запуска'
-							type='date-time'
-							value={datetime}
-							onChange={onDatetimeChange}
-						/>
-					</Layout>
-				)}
-			</Layout>
-		</Card>
+			{sendOption === 'scheduled' && (
+				<Layout direction='column' className='gap-4'>
+					<DatePicker
+						label='Дата и время запуска'
+						type='date-time'
+						value={datetime}
+						onChange={onDatetimeChange}
+					/>
+				</Layout>
+			)}
+		</Layout>
 	)
 }

@@ -8,8 +8,7 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { showCustomToast } from '@/shared/lib/toaster'
-import { ModalShell } from '@/shared/ui/Modals'
-import { TextFieldForm } from '@/shared/ui/TextFieldForm'
+import { ModalShell, TextFieldForm } from '@/shared/ui'
 
 import {
 	type FieldFormValues,

@@ -1,3 +1,4 @@
+import { IconFavoriteFilled } from '@consta/icons/IconFavoriteFilled'
 import { Card } from '@consta/uikit/Card'
 import { Text } from '@consta/uikit/Text'
 
@@ -53,9 +54,17 @@ export function NamedTemplateCard({
 				className='rounded-b-lg p-4 text-center'
 				style={{ background: 'var(--color-bg-default)' }}
 			>
-				<Text view='primary' className='block truncate' size='m'>
-					{template.name}
-				</Text>
+				<div className='flex items-center justify-center gap-2'>
+					<Text view='primary' className='flex-1 truncate text-center' size='m'>
+						{template.name}
+					</Text>
+					{template.isFavorite && (
+						<IconFavoriteFilled
+							size='s'
+							style={{ color: '#FF6B35', flexShrink: 0 }}
+						/>
+					)}
+				</div>
 			</div>
 		</Card>
 	)

@@ -36,14 +36,16 @@ export const FileCard = React.forwardRef<HTMLButtonElement, FileCardProps>(
 		return (
 			<div
 				className={`flex h-full flex-col rounded-md border p-2 transition-all ${
-					isSelected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+					isSelected
+						? 'border-blue-500'
+						: 'border-[var(--color-bg-ghost)] hover:border-[var(--color-bg-ghost)]'
 				}`}
 				onClick={handleClick}
 				onMouseEnter={() => setIsHovered(true)}
 				onMouseLeave={() => setIsHovered(false)}
 			>
 				{/* Превью или иконка файла */}
-				<div className='relative mb-2 flex h-[120px] items-center justify-center overflow-hidden rounded bg-gray-100'>
+				<div className='relative mb-2 flex h-[120px] items-center justify-center overflow-hidden rounded !bg-[var(--color-bg-secondary)]'>
 					{file.isImage && file.thumbnailUrl ? (
 						<img
 							src={file.thumbnailUrl || file.url}
@@ -83,7 +85,7 @@ export const FileCard = React.forwardRef<HTMLButtonElement, FileCardProps>(
 				{/* Информация о файле */}
 				<div className='flex flex-1 flex-col'>
 					<div className='flex items-center justify-between'>
-						<Text size='s' truncate className='font-medium'>
+						<Text size='s' truncate className='font-medium' view='primary'>
 							{file.name}
 						</Text>
 						<Text size='xs' view='secondary'>

@@ -38,8 +38,16 @@ export function SubjectCard({ campaign }: SubjectCardProps) {
 	const canSave = subject.trim() && isChanged
 
 	return (
-		<Card className='w-full px-8 py-9' style={{ borderRadius: 12 }}>
-			<div className='mb-3 flex items-center justify-between'>
+		<Card
+			verticalSpace='l'
+			horizontalSpace='l'
+			className='w-full !rounded-lg'
+			style={{
+				backgroundColor: 'var(--color-bg-default)'
+			}}
+			shadow={false}
+		>
+			<div className='flex items-center justify-between'>
 				<Text
 					as='h3'
 					size='xl'

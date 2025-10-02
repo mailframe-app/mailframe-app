@@ -31,7 +31,7 @@ export const EditableTitle = () => {
 	return (
 		<div className='flex min-w-0 items-center gap-2'>
 			<h2
-				className='text-inter min-w-[228px] overflow-hidden text-[24px] font-bold whitespace-nowrap'
+				className='text-inter min-w-[228px] overflow-hidden text-[24px] font-bold whitespace-nowrap text-[var(--color-typo-primary)]'
 				onClick={startEditing}
 				style={{ cursor: 'pointer' }}
 			>
@@ -39,7 +39,7 @@ export const EditableTitle = () => {
 			</h2>
 			<IconEdit
 				size='s'
-				className='cursor-pointer text-gray-500 hover:text-blue-600'
+				className='cursor-pointer text-[var(--color-typo-primary)] hover:text-blue-600'
 				onClick={startEditing}
 			/>
 		</div>

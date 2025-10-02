@@ -66,7 +66,7 @@ export const MjmlTextSettings: React.FC = () => {
 		<div className='space-y-4'>
 			{/* Стиль текста */}
 			<div>
-				<CUIText size='s' weight='light' className='mb-4 text-gray-500'>
+				<CUIText size='s' weight='light' className='mb-4' view='primary'>
 					Стиль текста
 				</CUIText>
 				<div className='flex gap-2'>
@@ -106,7 +106,7 @@ export const MjmlTextSettings: React.FC = () => {
 
 			{/* Шрифт */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='mb-1 text-gray-500'>
+				<CUIText size='s' weight='light' className='mb-1' view='primary'>
 					Шрифт
 				</CUIText>
 				<div className='w-full py-2 pl-3'>
@@ -127,7 +127,7 @@ export const MjmlTextSettings: React.FC = () => {
 			</div>
 			{/* Размер шрифта */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='mb-1 text-gray-500'>
+				<CUIText size='s' weight='light' className='mb-1' view='primary'>
 					Размер шрифта
 				</CUIText>
 				<StepperField
@@ -143,7 +143,7 @@ export const MjmlTextSettings: React.FC = () => {
 			</div>
 			{/* Начертание */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='mb-1 text-gray-500'>
+				<CUIText size='s' weight='light' className='mb-1' view='primary'>
 					Начертание
 				</CUIText>
 				<div className='flex gap-3.5'>
@@ -162,7 +162,7 @@ export const MjmlTextSettings: React.FC = () => {
 			</div>
 			{/* Выравнивание */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' className='mb-1 text-gray-500'>
+				<CUIText size='s' weight='light' className='mb-1' view='primary'>
 					Выравнивание
 				</CUIText>
 				<div className='flex w-fit gap-3.5'>

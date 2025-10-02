@@ -8,12 +8,12 @@ import { IconTrash } from '@consta/icons/IconTrash'
 import type { TableColumn } from '@consta/table/Table'
 import { Table } from '@consta/table/Table'
 import { Button } from '@consta/uikit/Button'
+import { Card } from '@consta/uikit/Card'
 import { ResponsesEmptyPockets } from '@consta/uikit/ResponsesEmptyPockets'
 import { forwardRef, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { TableSkeleton } from '@/shared/ui/Skeletons'
-import { TablePagination, TableWrapper } from '@/shared/ui/Table'
+import { TablePagination, TableSkeleton, TableWrapper } from '@/shared/ui'
 
 import ActionsBar from '../../components/ActionsBar'
 
@@ -81,7 +81,15 @@ export const GroupsTableView = forwardRef<HTMLDivElement, GroupsTableViewProps>(
 
 		const renderTable = () => {
 			return (
-				<div>
+				<Card
+					verticalSpace='l'
+					horizontalSpace='l'
+					className='!rounded-lg'
+					shadow={false}
+					style={{
+						backgroundColor: 'var(--color-bg-default)'
+					}}
+				>
 					<ActionsBar
 						placeholder='Поиск по группам'
 						search={search}
@@ -196,7 +204,7 @@ export const GroupsTableView = forwardRef<HTMLDivElement, GroupsTableViewProps>(
 								/>
 							</>
 						))}
-				</div>
+				</Card>
 			)
 		}
 

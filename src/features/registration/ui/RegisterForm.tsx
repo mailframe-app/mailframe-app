@@ -1,11 +1,11 @@
 import { Button } from '@consta/uikit/Button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 
-import { PUBLIC_ROUTES } from '@/shared/constants'
-import { TextFieldForm } from '@/shared/ui/TextFieldForm'
+import { useTheme } from '@/features/theme'
+
+import { TextFieldForm } from '@/shared/ui'
 
 import { useRegister } from '../model/use-register'
 
@@ -67,17 +67,17 @@ const RegisterFormSchema = z
 export type RegisterFormType = z.infer<typeof RegisterFormSchema>
 
 export function RegisterForm() {
+	const { theme } = useTheme()
 	const { handleSubmit, control, formState } = useForm<RegisterFormType>({
 		resolver: zodResolver(RegisterFormSchema)
 	})
-	const navigate = useNavigate()
 	const { register, isRegisterPending } = useRegister()
 	const onSubmit = (data: RegisterFormType) => {
 		register(data)
 	}
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form onSubmit={handleSubmit(onSubmit)} className='w-full'>
 			<TextFieldForm<RegisterFormType>
 				name='name'
 				type='text'
@@ -85,6 +85,16 @@ export function RegisterForm() {
 				placeholder='Введите имя'
 				control={control}
 				autoFocus
+				size='l'
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 			<TextFieldForm<RegisterFormType>
 				name='email'
@@ -92,6 +102,16 @@ export function RegisterForm() {
 				label='Email'
 				placeholder='Введите почту'
 				control={control}
+				size='l'
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 
 			<TextFieldForm<RegisterFormType>
@@ -101,6 +121,16 @@ export function RegisterForm() {
 				placeholder='Введите пароль'
 				control={control}
 				clearable={false}
+				size='l'
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 			<TextFieldForm<RegisterFormType>
 				name='confirmPassword'
@@ -109,6 +139,16 @@ export function RegisterForm() {
 				placeholder='Повторите пароль'
 				control={control}
 				clearable={false}
+				size='l'
+				className='textfield-no-border'
+				style={
+					{
+						'--color-control-bg-default':
+							theme === 'presetGpnDefault'
+								? '#F8FAFC'
+								: 'var(--color-bg-stripe)'
+					} as React.CSSProperties
+				}
 			/>
 
 			<Button
@@ -119,14 +159,7 @@ export function RegisterForm() {
 				view={formState.isValid ? 'primary' : 'ghost'}
 				label='Зарегистрироваться'
 				loading={isRegisterPending}
-				className='mb-4'
-			/>
-			<Button
-				label='Есть аккаунт? Войти'
-				width='full'
-				size='l'
-				view='secondary'
-				onClick={() => navigate(PUBLIC_ROUTES.LOGIN)}
+				className='mt-4'
 			/>
 		</form>
 	)

@@ -2,6 +2,8 @@ import { HeaderDataCell } from '@consta/table/HeaderDataCell'
 import { Text } from '@consta/uikit/Text'
 import type React from 'react'
 
+import { useTheme } from '@/features/theme'
+
 export type TableHeaderCellProps = {
 	label?: React.ReactNode
 	control?: React.ReactNode
@@ -21,20 +23,25 @@ export function TableHeaderCell({
 			? [rightControls]
 			: undefined
 
+	const { theme } = useTheme()
+
 	return (
 		<HeaderDataCell
 			size='s'
 			control={control}
 			controlRight={right}
 			className={className}
+			style={{
+				backgroundColor:
+					theme === 'presetGpnDefault' ? '#F8FAFC' : 'var(--color-bg-stripe)'
+			}}
 		>
 			{label != null ? (
 				<Text
-					view='brand'
-					weight='semibold'
+					weight='bold'
 					style={{
 						color:
-							'var(--color-typo-brand)!important' as React.CSSProperties['color']
+							'var(--color-typo-secondary)!important' as React.CSSProperties['color']
 					}}
 				>
 					{label}
