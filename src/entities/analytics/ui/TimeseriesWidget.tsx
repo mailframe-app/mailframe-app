@@ -8,6 +8,7 @@ import { useMemo } from 'react'
 
 import { EmptyBox } from '@/shared/ui'
 
+import { USE_MOCK_DATA, screenshotTimeseriesData } from './screenshot-data'
 import {
 	type TimeseriesBucket,
 	type TimeseriesMetric,
@@ -44,15 +45,34 @@ export function TimeseriesWidget({
 		}
 	}, [dateRange?.[0]?.getTime(), dateRange?.[1]?.getTime(), bucket, campaignId])
 
-	const results = useQueries({
-		queries: metrics.map(metric => ({
-			...timeseriesQuery({ ...params, metric } as any),
-			enabled: !!params
-		}))
-	})
+	// Использование mock данных для скриншота
+	const isMockMode = USE_MOCK_DATA
 
-	const isLoading = results.some(r => r.isLoading)
-	const isError = results.some(r => r.isError)
+	let results: any[] = []
+	let isLoading = false
+	let isError = false
+
+	if (isMockMode) {
+		// Mock данные для скриншота
+		results = metrics.map(metric => ({
+			data: screenshotTimeseriesData[metric],
+			isLoading: false,
+			isError: false
+		}))
+		isLoading = false
+		isError = false
+	} else {
+		// Рабочий код с реальными данными
+		results = useQueries({
+			queries: metrics.map(metric => ({
+				...timeseriesQuery({ ...params, metric } as any),
+				enabled: !!params
+			}))
+		})
+
+		isLoading = results.some(r => r.isLoading)
+		isError = results.some(r => r.isError)
+	}
 
 	const chartData = useMemo(() => {
 		if (isLoading || isError || results.some(r => !r.data)) return []
@@ -68,7 +88,7 @@ export function TimeseriesWidget({
 			if (result.data) {
 				const metric = metrics[i]
 				const metricLabel = metricLabels[metric]
-				result.data.points.forEach(p => {
+				result.data.points.forEach((p: { t: string; value: number }) => {
 					const formatPattern = bucket === 'hour' ? 'HH:mm' : 'dd.MM'
 					allPoints.push({
 						...p,

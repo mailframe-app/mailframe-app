@@ -112,7 +112,7 @@ function ContactsPage() {
 				</div>
 			</div>
 
-			<div className='mb-4 flex gap-2'>
+			<div className='mb-2 flex gap-2'>
 				{TABS.map(tab => (
 					<Button
 						key={tab.id}

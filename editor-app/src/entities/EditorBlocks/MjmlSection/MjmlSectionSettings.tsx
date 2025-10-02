@@ -213,7 +213,7 @@ export const MjmlSectionSettings: React.FC<SectionSettingsProps> = ({ startFileS
 				{[...Array(childNodes.length)].map((_, i) => (
 					<div
 						key={i}
-						className='text-m w-full rounded-md bg-gray-100 py-1 text-center text-gray-600'
+						className='text-m w-full rounded-md bg-[var(--color-bg-stripe)] py-1 text-center text-[var(--color-typo-secondary)]'
 					>
 						{i + 1}
 					</div>
@@ -233,8 +233,10 @@ export const MjmlSectionSettings: React.FC<SectionSettingsProps> = ({ startFileS
 				{childNodes.map((cid, idx) => (
 					<div key={cid} className='flex items-center justify-between gap-3'>
 						<div className='flex items-center gap-3'>
-							<span className='text-gray-400'>⋮⋮</span>
-							<Text size='s'>Контейнер {idx + 1}</Text>
+							<span className='text-[var(--color-typo-secondary)]'>⋮</span>
+							<Text size='s' view='primary'>
+								Контейнер {idx + 1}
+							</Text>
 							<Button
 								view='ghost'
 								size='xs'
@@ -259,7 +261,7 @@ export const MjmlSectionSettings: React.FC<SectionSettingsProps> = ({ startFileS
 
 			{/* Отступы между контейнерами */}
 			<div className='flex items-center justify-between'>
-				<Text size='s' className='text-gray-700'>
+				<Text size='s' view='primary'>
 					Отступы между контейнерами
 				</Text>
 				<div className='flex items-center gap-2'>

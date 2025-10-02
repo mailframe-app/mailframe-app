@@ -79,7 +79,7 @@ export function SettingsLayout() {
 					</Text>
 				</div>
 			</div>
-			<div className='mb-4 flex gap-2'>
+			<div className='mb-2 flex gap-2'>
 				{items.map(item => (
 					<Button
 						key={item.id}

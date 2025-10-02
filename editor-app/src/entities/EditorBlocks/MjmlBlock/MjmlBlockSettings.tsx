@@ -137,10 +137,10 @@ export const MjmlBlockSettings: React.FC<BlockSettingsProps> = ({ startFileSelec
 			{/* Ширина блока (в процентах) */}
 			<div className='flex items-center justify-between'>
 				<div>
-					<Text size='s' weight='light' className='mb-1 text-gray-500'>
+					<Text size='s' weight='light' className='mb-1' view='primary'>
 						Ширина блока, %
 					</Text>
-					<span className='text-xs text-gray-400'>0–100%</span>
+					<span className='text-xs text-[var(--color-typo-secondary)]'>0–100%</span>
 				</div>
 
 				<div className='flex items-center gap-2'>
@@ -157,10 +157,10 @@ export const MjmlBlockSettings: React.FC<BlockSettingsProps> = ({ startFileSelec
 			{/* Высота блока */}
 			<div className='flex items-center justify-between'>
 				<div>
-					<Text size='s' weight='light' className='mb-1 text-gray-500'>
+					<Text size='s' weight='light' view='primary' className='mb-1'>
 						Высота блока
 					</Text>
-					<div className='mt-1 text-xs text-gray-500'>от 40px до 400px</div>
+					<div className='mt-1 text-xs text-[var(--color-typo-secondary)]'>от 40px до 400px</div>
 				</div>
 
 				<StepperField
@@ -188,7 +188,7 @@ export const MjmlBlockSettings: React.FC<BlockSettingsProps> = ({ startFileSelec
 			/>
 			{/* Выравнивание */}
 			<div className='flex items-center justify-between'>
-				<Text size='s' weight='light' className='mb-1 text-gray-500'>
+				<Text size='s' weight='light' className='mb-1' view='primary'>
 					Выравнивание
 				</Text>
 				<AlignButtons

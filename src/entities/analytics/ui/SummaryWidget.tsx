@@ -7,6 +7,7 @@ import { formatISO } from 'date-fns'
 
 import { DistributionOutline, EmailNew, MailAll, UserAdmin } from '@/shared/ui'
 
+import { USE_MOCK_DATA, screenshotSummaryData } from './screenshot-data'
 import { summaryQuery } from '@/entities/analytics'
 
 type Props = {
@@ -52,21 +53,39 @@ const Stat = ({
 )
 
 export function SummaryWidget({ dateRange }: Props) {
-	const { data, isLoading, isError } = useQuery({
-		...summaryQuery(
-			dateRange
-				? {
-						from:
-							formatISO(dateRange[0], { representation: 'date' }) +
-							'T00:00:00.000Z',
-						to:
-							formatISO(dateRange[1], { representation: 'date' }) +
-							'T23:59:59.999Z'
-					}
-				: undefined
-		),
-		enabled: !!dateRange
-	})
+	// Использование mock данных для скриншота
+	const isMockMode = USE_MOCK_DATA
+
+	let data: typeof screenshotSummaryData | null = null
+	let isLoading = false
+	let isError = false
+
+	if (isMockMode) {
+		// Mock данные для скриншота
+		data = screenshotSummaryData
+		isLoading = false
+		isError = false
+	} else {
+		// Рабочий код с реальными данными
+		const queryResult = useQuery({
+			...summaryQuery(
+				dateRange
+					? {
+							from:
+								formatISO(dateRange[0], { representation: 'date' }) +
+								'T00:00:00.000Z',
+							to:
+								formatISO(dateRange[1], { representation: 'date' }) +
+								'T23:59:59.999Z'
+						}
+					: undefined
+			),
+			enabled: !!dateRange
+		})
+		data = queryResult.data || null
+		isLoading = queryResult.isLoading
+		isError = queryResult.isError
+	}
 
 	if (isLoading) {
 		return (

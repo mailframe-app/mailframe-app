@@ -12,6 +12,7 @@ import { useCreateCampaignModal } from '@/features/campaign/create-campaign'
 
 import { TablePagination } from '@/shared/ui'
 
+import { USE_MOCK_DATA, getFilteredMockData } from './model/screenshot-data'
 import { CampaignGrid } from './ui/CampaignGrid'
 import { CampaignGridSkeleton } from './ui/CampaignGridSkeleton'
 import { SearchAndFilters } from './ui/SearchAndFilters'
@@ -142,14 +143,40 @@ function CampaignsPage() {
 		sortBy !== 'createdAt' ||
 		sortOrder !== 'desc'
 
-	const { data, isLoading, isError } = useCampaigns({
-		status: activeTab.status ?? statuses,
-		search: search || undefined,
-		sortBy,
-		sortOrder,
-		page,
-		limit
-	})
+	// Использование mock данных для скриншота
+	const isMockMode = USE_MOCK_DATA
+
+	let data: ReturnType<typeof getFilteredMockData> | undefined = undefined
+	let isLoading = false
+	let isError = false
+
+	if (isMockMode) {
+		// Mock данные для скриншота
+		data = getFilteredMockData({
+			activeTab,
+			statuses,
+			search,
+			sortBy,
+			sortOrder,
+			page,
+			limit
+		})
+		isLoading = false
+		isError = false
+	} else {
+		// Рабочий код с реальными данными
+		const queryResult = useCampaigns({
+			status: activeTab.status ?? statuses,
+			search: search || undefined,
+			sortBy,
+			sortOrder,
+			page,
+			limit
+		})
+		data = queryResult.data ?? undefined
+		isLoading = queryResult.isLoading
+		isError = queryResult.isError
+	}
 
 	const handleTabChange = (tab: Tab | null) => {
 		if (tab) {
@@ -206,7 +233,7 @@ function CampaignsPage() {
 				/>
 			</div>
 			{/* Desktop */}
-			<div className='mb-4 hidden gap-2 xl:flex'>
+			<div className='mb-2 hidden gap-2 xl:flex'>
 				{items.map(tab => (
 					<Button
 						key={tab.id}

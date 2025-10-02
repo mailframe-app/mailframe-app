@@ -77,11 +77,14 @@ export const BackgroundControl: React.FC<BackgroundControlProps> = ({
 	return (
 		<div className={className}>
 			<div className='flex items-center justify-between'>
-				<Text size='s' weight='light' view='primary' className='mb-2 text-gray-500'>
+				<Text size='s' weight='light' view='primary' className='mb-2'>
 					{label}
 				</Text>
 
-				<div className='mb-1 flex items-center gap-2 rounded-lg bg-[#F3F5F7] px-3 py-2'>
+				<div
+					className='mb-1 flex items-center gap-2 rounded-lg px-3 py-2'
+					style={{ backgroundColor: 'var(--color-bg-stripe)' }}
+				>
 					<input
 						type='color'
 						value={isTransparent ? lastColor || defaultColor : textValue}
@@ -95,15 +98,19 @@ export const BackgroundControl: React.FC<BackgroundControlProps> = ({
 						onChange={e => handleTextChange(e.target.value)}
 						onBlur={handleTextBlur}
 						placeholder={isTransparent ? 'transparent' : '#RRGGBB'}
-						className={`w-24 border-none bg-transparent text-sm font-medium text-[#23272F] focus:outline-none ${
+						className={`w-24 border-none bg-transparent text-sm font-medium focus:outline-none ${
 							textValue && !isHex6(textValue) ? 'outline outline-[#F33]' : ''
 						}`}
+						style={{ color: 'var(--color-typo-primary)' }}
 						maxLength={7}
 					/>
 				</div>
 			</div>
 
-			<label className='flex cursor-pointer items-center justify-end gap-2 text-sm text-gray-500'>
+			<label
+				className='flex cursor-pointer items-center justify-end gap-2 text-sm'
+				style={{ color: 'var(--color-typo-primary)' }}
+			>
 				<input
 					type='checkbox'
 					checked={isTransparent}

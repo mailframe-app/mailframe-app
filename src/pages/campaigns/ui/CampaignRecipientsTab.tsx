@@ -4,6 +4,7 @@ import { IconCancel } from '@consta/icons/IconCancel'
 import { DataCell } from '@consta/table/DataCell'
 import { Table } from '@consta/table/Table'
 import { Badge } from '@consta/uikit/Badge'
+import { Card } from '@consta/uikit/Card'
 import { ResponsesEmptyPockets } from '@consta/uikit/ResponsesEmptyPockets'
 import { Text } from '@consta/uikit/Text'
 import { useMemo } from 'react'
@@ -174,7 +175,12 @@ export function CampaignRecipientsTab({ campaignId }: Props) {
 	}
 
 	return (
-		<div>
+		<Card
+			verticalSpace='l'
+			horizontalSpace='l'
+			shadow={false}
+			className='flex h-full w-full flex-col !rounded-lg bg-[var(--color-bg-default)]'
+		>
 			<TableWrapper>
 				<Table
 					rows={data.items}
@@ -193,6 +199,6 @@ export function CampaignRecipientsTab({ campaignId }: Props) {
 					/>
 				</div>
 			)}
-		</div>
+		</Card>
 	)
 }

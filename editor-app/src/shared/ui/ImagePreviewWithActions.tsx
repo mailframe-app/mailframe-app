@@ -59,8 +59,8 @@ export const ImagePreviewWithActions: React.FC<ImagePreviewWithActionsProps> = (
 					{/* Скелетон */}
 					{showSkeleton && (
 						<div className='absolute inset-0 animate-pulse'>
-							<div className='h-full w-full rounded border border-dashed border-blue-300 bg-gray-200 p-[20px]'>
-								<div className='h-full w-full rounded bg-gray-300' />
+							<div className='h-full w-full rounded border border-dashed border-blue-300 bg-[var(--color-bg-stripe)] p-[20px]'>
+								<div className='h-full w-full rounded bg-[var(--color-bg-stripe)]' />
 							</div>
 						</div>
 					)}
@@ -68,7 +68,7 @@ export const ImagePreviewWithActions: React.FC<ImagePreviewWithActionsProps> = (
 					<img
 						src={src}
 						alt={alt}
-						className={`absolute top-0 left-0 h-full w-full rounded border border-dashed border-blue-300 bg-[#ECF1F4] p-[20px] transition-opacity duration-300 ${previewClassName} ${showSkeleton ? 'opacity-0' : 'opacity-100'}`}
+						className={`absolute top-0 left-0 h-full w-full rounded border border-dashed border-blue-300 bg-[var(--color-bg-stripe)] p-[20px] transition-opacity duration-300 ${previewClassName} ${showSkeleton ? 'opacity-0' : 'opacity-100'}`}
 						style={{ objectFit: 'contain' }}
 						onLoad={() => setImageLoaded(true)}
 						onError={() => setImageLoaded(true)}
@@ -77,17 +77,17 @@ export const ImagePreviewWithActions: React.FC<ImagePreviewWithActionsProps> = (
 					{!disableActions && !showSkeleton && (
 						<>
 							<Button
-								view='ghost'
+								view='primary'
 								size='s'
 								iconLeft={IconEdit}
-								className='!absolute !top-2 !right-2'
+								className='!absolute !top-2 !right-2 cursor-pointer'
 								onClick={() => setShowModal(true)}
 								title='Заменить изображение'
 								onlyIcon
 							/>
 							{showModal && (
 								<>
-									<div className='absolute inset-0 z-10 rounded bg-black/20 backdrop-blur-[6px] transition' />
+									<div className='absolute inset-0 z-10 rounded bg-[var(--color-bg-overlay)] backdrop-blur-[6px] transition' />
 									<div className='absolute inset-0 z-20 flex flex-col items-center justify-center'>
 										<div className='flex flex-col items-center gap-3 rounded-lg bg-transparent px-6 py-4'>
 											<Button
@@ -122,7 +122,7 @@ export const ImagePreviewWithActions: React.FC<ImagePreviewWithActionsProps> = (
 			{/* Отображение метаданных файла */}
 			{!showSkeleton && fileDetails && (
 				<div className='mb-2'>
-					<Text view='primary' size='s' weight='light' className='text-xs text-gray-500'>
+					<Text view='primary' size='s' weight='light' className='text-xs text-[var(--color-typo-secondary)]'>
 						Параметры изображения
 					</Text>
 					{fileDetails.name && (

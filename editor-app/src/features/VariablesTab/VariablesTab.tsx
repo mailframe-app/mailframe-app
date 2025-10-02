@@ -135,7 +135,7 @@ export const VariablesTab: React.FC<IVarsTabProps> = ({
 	return (
 		<div className='flex h-full flex-col gap-4 p-4'>
 			<div className='flex items-center justify-between'>
-				<Text size='s' weight='light' className='mb-1 text-gray-500'>
+				<Text size='s' weight='light' className='mb-1' view='primary'>
 					Создать переменную
 				</Text>
 				<Button label='' iconLeft={IconAdd} view='primary' size='s' onClick={addRow} />
@@ -161,7 +161,7 @@ export const VariablesTab: React.FC<IVarsTabProps> = ({
 								<div className={cn('flex flex-col gap-3', isWide && 'md:flex-row')}>
 									{/* Поле "Переменная" */}
 									<div className='flex-1'>
-										<Text size='s' view='ghost' className='mb-1'>
+										<Text size='s' className='mb-1' view='primary'>
 											Переменная (в тексте)
 										</Text>
 										<TextField
@@ -186,7 +186,7 @@ export const VariablesTab: React.FC<IVarsTabProps> = ({
 												</Text>
 											)}
 											{!!item.token && !looksWrapped && (
-												<Text as='p' size='xs' className='text-gray-400'>
+												<Text as='p' size='xs' className='text-[var(--color-typo-secondary)]'>
 													Будет применено как <b>{normalized}</b>
 												</Text>
 											)}
@@ -195,7 +195,7 @@ export const VariablesTab: React.FC<IVarsTabProps> = ({
 
 									{/* Поле "Поле из базы" */}
 									<div className='flex-1'>
-										<Text size='s' view='ghost' className='mb-1'>
+										<Text size='s' className='mb-1' view='primary'>
 											Поле из базы
 										</Text>
 										<Select<IDbField>
@@ -211,7 +211,7 @@ export const VariablesTab: React.FC<IVarsTabProps> = ({
 										/>
 
 										<div className='mt-3'>
-											<Text size='s' view='ghost' className='mb-1'>
+											<Text size='s' className='mb-1' view='primary'>
 												Значение по умолчанию (default)
 											</Text>
 											<TextField
@@ -227,7 +227,7 @@ export const VariablesTab: React.FC<IVarsTabProps> = ({
 								</div>
 
 								{/* Блок с переключателем и кнопкой */}
-								<div className='flex items-center justify-between border-t border-gray-100 pt-3'>
+								<div className='flex items-center justify-between border-t border-[var(--color-bg-stripe)] pt-3'>
 									<div>
 										<Switch
 											size='s'
@@ -258,7 +258,7 @@ export const VariablesTab: React.FC<IVarsTabProps> = ({
 
 			<div className='mt-1 space-y-4'>
 				{/* Основные правила */}
-				<ol className='list-decimal space-y-2 pl-5 text-[14px] text-gray-500'>
+				<ol className='list-decimal space-y-2 pl-5 text-[14px] text-[var(--color-typo-secondary)]'>
 					<li>
 						<Text as='p' size='s' view='secondary' className='leading-relaxed'>
 							Укажите переменные в фигурных скобках <code>{'{{…}}'}</code>.
@@ -285,7 +285,7 @@ export const VariablesTab: React.FC<IVarsTabProps> = ({
 					Примеры:
 				</Text>
 
-				<ol className='list-decimal space-y-2 pl-5 text-[14px] text-gray-500'>
+				<ol className='list-decimal space-y-2 pl-5 text-[14px] text-[var(--color-typo-secondary)]'>
 					<li>
 						<Text as='p' size='s' view='secondary' className='leading-relaxed'>
 							Здравствуйте, <code>{'{{userName}}'}</code>! <span className='mx-1'>→</span>

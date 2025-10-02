@@ -3,6 +3,8 @@ import { TextField } from '@consta/uikit/TextField'
 import { useNode } from '@craftjs/core'
 import React from 'react'
 
+import { useTheme } from '@/features/theme'
+
 import { useFileUpload } from '@/shared/lib/UploadFile'
 import { startFileSelectionHelper } from '@/shared/lib/startFileSelectionHelper'
 import type { SelectedFileData } from '@/shared/types'
@@ -27,6 +29,7 @@ export const MjmlImageSettings: React.FC<MjmlImageSettingsProps> = ({
 	formatFileSize
 }) => {
 	const { upload, isLoading } = useFileUpload()
+	const { theme } = useTheme()
 	const {
 		actions: { setProp },
 		src,
@@ -134,7 +137,7 @@ export const MjmlImageSettings: React.FC<MjmlImageSettingsProps> = ({
 
 			{/* URL (disabled, для копирования/просмотра) */}
 			<div className='mb-3'>
-				<Text size='s' view='primary' weight='light' className='mb-2 block text-gray-500' required>
+				<Text size='s' view='primary' weight='light' className='mb-2 block' required>
 					URL
 				</Text>
 				<TextField
@@ -144,12 +147,18 @@ export const MjmlImageSettings: React.FC<MjmlImageSettingsProps> = ({
 					onChange={value => setProp((props: MjmlImageProps) => (props.href = value || ''), 500)}
 					className='consta-gray-placeholder w-full'
 					placeholder='Введите ссылку'
+					style={
+						{
+							'--color-control-bg-default':
+								theme === 'presetGpnDefault' ? '#F8FAFC' : 'var(--color-bg-secondary)!important'
+						} as React.CSSProperties
+					}
 				/>
 			</div>
 
 			{/* Размеры */}
 			<div className='mb-3'>
-				<Text size='s' view='primary' weight='light' className='mb-2 block text-gray-500'>
+				<Text size='s' view='primary' weight='light' className='mb-2 block'>
 					Размер картинки
 				</Text>
 				<div className='flex justify-between'>
@@ -187,7 +196,7 @@ export const MjmlImageSettings: React.FC<MjmlImageSettingsProps> = ({
 
 			{/* Выравнивание */}
 			<div className='mb-3 flex items-center justify-between'>
-				<Text size='s' view='primary' weight='light' className='mb-2 block text-gray-500'>
+				<Text size='s' view='primary' weight='light' className='mb-2 block'>
 					Выравнивание
 				</Text>{' '}
 				<AlignButtons

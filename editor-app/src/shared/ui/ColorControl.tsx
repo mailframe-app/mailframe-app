@@ -97,11 +97,14 @@ export const ColorControl: React.FC<ColorControlProps> = ({
 	return (
 		<div className={className}>
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' weight='light' view='primary' className='mb-2 text-gray-500'>
+				<CUIText size='s' weight='light' view='primary' className='mb-2'>
 					{label}
 				</CUIText>
 
-				<div className='mb-1 flex items-center gap-2 rounded-lg bg-[#F3F5F7] px-3 py-2'>
+				<div
+					className='mb-1 flex items-center gap-2 rounded-lg px-3 py-2'
+					style={{ backgroundColor: 'var(--color-bg-stripe)' }}
+				>
 					<input
 						type='color'
 						value={normalizeColorInput(current) || fallback}
@@ -115,10 +118,11 @@ export const ColorControl: React.FC<ColorControlProps> = ({
 						onBlur={handleTextBlur}
 						onPaste={handlePaste}
 						placeholder='#RRGGBB'
-						className={`w-24 border-none bg-transparent text-sm font-medium text-[#23272F] focus:outline-none ${
+						className={`w-24 border-none bg-transparent text-sm font-medium focus:outline-none ${
 							invalid ? 'outline outline-[#F33]' : ''
 						}`}
 						maxLength={32}
+						style={{ color: 'var(--color-typo-primary)' }}
 					/>
 				</div>
 			</div>

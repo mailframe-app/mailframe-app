@@ -281,7 +281,7 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 		<div className='space-y-4'>
 			{/* Добавить соцсеть */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
+				<CUIText size='s' view='primary' weight='light'>
 					Добавить соцсеть
 				</CUIText>
 				<Button view='ghost' size='s' iconLeft={IconAdd} onClick={handleAdd} />
@@ -314,12 +314,7 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 				<>
 					{/* URL */}
 					<div className='flex items-center justify-between'>
-						<CUIText
-							size='s'
-							view='primary'
-							weight='light'
-							className='w-[80px] truncate text-gray-500'
-						>
+						<CUIText size='s' view='primary' weight='light' className='w-[80px] truncate'>
 							URL <span className='text-red-500'>*</span>
 						</CUIText>
 						<TextField
@@ -332,22 +327,18 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 							}
 							size='s'
 							view='clear'
-							className={`rounded-lg bg-[#F3F5F7] pl-[15px] ${
-								isUrlEmpty ? 'outline outline-[#F33]' : ''
-							}`}
+							className={`rounded-lg pl-[15px] ${isUrlEmpty ? 'outline outline-[#F33]' : ''}`}
 							placeholder='Введите ссылку'
 							aria-invalid={isUrlEmpty}
+							style={{
+								backgroundColor: 'var(--color-bg-stripe)'
+							}}
 						/>
 					</div>
 
 					{/* ALT */}
 					<div className='flex items-center justify-between'>
-						<CUIText
-							size='s'
-							view='primary'
-							weight='light'
-							className='w-[80px] truncate text-gray-500'
-						>
+						<CUIText size='s' view='primary' weight='light' className='w-[80px] truncate'>
 							Alt текст
 						</CUIText>
 						<TextField
@@ -360,14 +351,17 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 							}
 							size='s'
 							view='clear'
-							className='rounded-lg bg-[#F3F5F7] pl-[15px]'
+							className='rounded-lg pl-[15px]'
+							style={{
+								backgroundColor: 'var(--color-bg-stripe)'
+							}}
 							placeholder='Введите описание'
 						/>
 					</div>
 
 					{/* Иконка */}
 					<div className='space-y-2'>
-						<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
+						<CUIText size='s' view='primary' weight='light'>
 							Иконка
 						</CUIText>
 						{renderIconSection()}
@@ -388,7 +382,7 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 			{/* Размер иконки */}
 			<div className='flex items-center justify-between'>
 				<div className='flex>'>
-					<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
+					<CUIText size='s' view='primary' weight='light'>
 						Размер иконки
 					</CUIText>
 					<CUIText size='xs' view='primary' className='whitespace-nowrap'>
@@ -413,7 +407,7 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 
 			{/* Отступы между иконками */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
+				<CUIText size='s' view='primary' weight='light'>
 					Отступы между иконками
 				</CUIText>
 				<StepperField
@@ -432,7 +426,7 @@ export const MjmlSocialBlockSettings: React.FC<MjmlSocialBlockSettingsProps> = (
 
 			{/* Выравнивание */}
 			<div className='flex items-center justify-between'>
-				<CUIText size='s' view='primary' weight='light' className='text-gray-500'>
+				<CUIText size='s' view='primary' weight='light'>
 					Выравнивание
 				</CUIText>
 				<AlignButtons

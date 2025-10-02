@@ -149,7 +149,7 @@
 /* Background for Input */
 
 .consta-gray-placeholder .TextField-InputContainer {
-	background-color: #ecf1f4 !important;
+	background-color: transparent;
 	opacity: 1;
 }
 

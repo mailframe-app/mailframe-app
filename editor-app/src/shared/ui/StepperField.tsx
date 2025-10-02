@@ -48,7 +48,7 @@ export const StepperField: React.FC<StepperFieldProps> = ({
 					{label}
 				</Text>
 			)}
-			<div className='flex items-center rounded-[6px] border border-gray-100'>
+			<div className='flex items-center rounded-[6px] border border-[var(--color-bg-stripe)]'>
 				<Button
 					size='s'
 					label='−'
@@ -64,7 +64,14 @@ export const StepperField: React.FC<StepperFieldProps> = ({
 					onKeyDown={onKeyDown}
 					disabled={disabled}
 					placeholder={placeholder}
-					style={{ width: '56px', textAlign: 'center' }}
+					style={{
+						width: '56px',
+						textAlign: 'center',
+						color: 'var(--color-typo-primary)',
+						backgroundColor: 'transparent',
+						border: 'none',
+						outline: 'none'
+					}}
 					className='stepper-input-center'
 				/>
 				<Button

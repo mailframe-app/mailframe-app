@@ -49,12 +49,12 @@ export function TimeScaleSelector({ value, onChange, className }: Props) {
 		<ChoiceGroup<TimeScale>
 			items={TIME_SCALES}
 			value={value}
-			className={` ${className || ''}`}
+			className={` ${className || ''} choice-group-no-border`}
 			onChange={onChange}
 			getItemLabel={item => item.label}
 			name='time-scale-selector'
 			style={{
-				backgroundColor: 'var(--color-bg-default)'
+				backgroundColor: 'var(--color-bg-stripe)'
 			}}
 		/>
 	)

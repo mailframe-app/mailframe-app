@@ -35,6 +35,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 			'--color-scroll-thumb-hover',
 			style.getPropertyValue('--color-scroll-thumb-hover')
 		)
+		document.documentElement.style.setProperty(
+			'--color-control-bg-border-default',
+			style.getPropertyValue('--color-control-bg-border-default')
+		)
 
 		document.documentElement.style.background = bgColor
 		document.documentElement.dataset.theme = theme

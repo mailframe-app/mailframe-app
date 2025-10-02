@@ -52,7 +52,7 @@ export function PrivateLayout() {
 			>
 				{/* @ts-ignore */}
 				<HeaderLayout
-					className='children-border-b-0 h-[80px] shrink-0 select-none sm:h-[92px]'
+					className='children-border-b-0 h-[80px] shrink-0 select-none'
 					rowCenter={{
 						left: isSmallScreen ? (
 							<div className='flex h-full items-center'>

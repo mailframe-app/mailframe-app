@@ -137,7 +137,7 @@ export function PrivateLayoutNavbar({
 						ref={railRef}
 						className={`${cnNavbarMixFadeAnimate({ animate, menu: 'rail' })} hidden h-full lg:block`}
 					>
-						<div className='flex h-full flex-col justify-between px-8 pt-8 pb-8'>
+						<div className='flex h-full flex-col justify-between px-8 pt-6 pb-8'>
 							<div className='flex flex-col'>
 								<BaseLogo size='xs' onlyIcon />
 								<div className='-mx-8 my-7 border-[var(--color-bg-border)]' />
@@ -169,7 +169,7 @@ export function PrivateLayoutNavbar({
 						ref={draverRef}
 						className={`${cnNavbarMixFadeAnimate({ animate, menu: 'draver' })} hidden h-full lg:block`}
 					>
-						<div className='flex h-full flex-col justify-between px-8 pt-8 pb-8'>
+						<div className='flex h-full flex-col justify-between px-8 pt-6 pb-8'>
 							<div className='flex flex-col'>
 								<BaseLogo size='xs' />
 								<div className='-mx-8 my-7 border-[var(--color-bg-border)]' />
@@ -193,7 +193,7 @@ export function PrivateLayoutNavbar({
 					</div>
 				)}
 			</Transition>
-			<div className='absolute top-8 right-0 hidden justify-end lg:flex'>
+			<div className='absolute top-6 right-0 hidden justify-end lg:flex'>
 				<Button
 					view='clear'
 					form='defaultBrick'
