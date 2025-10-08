@@ -7,9 +7,9 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { useTheme } from '@/features/theme'
 
+import { ProfileWidget } from '@/entities/profile'
 import { MobileMenu } from './MobileMenu'
 import { PrivateLayoutNavbar } from './Navbar'
-import { ProfileWidget } from '@/entities/profile'
 
 export function PrivateLayout() {
 	const navigate = useNavigate()
